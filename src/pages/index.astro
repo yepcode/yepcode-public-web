@@ -1,0 +1,28 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>
+        Run AI-Generated Code securely. Connect Agents to APIs and services.
+      </h1>
+      <p>
+        Easily run AI-generated code in a secure, scalable environment with full
+        support for dependencies, secrets, logs, and access to APIs or databases
+        — all in one developer-first platform built to create any integration or
+        automation without DevOps hassle.
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
