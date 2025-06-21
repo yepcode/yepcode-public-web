@@ -35,7 +35,7 @@ body {
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: white;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 1.7;
   background-color: var(--darkest-background);
 }
@@ -51,55 +51,57 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0 0 0.5rem 0;
+  margin: 3rem 0 0.5rem 0;
   color: white;
   line-height: 1.2;
 }
 h1 {
-  font-size: 2.441em;
+  font-size: 3rem;
 }
 h2 {
-  font-size: 1.953em;
+  font-size: 2rem;
 }
 h3 {
-  font-size: 1.563em;
+  font-size: 1.5rem;
 }
 h4 {
-  font-size: 1.25em;
+  font-size: 1rem;
 }
 h5 {
-  font-size: 1em;
+  font-size: 0.5rem;
 }
 strong,
 b {
   font-weight: 700;
 }
 a {
-  padding: 24px 24px;
+  text-decoration: none;
   border-radius: 12px;
   transition-property: all;
   transition-duration: 350ms;
   transition-timing-function: ease;
   color: white;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 a:hover {
-  color: white;
-  background-color: var(--darker-background);
+  text-decoration: underline;
 }
 p {
   margin-bottom: 1em;
   color: var(--gray-light);
 }
 .prose p {
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   color: var(--gray-light);
 }
 textarea {
   width: 100%;
-  font-size: 16px;
+  font-size: 20px;
 }
 input {
-  font-size: 16px;
+  font-size: 20px;
 }
 table {
   width: 100%;
@@ -125,6 +127,7 @@ blockquote {
   border-left: 4px solid white;
   padding: 0 0 0 20px;
   margin: 0px;
+  font-size: 20px;
 }
 hr {
   border: none;
