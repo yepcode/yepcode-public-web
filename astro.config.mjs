@@ -1,15 +1,19 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import expressiveCode from "astro-expressive-code";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import starlight from "@astrojs/starlight";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://example.com",
+  site: "https://yepcode.io",
   integrations: [
-    expressiveCode({
-      themes: ["dracula", "solarized-light"],
+    starlight({
+      title: "YepCode",
+      disable404Route: true,
+      expressiveCode: {
+        themes: ["dracula", "solarized-light"],
+      },
     }),
     mdx(),
     sitemap(),
