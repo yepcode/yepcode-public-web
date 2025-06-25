@@ -3,6 +3,12 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
+import ycRunJsExampleCode from "../assets/code-examples/home/yepcode-run.js?raw";
+import ycRunPyExampleCode from "../assets/code-examples/home/yepcode-run.py?raw";
+import ycRunCurlExampleCode from "../assets/code-examples/home/yepcode-run.sh?raw";
+import { Image } from "astro:assets";
+import yepcodeBlinkLogo from "../../public/blink-logo.svg";
 ---
 
 <!doctype html>
@@ -13,15 +19,67 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
   <body>
     <Header />
     <main>
-      <h1>
-        Run AI-Generated Code securely. Connect Agents to APIs and services.
-      </h1>
-      <p>
-        Easily run AI-generated code in a secure, scalable environment with full
-        support for dependencies, secrets, logs, and access to APIs or databases
-        — all in one developer-first platform built to create any integration or
-        automation without DevOps hassle.
-      </p>
+      <section class="grid gap-4 grid-cols-[2fr_1fr] mt-8">
+        <div>
+          <p class="font-bold text-8xl text-white">
+            Run <span class="text-[#b84ef4]">AI-Generated Code</span> securely. <span
+              class="text-[#b84ef4]">Connect Agents</span
+            > to APIs and services.
+          </p>
+          <p class="text-white/70 mt-16 text-lg">
+            Easily run <strong>AI-generated</strong> code in a secure, scalable environment
+            with full support for dependencies, secrets, logs, and access to APIs
+            or databases — all in one developer-first platform built to create any
+            <strong>integration or automation</strong> without DevOps hassle.
+          </p>
+          <div class="mt-8 flex gap-8">
+            <a
+              href="https://cloud.yepcode.io"
+              class="bg-[#B84EF4] font-semibold p-4 rounded-md"
+              target="_blank"
+            >
+              Get started for free
+            </a>
+            <!-- TODO: Add modal turn key solution -->
+            <a
+              href="https://cloud.yepcode.io"
+              class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-md"
+              target="_blank"
+            >
+              Turn-key solution
+            </a>
+          </div>
+        </div>
+        <div class="flex justify-center items-center">
+          <Image src={yepcodeBlinkLogo} alt="YepCode Blink Logo" />
+        </div>
+      </section>
+      <section class="mt-32">
+        <p class="font-bold text-5xl text-white">
+          Easy <span class="text-[#b84ef4]">integration</span> in your apps and Agents
+        </p>
+        <p class="text-white/70 mt-8 text-lg">
+          With the <strong>YepCode Run SDK</strong>, you can execute any Node.js
+          or Python code snippet in secure, isolated <strong
+            >cloud sandboxes</strong
+          >. Need a dependency? Just import it—any NPM or PyPI package is
+          automatically installed on demand. No constraints. No setup. Just code
+          that runs.
+        </p>
+        <div class="mt-16">
+          <Tabs syncKey="yc-run-code">
+            <TabItem label="JavaScript" icon="seti:javascript">
+              <Code code={ycRunJsExampleCode} lang="js" />
+            </TabItem>
+            <TabItem label="Python" icon="seti:python">
+              <Code code={ycRunPyExampleCode} lang="py" />
+            </TabItem>
+            <TabItem label="Curl" icon="seti:shell">
+              <Code code={ycRunCurlExampleCode} lang="sh" frame="none" />
+            </TabItem>
+          </Tabs>
+        </div>
+      </section>
     </main>
     <Footer />
   </body>
