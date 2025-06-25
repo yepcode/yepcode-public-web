@@ -1,54 +1,28 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../consts";
+import YepCodeLogo from "../../public/logo.svg";
+import { Image } from "astro:assets";
 ---
 
-<header>
-  <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
-    <div class="internal-links">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
+<header class="sticky top-0 z-999 bg-[#000012] text-white text-base">
+  <nav class="w-3/6 m-auto flex justify-between items-center py-6 px-8">
+    <div class="flex gap-8">
+      <a href="/"><Image src={YepCodeLogo} alt="YepCode logo" /></a>
+      <div>
+        <HeaderLink href="/product">Product</HeaderLink>
+        <HeaderLink href="/pricing">Pricing</HeaderLink>
+        <HeaderLink href="/blog">Blog</HeaderLink>
+        <HeaderLink href="/support">Support</HeaderLink>
+      </div>
     </div>
     <div>
-      <a href="https://cloud.yepcode.io" target="_blank">
-        <span>Log in / Sign up</span>
+      <a
+        class="px-4 py-3 hover:bg-[#121220] border-2 border-[#ffffff1a] rounded-md"
+        href="https://cloud.yepcode.io"
+        target="_blank"
+      >
+        Log in <span class="mx-2 text-[#ffffff1a]">|</span> Sign up
       </a>
     </div>
   </nav>
 </header>
-<style>
-  header {
-    position: sticky;
-    top: 0px;
-    z-index: 999;
-    background-color: var(--darkest-background);
-    color: white;
-  }
-  h2 {
-    margin: 0;
-    font-size: 1em;
-  }
-
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px;
-  }
-  nav a {
-    padding: 1em 0.5em;
-    border-bottom: 4px solid transparent;
-    text-decoration: none;
-  }
-  nav a.active {
-    text-decoration: none;
-  }
-  nav a:hover {
-    background-color: var(--darker-background);
-  }
-</style>
