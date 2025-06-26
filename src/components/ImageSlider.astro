@@ -1,0 +1,48 @@
+---
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  images: {
+    image: ImageMetadata;
+    alt: string;
+  }[];
+  class?: string;
+}
+
+const { images, class: className, ...props } = Astro.props;
+import { Image } from "astro:assets";
+---
+
+<div
+  class:list={[
+    "logos group relative overflow-hidden whitespace-nowrap py-4 [mask-image:_linear-gradient(to_right,_transparent_0,_white_128px,white_calc(100%-128px),_transparent_100%)]",
+    className,
+  ]}
+>
+  <div
+    class="animate-slide-left-infinite group-hover:animation-pause inline-block w-max"
+  >
+    {
+      images.map((image) => (
+        <Image
+          class="mx-8 inline h-16 invert brightness-0 opacity-80"
+          src={image.image}
+          alt={image.alt}
+        />
+      ))
+    }
+  </div>
+  <div
+    class="animate-slide-left-infinite group-hover:animation-pause inline-block w-max"
+  >
+    {
+      images.map((image) => (
+        <Image
+          class="mx-8 inline h-16 invert brightness-0 opacity-80"
+          src={image.image}
+          alt={image.alt}
+        />
+      ))
+    }
+  </div>
+</div>
