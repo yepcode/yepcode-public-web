@@ -4,11 +4,25 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
-import ycRunJsExampleCode from "../assets/code-examples/home/yepcode-run.js?raw";
-import ycRunPyExampleCode from "../assets/code-examples/home/yepcode-run.py?raw";
-import ycRunCurlExampleCode from "../assets/code-examples/home/yepcode-run.sh?raw";
+import ycRunJsExampleCode from "../assets/home/code-examples/yepcode-run.js?raw";
+import ycRunPyExampleCode from "../assets/home/code-examples/yepcode-run.py?raw";
+import ycRunCurlExampleCode from "../assets/home/code-examples/yepcode-run.sh?raw";
 import { Image } from "astro:assets";
 import yepcodeBlinkLogo from "../../public/blink-logo.svg";
+import beonxLogo from "../assets/home/clients/beonx.svg";
+import unchainedMusicLogo from "../assets/home/clients/unchained-music.svg";
+import solidusLabsLogo from "../assets/home/clients/solidus-labs.svg";
+import trackingPlanLogo from "../assets/home/clients/tracking-plan.svg";
+import nivimuLogo from "../assets/home/clients/nivimu.svg";
+import tinybirdLogo from "../assets/home/clients/tinybird.svg";
+import docutenLogo from "../assets/home/clients/docuten.svg";
+import trackTheRaceLogo from "../assets/home/clients/track-the-race.svg";
+import teimasLogo from "../assets/home/clients/teimas.svg";
+import privaliaLogo from "../assets/home/clients/privalia.svg";
+import ImageSlider from "../components/ImageSlider.astro";
+import mcpImage from "../assets/home/images/mcp.svg";
+import codeIcon from "../assets/home/icons/code.svg";
+import Card from "../components/Card.astro";
 ---
 
 <!doctype html>
@@ -43,7 +57,7 @@ import yepcodeBlinkLogo from "../../public/blink-logo.svg";
             <!-- TODO: Add modal turn key solution -->
             <a
               href="https://cloud.yepcode.io"
-              class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-md"
+              class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-md hover:bg-[#121220]"
               target="_blank"
             >
               Turn-key solution
@@ -52,6 +66,28 @@ import yepcodeBlinkLogo from "../../public/blink-logo.svg";
         </div>
         <div class="flex justify-center items-center">
           <Image src={yepcodeBlinkLogo} alt="YepCode Blink Logo" />
+        </div>
+      </section>
+      <section class="mt-28">
+        <div
+          class="flex flex-col gap-4 text-[18px] items-center justify-center"
+        >
+          <span>They already trust us</span>
+          <ImageSlider
+            class="xl:max-w-6xl max-w-xl"
+            images={[
+              { image: beonxLogo, alt: "Beonx Logo" },
+              { image: unchainedMusicLogo, alt: "Unchained Music Logo" },
+              { image: solidusLabsLogo, alt: "Solidus Labs Logo" },
+              { image: trackingPlanLogo, alt: "Tracking Plan Logo" },
+              { image: tinybirdLogo, alt: "Tinybird Logo" },
+              { image: nivimuLogo, alt: "Nivimu Logo" },
+              { image: docutenLogo, alt: "Docuten Logo" },
+              { image: trackTheRaceLogo, alt: "Track the Race Logo" },
+              { image: teimasLogo, alt: "Teimas Logo" },
+              { image: privaliaLogo, alt: "Privalia Logo" },
+            ]}
+          />
         </div>
       </section>
       <section class="mt-32">
@@ -69,18 +105,116 @@ import yepcodeBlinkLogo from "../../public/blink-logo.svg";
         <div class="mt-16">
           <Tabs syncKey="yc-run-code">
             <TabItem label="JavaScript" icon="seti:javascript">
-              <Code code={ycRunJsExampleCode} lang="js" />
+              <Code code="npm install @yepcode/run" lang="sh" frame="none" />
+              <Code class="mt-2" code={ycRunJsExampleCode} lang="js" />
             </TabItem>
             <TabItem label="Python" icon="seti:python">
-              <Code code={ycRunPyExampleCode} lang="py" />
+              <Code code="pip install yepcode-run" lang="sh" frame="none" />
+              <Code class="mt-2" code={ycRunPyExampleCode} lang="py" />
             </TabItem>
             <TabItem label="Curl" icon="seti:shell">
               <Code code={ycRunCurlExampleCode} lang="sh" frame="none" />
             </TabItem>
           </Tabs>
         </div>
+
+        <div class="mt-4 flex justify-center items-center">
+          <a
+            href="https://cloud.yepcode.io"
+            class="bg-[#B84EF4] font-semibold p-4 rounded-md"
+            target="_blank"
+          >
+            Get your Api token
+          </a>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="flex items-center flex-col gap-4">
+            <Image src={mcpImage} alt="MCP Logo" />
+            <p class="text-white/70 text-md">
+              Easily integrate with your agents using our <a
+                href="https://github.com/yepcode/mcp-server-js/"
+                target="_blank">MCP server</a
+              > — any YepCode process can be exposed as an MCP tool, and you can
+              also use the built-in run_code tool for direct code execution.
+            </p>
+          </div>
+          <div class="flex items-center flex-col gap-4">
+            <h2>REST API</h2>
+            <p class="text-white/70 text-md">
+              For advanced use cases, you can use YepCode as a service via our
+              <a
+                href="https://cloud.yepcode.io/api/rest/public/swagger-ui/index.html"
+                target="_blank">REST API</a
+              >. Trigger or schedule executions, manage processes, update
+              secrets, or monitor executions programmatically.
+            </p>
+          </div>
+        </div>
       </section>
+
+      <section class="mt-32">
+        <div
+          class="flex justify-between items-center gap-4 flex-col lg:flex-row"
+        >
+          <p class="font-bold text-5xl text-white">
+            Powerful automations with a<span class="text-[#b84ef4]"
+              >#developerfirst</span
+            > approach
+          </p>
+          <a
+            href="https://cloud.yepcode.io"
+            class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-md hover:bg-[#121220] min-w-fit"
+            target="_blank"
+          >
+            Start for free
+          </a>
+        </div>
+        <iframe
+          class="rounded-xl aspect-video w-full mt-4"
+          src="https://www.youtube.com/embed/TpZwMk-NWCs?si=6SuRzex9T4XVWmkE"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </section>
+
+      <section class="mt-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <Card
+            title="Run AI Code, Not Infrastructure"
+            description="Skip DevOps headaches. YepCode runs your AI-generated code in secure, scalable environments — ready to connect with APIs, databases, or cloud services out of the box."
+            image={codeIcon}
+          />
+          <Card
+            title="Full Control, Zero Compromise"
+            description="Access and manage everything: secrets, environment variables, dependencies, logs, and audit trails. You're always in control of what runs and how."
+            image={codeIcon}
+          />
+          <Card
+            title="From Developers, for Developers"
+            description="Write the code in our web editor or offline using our CLI to push changes, use versions and alias, sync your code with your git repos and manage deployment environments."
+            image={codeIcon}
+          />
+          <Card
+            title="Connect AI with the Real World"
+            description="Trigger executions as MCP tools or using webhooks, schedules, or our Rest API. Build agent workflows that plug into your services and systems with minimal effort."
+            image={codeIcon}
+          />
+          <Card
+            title="Secure by Design"
+            description="Every function runs in an isolated container with strict boundaries. Secrets are encrypted, access is logged, and everything is audited."
+            image={codeIcon}
+          />
+          <Card
+            title="Enterprise-Ready from Day One"
+            description="SOC 2 and GDPR compliant. Deploy on-premise or in your cloud. Integrate with your identity provider and meet your audit and SLA requirements."
+            image={codeIcon}
+          />
+        </div>
+      </section>
+      <Footer />
     </main>
-    <Footer />
   </body>
 </html>
