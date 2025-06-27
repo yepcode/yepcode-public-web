@@ -2,22 +2,107 @@
 import HeaderLink from "./HeaderLink.astro";
 import YepCodeLogo from "../../public/logo.svg";
 import { Image } from "astro:assets";
+import DropdownNav from "./DropdownNav.astro";
 ---
 
 <header class="sticky top-0 z-999 bg-[#000012] text-white text-base">
   <nav class="w-3/6 m-auto flex justify-between items-center py-6 px-8">
-    <div class="flex gap-8">
-      <a href="/"><Image src={YepCodeLogo} alt="YepCode logo" /></a>
-      <div>
-        <HeaderLink href="/product">Product</HeaderLink>
+    <div class="flex gap-4 items-center">
+      <a class="flex-shrink-0" href="/"
+        ><Image src={YepCodeLogo} alt="YepCode logo" /></a
+      >
+      <div class="hidden items-center xl:flex">
+        <DropdownNav
+          title="Product"
+          links={[
+            { href: "/docs", label: "Docs", icon: "docs" },
+            {
+              href: "/run",
+              label: "YepCode Run",
+              icon: "lightning-bolt",
+              new: true,
+            },
+            {
+              href: "https://github.com/yepcode/mcp-server-js/",
+              label: "MCP Server",
+              icon: "server",
+              new: true,
+            },
+            {
+              href: "/recipes",
+              label: "Recipes",
+              icon: "folder",
+            },
+            {
+              href: "/features/forms",
+              label: "Forms",
+              icon: "form",
+            },
+            {
+              href: "/features/landings",
+              label: "Landings",
+              icon: "landing",
+            },
+            {
+              href: "/features/storeflow",
+              label: "Storeflow",
+              icon: "upload",
+            },
+          ]}
+        />
         <HeaderLink href="/pricing">Pricing</HeaderLink>
-        <HeaderLink href="/blog">Blog</HeaderLink>
-        <HeaderLink href="/support">Support</HeaderLink>
+        <DropdownNav
+          title="Resources"
+          links={[
+            { href: "/blog", label: "Blog", icon: "blog" },
+            {
+              href: "/video-pills",
+              label: "Video pills",
+              icon: "play",
+            },
+          ]}
+        />
+        <DropdownNav
+          title="Support"
+          links={[
+            {
+              href: "https://feedback.yepcode.io/",
+              label: "Feedback",
+              icon: "messages",
+            },
+            {
+              href: "/contact",
+              label: "Contact us",
+              icon: "paper-airplane",
+            },
+            {
+              href: "/book-a-demo",
+              label: "Book a demo",
+              icon: "computer",
+            },
+            {
+              href: "/faqs",
+              label: "FAQs",
+              icon: "question-mark",
+            },
+            {
+              href: "https://community.yepcode.io/",
+              label: "Community",
+              icon: "question-mark",
+            },
+            {
+              href: "https://stats.uptimerobot.com/jM9Z9UYZ73",
+              label: "Status",
+              icon: "chart",
+            },
+          ]}
+        />
       </div>
     </div>
-    <div>
+    <div class="flex-shrink-0 flex items-center">
+      <div class="xl:hidden">TODO:NAV_HAMBURGER</div>
       <a
-        class="px-4 py-3 hover:bg-[#121220] border-2 border-[#ffffff1a] rounded-md"
+        class="px-4 py-3 hover:bg-[#121220] border-2 border-[#ffffff1a] rounded-xl inline-flex justify-center items-center"
         href="https://cloud.yepcode.io"
         target="_blank"
       >

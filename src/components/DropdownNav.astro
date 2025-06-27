@@ -1,0 +1,137 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface LinkItem {
+  href: string;
+  label: string;
+  icon: string;
+  new?: boolean;
+}
+
+interface Props {
+  links: LinkItem[];
+  title: string;
+}
+
+const { links = [], title } = Astro.props;
+const dropdownId = `dropdown-${title.toLowerCase()}`;
+---
+
+<div class="relative">
+  <button
+    id={`${dropdownId}-toggle`}
+    class="flex items-center justify-between rounded-xl transition-all duration-350 ease cursor-pointer gap-2 px-5 py-3 hover:bg-[#121220] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#11c0eb]"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    {title}
+    <Icon name="arrow-down" class="size-4" />
+  </button>
+
+  <div
+    id={`${dropdownId}-menu`}
+    class="absolute bg-[#000012] p-4 left-0 mt-2 border-2 border-[#ffffff1a] rounded-xl hidden z-50"
+    role="menu"
+  >
+    {
+      links.map((link, index) => (
+        <a
+          href={link.href}
+          target={!link.href.startsWith("/") ? "_blank" : "_self"}
+          class="p-4 hover:bg-[#ffffff1a] flex items-center rounded-lg gap-4 min-w-3xs transition-all duration-350 ease w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#11c0eb]"
+          role="menuitem"
+          tabindex="-1"
+          data-index={index}
+        >
+          <Icon
+            name={link.icon}
+            class="p-2 aspect-square size-10 rounded-xl bg-[#22242f]"
+          />
+          <span class="whitespace-nowrap">{link.label}</span>
+          {link.new && (
+            <span class="text-xs bg-[#11c0eb] p-1 rounded-lg">New</span>
+          )}
+        </a>
+      ))
+    }
+  </div>
+
+  <script is:inline type="module" define:vars={{ dropdownId }}>
+    const toggle = document.getElementById(`${dropdownId}-toggle`);
+    const menu = document.getElementById(`${dropdownId}-menu`);
+    const items = Array.from(menu.querySelectorAll('[role="menuitem"]'));
+
+    let open = false;
+    let focusedIndex = 0;
+
+    const openMenu = () => {
+      menu.classList.remove("hidden");
+      toggle.setAttribute("aria-expanded", "true");
+      open = true;
+      focusedIndex = 0;
+      items[focusedIndex]?.focus();
+    };
+
+    const closeMenu = () => {
+      menu.classList.add("hidden");
+      toggle.setAttribute("aria-expanded", "false");
+      open = false;
+    };
+
+    const toggleMenu = () => {
+      open ? closeMenu() : openMenu();
+    };
+
+    const handleOutsideClick = (e) => {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    };
+
+    const handleToggleKey = (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openMenu();
+      }
+    };
+
+    const handleMenuKey = (e) => {
+      if (!open) return;
+
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeMenu();
+        toggle.focus();
+      }
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        focusedIndex = (focusedIndex + 1) % items.length;
+        items[focusedIndex].focus();
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        focusedIndex = (focusedIndex - 1 + items.length) % items.length;
+        items[focusedIndex].focus();
+      }
+
+      if (e.key === "Tab") {
+        closeMenu();
+      }
+    };
+
+    toggle.addEventListener("click", toggleMenu);
+    toggle.addEventListener("keydown", handleToggleKey);
+    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener("keydown", handleMenuKey);
+
+    // Cleanup for hot module reloading
+    import.meta.hot?.dispose(() => {
+      toggle.removeEventListener("click", toggleMenu);
+      toggle.removeEventListener("keydown", handleToggleKey);
+      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("keydown", handleMenuKey);
+    });
+  </script>
+</div>
