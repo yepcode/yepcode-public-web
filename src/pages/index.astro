@@ -21,7 +21,6 @@ import teimasLogo from "../assets/home/clients/teimas.svg";
 import privaliaLogo from "../assets/home/clients/privalia.svg";
 import ImageSlider from "../components/ImageSlider.astro";
 import mcpImage from "../assets/home/images/mcp.svg";
-import codeIcon from "../assets/home/icons/code.svg";
 import Card from "../components/Card.astro";
 ---
 
@@ -33,9 +32,9 @@ import Card from "../components/Card.astro";
   <body>
     <Header />
     <main>
-      <section class="grid gap-4 grid-cols-[2fr_1fr] mt-8">
+      <section class="grid gap-8 grid-cols-[2fr_1fr] mt-8">
         <div>
-          <p class="font-bold text-8xl text-white">
+          <p class="font-bold text-[91px] leading-[1] text-white">
             Run <span class="text-[#b84ef4]">AI-Generated Code</span> securely. <span
               class="text-[#b84ef4]">Connect Agents</span
             > to APIs and services.
@@ -49,7 +48,7 @@ import Card from "../components/Card.astro";
           <div class="mt-8 flex gap-8">
             <a
               href="https://cloud.yepcode.io"
-              class="bg-[#B84EF4] font-semibold p-4 rounded-md"
+              class="bg-[#B84EF4] font-semibold p-4 rounded-xl"
               target="_blank"
             >
               Get started for free
@@ -57,7 +56,7 @@ import Card from "../components/Card.astro";
             <!-- TODO: Add modal turn key solution -->
             <a
               href="https://cloud.yepcode.io"
-              class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-md hover:bg-[#121220]"
+              class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
               target="_blank"
             >
               Turn-key solution
@@ -118,10 +117,10 @@ import Card from "../components/Card.astro";
           </Tabs>
         </div>
 
-        <div class="mt-4 flex justify-center items-center">
+        <div class="mt-6 flex justify-center items-center">
           <a
             href="https://cloud.yepcode.io"
-            class="bg-[#B84EF4] font-semibold p-4 rounded-md"
+            class="bg-[#B84EF4] font-semibold p-4 rounded-xl"
             target="_blank"
           >
             Get your Api token
@@ -153,7 +152,7 @@ import Card from "../components/Card.astro";
         </div>
       </section>
 
-      <section class="mt-32">
+      <section class="mt-40">
         <div
           class="flex justify-between items-center gap-4 flex-col lg:flex-row"
         >
@@ -164,7 +163,7 @@ import Card from "../components/Card.astro";
           </p>
           <a
             href="https://cloud.yepcode.io"
-            class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-md hover:bg-[#121220] min-w-fit"
+            class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220] min-w-fit"
             target="_blank"
           >
             Start for free
@@ -185,32 +184,32 @@ import Card from "../components/Card.astro";
           <Card
             title="Run AI Code, Not Infrastructure"
             description="Skip DevOps headaches. YepCode runs your AI-generated code in secure, scalable environments — ready to connect with APIs, databases, or cloud services out of the box."
-            image={codeIcon}
+            icon="code"
           />
           <Card
             title="Full Control, Zero Compromise"
             description="Access and manage everything: secrets, environment variables, dependencies, logs, and audit trails. You're always in control of what runs and how."
-            image={codeIcon}
+            icon="cloud"
           />
           <Card
             title="From Developers, for Developers"
             description="Write the code in our web editor or offline using our CLI to push changes, use versions and alias, sync your code with your git repos and manage deployment environments."
-            image={codeIcon}
+            icon="share"
           />
           <Card
             title="Connect AI with the Real World"
             description="Trigger executions as MCP tools or using webhooks, schedules, or our Rest API. Build agent workflows that plug into your services and systems with minimal effort."
-            image={codeIcon}
+            icon="play"
           />
           <Card
             title="Secure by Design"
             description="Every function runs in an isolated container with strict boundaries. Secrets are encrypted, access is logged, and everything is audited."
-            image={codeIcon}
+            icon="shield"
           />
           <Card
             title="Enterprise-Ready from Day One"
             description="SOC 2 and GDPR compliant. Deploy on-premise or in your cloud. Integrate with your identity provider and meet your audit and SLA requirements."
-            image={codeIcon}
+            icon="server"
           />
         </div>
       </section>

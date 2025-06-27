@@ -94,14 +94,10 @@ b {
 }
 a {
   text-decoration: none;
-  border-radius: 12px;
   transition-property: all;
   transition-duration: 350ms;
   transition-timing-function: ease;
   color: white;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
 }
 .prose p {
   margin-bottom: 1em;
