@@ -1,0 +1,52 @@
+---
+import BaseHead from "../../../components/BaseHead.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="grid gap-8 grid-cols-1 md:grid-cols-2 mt-8">
+        <div>
+          <p class="font-bold text-[70px] leading-[1] text-white">
+            The form builder for developers
+          </p>
+          <p class="text-white/70 mt-16 text-lg">
+            Use YepCode Forms to build flows for user onboarding, payments, lead
+            generation, signup, and much more. Watch the tutorial video to learn
+            how it works!
+          </p>
+
+          <div class="mt-8 flex gap-8">
+            <!-- TODO: Add modal turn key solution -->
+            <a
+              href="https://yepcode.io/docs/forms"
+              class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+              target="_blank"
+            >
+              Read the docs
+            </a>
+          </div>
+        </div>
+        <div class="flex justify-center items-center">
+          <iframe
+            class="rounded-xl aspect-video w-full"
+            src="https://www.youtube.com/embed/ZA6XIkKMKXo?si=-QWqaeel4jk3e6q1"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  </body>
+</html>
