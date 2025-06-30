@@ -1,0 +1,83 @@
+---
+title: "How to Interact with Any REST API Using YepCode Run and MCP Tools"
+categories: [Using YepCode]
+thumbnailImage: "../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841bf29d522f1b4fa6e486b_agent-factorial-api-run-code-mcp-tools-claude-spanish_thumnail.png"
+mainVideo: "https://www.youtube.com/watch?v=lovCYiC1a5w"
+seoTitle: "Automate REST API Workflows with YepCode Run and LLM Agents"
+description: "Learn how to use YepCode Run, LLMs, and MCP tools to automate workflows and safely execute code that interacts with REST APIs like Factorial."
+postSummary: "How to automate real-world workflows by combining YepCode Run, LLM agents (like Claude), and MCP tools. Through the example of interacting with Factorial’s extensive REST API."
+pubDate: "2025-06-05"
+---
+
+> LLMs are getting smarter every day — but how do we turn their potential into real, secure, and scalable workflows?
+
+In this video, we show how to connect the dots using [**YepCode Run**](https://yepcode.io/run) and [**MCP tools**](https://github.com/yepcode/mcp-server-js/), automating interactions with [**Factorial’s REST API**](https://apidoc.factorialhr.com/docs/getting-started) using nothing more than generated code and a bit of smart orchestration.
+
+Whether you’re trying to pull data, trigger operations, or integrate with other systems like Supabase, the combination of **LLMs + YepCode Run + MCP** gives you the power and flexibility to do it all — with minimal human intervention.
+
+## **From Prompt to Code Execution**
+
+We start by setting up an intelligent agent (in this case, using **Claude Desktop**) with a prompt that instructs it to solve tasks by generating and executing code through YepCode Run:
+
+After adding the initial guidelines, we can start to ask for tasks:
+
+![](../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841b99a4ed63dbce96c0e34_agent-factorial-api-run-code-mcp-tools-claude-first-prompt.png)
+
+_The agent is set up to solve tasks by generating and executing code with YepCode Run_
+
+## **Exploring APIs with OpenAPI Exploration Tool**
+
+To avoid flooding the agent with thousands of tokens from an OpenAPI spec, we’ve built a dedicated **MCP tool**: the **OpenAPI Exploration Tool**.
+
+This tool allows the agent to progressively explore an API:
+
+-   First retrieving available tags and their descriptions.
+-   Then drilling down into specific operations.
+-   Finally, fetching full operation payloads only when needed.
+
+![](../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841b9e25eb8f396751d6523_agent-factorial-api-run-code-mcp-tools-claude-exploration_tool_screenshoot.png)
+
+_The OpenAPI Exploration Tool lets the agent explore Factorial’s API step-by-step._
+
+## **Retrieve Employees information in Factorial**
+
+Using the exploration tool, the agent finds the right endpoint and writes code to count employees in Factorial. On its first attempt, the script fails — but the agent detects the issue, rewrites the code, and tries again.
+
+![](../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841ba0d4771cf42d3f2b22a_agent-factorial-api-run-code-mcp-tools-claude-execution_failed_and_code_is_rewriten.png)
+
+_The initial script fails, but the agent debugs and rewrites the code automatically._
+
+After some iterations, the agent retrieves the requested information:
+
+![](../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841ba36a108f7995f50b5ae_agent-factorial-api-run-code-mcp-tools-claude-employee_count_success.png)
+
+_The agent retrieves and logs the number of employees_
+
+## **Creating Time-Off Requests Automatically**
+
+Next, we ask the agent to create a **leave request for an employee** named Elizabeth during the last week of June. The agent:
+
+-   Looks up the relevant endpoints.
+-   Retrieves the employee ID using her email.
+-   Checks available leave types.
+-   Submits the request.
+
+![](../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841ba5cda850b97ebefdc92_agent-factorial-api-run-code-mcp-tools-claude-second_prompt_asking_for_leaves_creation.png)
+
+_The second prompt asks the agent to create a leave request for a specific employee._
+
+## **This Isn’t Just Another REST API Wrapper**
+
+Although this flow might initially seem like just a smart wrapper over a REST API, it’s much more than that. What we’re building here is a flexible and extensible system where the agent isn’t limited to a predefined set of endpoints or rigid logic. Instead, it understands the context, explores APIs dynamically, and generates custom code to solve tasks — even combining multiple services or adapting to different environments as needed.
+
+To take it a step further, we challenge the agent to store the employee data in **Supabase**. It attempts to create the table programmatically, fails, asks us for help — and after we manually create the table, it stores the data successfully.
+
+![](../../assets/blog/how-to-interact-with-any-rest-api-using-yepcode-run-and-mcp-tools/6841bae427fd9e4de386cf40_agent-factorial-api-run-code-mcp-tools-claude-supabase_prompt.png)
+
+_The agent is prompted to store employee data in Supabase_
+
+## **A Glimpse into the Future of Workflow Automation**
+
+It might feel like using a sledgehammer to crack a nut — but with LLMs getting better and better at generating high-quality code, this approach makes a lot of sense. It’s not just about automating a simple task, but about building an environment where agents can adapt, iterate, and solve complex workflows autonomously. We’re laying the foundation for a new way of interacting with APIs and systems: smarter, more flexible, and with almost limitless potential.
+
+> Curious to try this for your own API or use case? [Contact us](https://yepcode.io/contact) — we’d love to hear what you’re building.

@@ -1,0 +1,68 @@
+---
+title: "Develop like a pro and get more control over your work thanks to YepCode CLI"
+categories: [YepCode universe]
+mainImage: "../../assets/blog/develop-like-a-pro-with-yepcode-cli/633b00da3d39f10c142f996b_YepCode-CLI.webp"
+thumbnailImage: "../../assets/blog/develop-like-a-pro-with-yepcode-cli/633b00e79f6028697aa3c921_YepCode-CLI.webp"
+seoTitle: "The new YepCode CLI gives you more control over your work and saves a lot of time."
+description: "We have built a Command Line Interface (CLI) in YepCode, a brand-new feature that helps to speed up your coding processes."
+postSummary: "YepCode has implemented a CLI that will give you more control over your computer and save you a lot of time."
+pubDate: "2022-08-16"
+---
+
+import YouTube from "../../components/YouTube.astro";
+
+Today we are going to talk about a **brand-new feature in the YepCode** universe, our **CLI** and its importance in the development environment as a common and frequently used tool to operate and **speed up coding processes**.
+
+### **But first, what is a CLI ?**
+
+CLI responds to the acronym of (**Command Line Interface**) and it is a program on your computer that allows you to create and delete files, execute operating system functions, run programs or navigate through your folders and files.
+
+Back in the 60s, CLI was the only way to communicate with computers, so developers used it frequently.
+
+Then the mouse would appear and the point-and-click method would begin as a new way of interacting with the computer.
+
+### **Why a CLI in YepCode?**
+
+In YepCode, we have implemented the Command Line Interface that allows **interacting with your YepCode Cloud account from your workstation command line**.
+
+To implement it, we use **TypeScript**, relying on [**Oclif**](https://t.sidekickopen00-eu1.com/s3t/c/5/f18dQhb0S7kC8dDZCHW5dK2qR2zGCz1N5xLs7slrBrYW1S-5-y3cR5_6MXwSPM3ZvWtf21mVPW02?te=W3R5hFj4cm2zwW43P1nS3LD2rJ1V3&si=8000000020810203&pi=87dddb93-7237-40e9-c267-cb34e43c9970) and attacking YepCode's **GraphQL API**.
+
+This may be very useful if you prefer to write and test the process's source code in your local workspace instead of using the web IDE of YepCode Cloud.
+
+We follow a **GIT approach**, which allows us to run clone, execute pull & push commands and manage conflicts if someone changes process files in the cloud.
+
+The local copy of your team account will include **the processes source code**, **your js-modules** and also **the credentials & variables non-sensitive information.**
+
+### **Some interesting use cases for YepCode CLI**
+
+##### Sync your source code with a GIT repository
+
+All the source code you write in YepCode is yours, and although we [**support versioning**](https://docs.yepcode.io/processes/process-versioning), it may be interesting to **keep a copy** of it in some **GIT** repository.
+
+When you run the CLI clone command, a file structure is generated with all your file information.
+
+A _.gitignore_ is also created, so just _init_ your GIT _repo_ and do a _push_ to the remote server.
+
+##### Avoid Yeps consumption during the development phases
+
+During the development process, you may be **trying executions to get the final implementation**.
+
+There is no problem with doing this in the YepCode cloud, but that executions
+
+If you prefer to save the yeps for the real executions, you **may develop in your local workstationand you will not consume any yeps**.
+
+##### Integrate with CI/CD cycles
+
+YepCode Cloud doesn't include testing features, but YepCode CLI opens a wide range of **options to check that your implementation is ok**.
+
+You may **install the CLI in your CI/CD platform and run some processes with test parameters** (for example the environment).
+
+If the test executions finish ok, then you may automate the _push_ command to the YepCode Cloud.
+
+We believe the YepCode CLI will give you more control over your computer and is a powerful time saver.
+
+Check it here and learn [**how to install YepCode CLI**](https://docs.yepcode.io/cli/) in your team account.
+
+Happy coding!
+
+<YouTube url="https://www.youtube.com/embed/Pggg84OLwnQ" title="Develop your processes more efficiently | YepCode CLI" />

@@ -1,0 +1,66 @@
+---
+title: "How to automate your Holded documents signature using an eSign provider"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/holded-documents-signature/633b01cd29979a1800566cff_Automate-Holded-documents-signature.webp"
+thumbnailImage: "../../assets/blog/holded-documents-signature/633b01d454e0a46e00d4e7fd_Automate-Holded-documents-signature.webp"
+seoTitle: "Automate Estimate Document Signatures with Holded and Docuten"
+description: "Streamline your document signing process with Holded and Docuten. An efficient workflow to automatically generate, download and store your documents. "
+postSummary: "In this case, we show you how you can use YepCode to automate your  Holded documents signature and streamline your administrative paperwork."
+pubDate: "2022-03-22"
+---
+
+In this case, we will proceed to **automate an estimate document signature** using Holded as a platform for generating, downloading and storing that document. This time we will use **Docuten** as an **electronic signature tool**, but we have also implemented this use case using **DocuSign**.
+
+Holded is a [**cloud business management platform**](https://www.holded.com/) that allows you to carry out administrative procedures. With Holded you can have all your **data**, such as **documents**, **invoices**, and **customer information centrally** **controlled.** You can also associate this data with specific projects and share them among members of the same team.
+
+This tool, also allows you to control the **management of your billing**, **accounting**, work teams, and **projects.** And it has **CRM features**.
+
+Additionally, Holded **integrates with other third-party tools** thanks to its API. This makes its functionalities even more extensive and allows it to **automate processes** involving other complementary applications.
+
+### **What is the workflow to automate Holded documents signature?**
+
+Imagine this situation: One company sends another a quote for hiring their services.
+
+The **workflow** begins when the sales department prepares and generates a **document of this quote in Holded**. From there, they send it to the client for review and acceptance.
+
+When the **client accepts the quote**, the sales department has to notify the administration department to **download** the estimate document **from Holded.** Then, they **upload it to their eSign provider** (in this case we'll use [**Docuten**](https://docuten.com/)). And from that tool, they send it to the client for **final signature**.
+
+Once signed, the eSign provider sends a notice to the **administration department**. When this is done, they will have to **download the signed document** and send it to the sales department. In the final step, the sales department will have to upload it again to Holded to file it and **assign it to the corresponding project**.
+
+This is a process that would take **considerable time.** It has **many** **bottlenecks** where delays can occur as it is very easy to miss the notices between sales and administration.
+
+> With this process, we solve just in minutes what before would take us days.- Felipe Peña (Tracktherace CFO)
+
+### **How do I proceed in YepCode to implement this process?**
+
+In order to automate Holded documents signature in **YepCode,** **we have to define two processes.** One to **launch the signature** request and another to **handle the eSign provider callbacks** once the client has signed the quote.
+
+![Budget signature automation processes in Holded](../../assets/blog/holded-documents-signature/63318401f31eab52b2064437_2-processes-to-automate-budget-signature-in-Holded.png)
+
+To launch a new signature request, we will simply execute the first process. We will **enter the quote Id in Holded as a parameter** and optionally we will **indicate the email and name of the person responsible** for signing (in another case, the data of the person responsible for the client associated with the quote in Holded).
+
+![](../../assets/blog/holded-documents-signature/63318401f31eab0ed506443a_Budget-signature-automation-Holded-ID.png)
+
+We will launch the second process [**thanks to the** "**webhooks**" **functionality**](https://docs.yepcode.io/executions/webhooks) provided by YepCode and **the Docuten service will automatically invoke it** when the client has signed the quote.
+
+In order to implement the processes, we have defined three "**credentials**". For two of them, we will use the **integration with Axios** for access to the **Docuten and Holded APIs** (where we configure our access token to them). In the third, we will use the **integration with Nodemailer** (with our access data to **SendGrid** that we will use to send notifications by email from the processes).
+
+![](../../assets/blog/holded-documents-signature/63318401f31eab5e75064438_Budget-signature-automation-with-Holded-YepCode-credentials.png)
+
+Some code usage examples of these integrations:
+
+![](../../assets/blog/holded-documents-signature/63318401f31eab895906443b_Process-Getting-budget-document-pdf-from-Holded.png)
+
+![](../../assets/blog/holded-documents-signature/63318401f31eab683b064439_Process-Retrieving-info-for-signed-doc-from-docuten.png)
+
+Finally, we will also make use of the **variables function** to **parameterize the processes.** By doing this, they can be **imported and other clients could use them** according to their own needs.
+
+![](../../assets/blog/holded-documents-signature/63318401f31eab2e1906443c_Automate-sign-budget-with-Holded-Team-variables.png)
+
+And that's all. We have reduced a considerable amount of time by creating this process (around 75% of the time), since with a few clicks we can solve the electronic signature of an estimate.
+
+This demonstrates YepCode's ability to [**connect with other platforms and create automations**](https://yepcode.io/using-yepcode/docuten-extended-saas-features-using-yepcode/) to speed up day-to-day tasks.
+
+Remember to visit our [**Docs platform**](https://docs.yepcode.io/) where you can find every single detail to make the most out of YepCode,
+
+Happy coding! 🧑‍💻

@@ -1,0 +1,48 @@
+---
+title: "How Tracktherace used YepCode to retrieve GPS SPOT data and push it to their platform"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/yepcode-retrieve-tracktherace-spot-data/633b025e6e150d826098e9fd_Tracktherace-GPS-SPOT.webp"
+thumbnailImage: "../../assets/blog/yepcode-retrieve-tracktherace-spot-data/633b026a2463bd449331783a_Tracktherace-GPS-SPOT.webp"
+seoTitle: "Retrieving GPS SPOT Data from Tracktherace for Challenging Orography"
+description: "Discover how YepCode was able to retrieve GPS SPOT data and display it on the Tracktherace platform, even in locations with difficult coverage."
+postSummary: "YepCode was able to retrieve GPS data and display it on the Tracktherace platform in a location with difficult coverage due to challenging orography."
+pubDate: "2022-03-02"
+---
+
+### First of all, what is Tracktherace?
+
+Tracktherace is one of the big players on [**GPS tracking for sports events**](https://tracktherace.com/). It offers a comprehensive service that helps to **level up sporting events** by providing benefits in four different areas: security, tracking, management and promotion.
+
+Its basic operation is simple, although there is a lot of work and complexity in its internal development.
+
+The platform **combines the power of GPS tracking devices with real-time tracking software** that displays the position of these devices on a **map view**.
+
+This allows, in addition to **seeing the position of each participant in real-time within a race**, to process that position data to generate advanced statistics such as classifications, waypoints, provisioning, stoppages, etc.
+
+The devices also have an SOS button, which will display a highly visible, flashing prompt on the map view once pressed. This allows organizers to **act quickly in case of an emergency**.
+
+Tracktherace can be adapted to multiple sports disciplines. However, it is **especially useful in long-distance endurance races** such as trails, ultra-trails, adventure races, mtb ultramarathons, etc. In this type of sporting event, both the duration and the orography of the terrain make it very difficult to know what is happening. Tracktherace also allows the **event to be brought closer to the public** since, due to the conditions, it would be very difficult for them to be present on site.
+
+### How Tracktherace really works?
+
+The company has a stock of more than **1000 GPS trackers** that **receives positioning** **information from GPS satellites and forward that information to a cloud server using TCP connections**. That server implementes the devices protocol, and process the received information saving the positioning information in their database to be used later in the race map view, the classification and dashboards calculations,…
+
+This kind of device **uses the GPRS network protocol** to deliver the information to the Tracktherace servers. But there is an issue here, if there is no phone coverage, the system can't work in real-time.
+
+Luckily, there are **other** kinds of **GPS** trackers that don't need phone coverage to work, as **they deliver positioning information using satellites**. Two of the most know devices are **SPOT** and **InReach,** and each one has it's own data protocol.
+
+### Panamá Adventure Race, a great orographic challenge
+
+One of the last races in which Tracktherace was hired to be used was [**AR Panamá 2022**](https://arpanama.com/en/homepage-english/). Panamá is one o the best destinations for an adventure race. It has all the ingredients that any adventurer looks for: Volcanoes, jungle, mangroves, mountains, beaches… Unfortunately, this breathtaking landscape came with a price with respect to the race organization.
+
+In this race area, **the phone network coverage was poor**, so the organization opted to ask for the use of Satellite devices.
+
+It was needed that Tracktherace implemented that devices protocol on their server-side. But instead of that, **a more agile solution was done**.
+
+They used a **YepCode process** **to fetch the information from SPOT servers** (it provides an XML as positioning information). Then they convert that information into the same protocol that Tracktherace had already implemented, and then **forward that information to Tracktherace servers**.
+
+In this integration, they only needed to **use the** [**Axios integration**](https://docs.yepcode.io/integrations/axios) **and XML libraries**. Afterward, a [**scheduled run setup**](https://docs.yepcode.io/executions/scheduled) was enough to come full circle.
+
+Tracktherace joins to other Saas companies like [**Docuten**](https://yepcode.io/using-yepcode/docuten-extended-saas-features-using-yepcode/), that are **validating new features** in a simple approach As a result, they will be able to improve their core business with minimal effort.
+
+Happy coding! 🧑‍💻

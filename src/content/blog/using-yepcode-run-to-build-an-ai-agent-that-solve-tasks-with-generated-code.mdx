@@ -1,0 +1,66 @@
+---
+title: "Building an AI Agent with YepCode Run for Dynamic Code Execution"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/using-yepcode-run-to-build-an-ai-agent-that-solve-tasks-with-generated-code/67bf025af2f7c20b645fe29d_yepcode-ai.png"
+thumbnailImage: "../../assets/blog/using-yepcode-run-to-build-an-ai-agent-that-solve-tasks-with-generated-code/67bf025af2f7c20b645fe29d_yepcode-ai.png"
+seoTitle: "Building an AI Agent with YepCode Run for Dynamic Code Execution"
+description: "Discover how to build AI agents that generate and execute code securely with YepCode Run—a serverless runtime for safe, efficient execution in isolated sandboxes. 🚀"
+postSummary: "Discover how to build AI agents that generate and execute code securely with YepCode Run—a serverless runtime for safe, efficient execution in isolated sandboxes. 🚀"
+pubDate: "2025-02-26"
+---
+
+#### Why YepCode Run?
+
+AI agents capable of writing and executing code autonomously are becoming increasingly powerful. However, running **AI-generated code** securely and efficiently remains a challenge. That's where YepCode Run comes in—a serverless runtime and SDK for executing code in secure sandboxes. In this post, we’ll show how to use YepCode Run to build an AI agent that solves tasks by generating and running code dynamically.
+
+✅ The execution happens in a secure, sandboxed environment. ✅ The infrastructure scales automatically as needed. ✅ You don’t have to worry about dependency management.
+
+YepCode Run provides all of this out of the box so you can focus on your code rather than infrastructure concerns.
+
+#### How can I use it?
+
+We provide both [JavaScript](https://www.npmjs.com/package/@yepcode/run) and [Python](https://pypi.org/project/yepcode-run/) packages, so you may easily integrate YepCode Run in you projects. We have also created a [playground page](https://yepcode.io/run) to try any piece of code.
+
+#### Building an AI Agent That Solves Tasks with Generated Code
+
+Let’s implement an AI-powered agent that takes a task description, generates an executable script, runs it securely using YepCode Run, and iterates if needed. Here’s how it works:
+
+##### The Prompt
+
+This prompt guides the AI to generate clean, executable JavaScript or Python code that solves a task while sticking to YepCode’s structural standards and package management best practices. 🚀
+
+Failed iterations prompt:
+
+##### Show me the code!
+
+We tackle tasks by generating and running code. As LLM we have gone with Anthropic Claude API (Claude 3.5 Sonnet). Our approach is iterative—learning from errors, logs, and past failures to refine each attempt until we get it right.
+
+A standout feature? Seamless handling of environment variables like API keys and passwords. We don’t expose their values to the LLM—YepCode securely manages them at execution time—but we ensure they’re referenced in the prompt.
+
+Our workflow is straightforward:
+
+1\. Read the task and environment variables from files.
+
+2\. Prompt the LLM to generate code.
+
+3\. Execute the code with YepCode.
+
+4\. If it works—great! If not, we iterate until it does (or hit the retry limit).
+
+Smart, adaptive, and efficient—just the way automation should be. 🚀
+
+This is the JavaScript full code (python version below):
+
+If you prefer the python version:
+
+The two environment variables needed to run this are:
+
+#### What kind of tasks can be solved with this?
+
+As the source code may include any npm or pypi dependency, and you may provide environment variables to connect to private services, the options are endless. For example this task needs to connect to some remote server and then save information in one MySQL server, and the agent has been fully capable to solve it in two iterations:
+
+#### 🏁 Conclusion
+
+With YepCode Run, you can create an AI-driven agent that writes, executes, and refines its own code in a **secure, serverless environment**. Whether you're exploring new ideas, testing AI-generated scripts, or integrating automation into your workflows, YepCode Run has you covered.
+
+**Try YepCode Run today and supercharge your AI-powered coding workflows!** 🚀

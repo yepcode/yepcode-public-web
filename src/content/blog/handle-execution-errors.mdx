@@ -1,0 +1,43 @@
+---
+title: "Handle execution errors"
+mainImage: "../../assets/blog/handle-execution-errors/636d23fc7d4307e42645e7c6_Error-Handler-OGG.webp"
+thumbnailImage: "../../assets/blog/handle-execution-errors/636d24016f3ffa45057452b6_Miniatura-Error-Handler.webp"
+seoTitle: "Handle execution errors and get quick notifications"
+description: "Handle execution errors and receive immediate notifications if your process fails"
+postSummary: "In this article, we show you how to configure one YepCode Error Handler to get instant notifications when your process execution fails"
+pubDate: "2022-11-14"
+---
+
+import YouTube from "../../components/YouTube.astro";
+
+We have created YepCode to give you the best user experience, that’s why it has both fully development and execution environments. This makes it possible that you don't have to leave the platform to create a complete and successful automation or integration.
+
+Once you have written the source code of your process in the editor and run it, the execution of this process may fail due to many circumstances: maybe some of your services is down, some credential has expired, your execution exceeds YepCode limits,...
+
+Whatever the case, you will probably want to be aware when this happens so that you can fix it. A practical solution may be to **send the error notification by mail or to a Slack channel**, but in any other cases you'll want to **retry that failed execution**.
+
+## YepCode allows you to configure one of your processes to handle errors when some execution fails
+
+We have recorded a video in which we show you how the YepCode error handler works. But let's explain it a bit more.
+
+First, we have created a process that throws an error on purpose. When we run it, an alert crops up showing that the process has failed to show the error trace, and the execution status ends with an error.
+
+A process which you want to configure to handle the errors of the executions has a predefined parameters schema.
+
+In our docs, you can download some sample process templates we have, one that uses [Nodemailer](https://docs.yepcode.io/editor-config/js-editor/actions/sample-error-handler-with-nodemailer.json) to send an email with the error, and the other, which sends the error to a Slack channel using [SlackBolt](https://docs.yepcode.io/editor-config/js-editor/actions/sample-error-handler-with-slack.json) integrations.
+
+In the next step, we are going to download and import the send email template.
+
+Once imported, we need to create the SMTP credential to deliver the email. You could use one Google Account SMTP configuration. In our case, we are using the Sendgrid service.
+
+Then we need to do some changes in the source code to fit our needs, changing email addresses and YepCode team URLs.
+
+After that, we could configure this process as our error handler on the settings page.
+
+Finally, if we run again the failing process, we'd receive an email informing us about the error.
+
+Take a look at this video to watch all the steps to configure the error handler in YepCode and,
+
+Happy coding!
+
+<YouTube url="https://www.youtube.com/embed/tCdzdW9tzOE" title="Handle execution errors | YepCode universe" />

@@ -1,0 +1,68 @@
+---
+title: "Automating Outbound Sales Workflows with Latitude AI Agents, and YepCode MCP tools"
+categories: [Using YepCode]
+thumbnailImage: "../../assets/blog/automating-outbound-sales-workflows-with-latitude-ai-agents-and-yepcode-mcp-tools/67ff6914d760d7942e642b5a_yepcode-mcp.png"
+mainVideo: "https://www.youtube.com/watch?v=QdOAEl3V6Kk"
+seoTitle: "Automating Outbound Sales Workflows with Latitude AI Agents, and YepCode MCP tools"
+description: "Automating Outbound Sales Workflows with MCP, Latitude, and YepCode"
+postSummary: "Discover how to streamline your outbound sales processes using MCP, Latitude, and YepCode. Automate lead generation, outreach, and follow-ups with AI-powered tools and seamless workflow integrations."
+pubDate: "2025-04-16"
+---
+
+#### **🚀 Automating Outbound Sales Workflows with MCP, Latitude, and YepCode**
+
+Last week, we published a video showcasing our new [**MCP Server**](https://github.com/yepcode/mcp-server-js) — a powerful tool that makes it easy to securely run AI-generated code and expose tools created in YepCode as **MCP tools**. This lets any LLM interact with these tools safely, in a scalable, sandboxed environment.
+
+In the demo, we walked through how you can quickly build a tool using a simple JavaScript or Python snippet in YepCode, and expose it as an MCP tool. We integrated it with [**TheirStack**](https://theirstack.com/), a platform that helps detect job openings as hiring signals — so, for example, if a company is hiring for AI-related positions, it might be a perfect moment to pitch them a relevant solution.
+
+#### **🛠️ From Idea to Full Automated Workflow**
+
+After sharing that demo, one of TheirStack’s founders suggested a more complete workflow idea:
+
+• **Find job signals** using TheirStack
+
+• **Visit the company website**
+
+• **Identify contacts** via Apollo.io
+
+• **Draft a cold email**
+
+• **Log everything** to be used by the company sales team
+
+We loved the idea — and built it!
+
+To make this work, we used [**Latitude.so**](https://latitude.so/), a platform that helps you manage and optimize AI prompts, and create smart AI agents. Latitude allows you to connect external tools, so we connected our the **YepCode MCP server** with these tools:
+
+• A **TheirStack tool** to get job postings
+
+• An **Apollo tool** to find contacts
+
+• A **Linear tool** to log information
+
+You may download the tools source code [here](https://drive.google.com/file/d/15lgTgF9LRQu0iXOfCIru1kdVvbuiN21n/view?usp=sharing) (and [import them](https://yepcode.io/docs/processes/import-export) in your YepCode account).
+
+We designed a workflow prompt in Latitude telling the agent to:
+
+1\. Search for job signals on TheirStack
+
+2\. Use Apollo.io to find key contacts
+
+3\. Visit the company website
+
+4\. Draft a personalized cold email
+
+5\. Create a Linear issue summarizing all the details
+
+This is the full agent prompt:
+
+The workflow is fully automated — you just fill in parameters like job keywords, employee count, and target roles. The agent fetches job postings, finds people, writes the email, and logs everything in Linear. You could even extend it to send emails directly using our email sender tool.
+
+#### **🎥 See It In Action**
+
+You can watch the full video [here](https://www.youtube.com/watch?v=QdOAEl3V6Kk) to see this workflow running live — how Latitude coordinates the process, how each MCP tool is executed via YepCode, and how everything gets neatly organized in Linear.
+
+It’s a perfect example of how you can automate outbound sales workflows combining AI agents, low-code tools, and secure serverless environments.
+
+#### **🏁 Want to build your own MCP tools and automate your sales process?**
+
+Create your [YepCode.io](https://cloud.yepcode.io) account and get started today!

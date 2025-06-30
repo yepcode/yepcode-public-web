@@ -1,0 +1,272 @@
+---
+title: "Support visitor comments in Webflow blog using YepCode forms"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d275bd8f0c87320e9c1e32_YepCode-Forms.webp"
+thumbnailImage: "../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d275c092d4caf9090f9c04_Forms-Miniatura-Webflow.webp"
+seoTitle: "Add visitor comments to your Webflow blog with YepCode forms: A Step-by-Step Guide"
+description: "Easily add visitor comments to your Webflow blog using YepCode forms. A step-by-step guide to help you engage with your audience and build a community."
+postSummary: "We will show you how to support visitor comments on your Webflow blog using YepCode forms. Increase your engagement and build a community around your content, allowing visitors to leave comments."
+pubDate: "2023-01-20"
+---
+
+In this article, we are going to show step by step how to add comments support to one Webflow blog.
+
+One [YepCode form](https://yepcode.io/docs/forms) will be embedded into the blog post page, asking for the visitor name and message. This form submit will start one [YepCode process](https://yepcode.io/docs/processes) execution that will create a new Webflow CMS entry to store that information. This CMS collection will be rendered in each blog post, showing the visitor's comments.
+
+## Steps summary
+
+This will be the sections that we'll cover in the article:
+
+-   Clone a Webflow template to create a brand-new blog
+-   Add a new CMS collection to store the blog post comments
+-   Change the blog post page template to render these comments
+-   Build a new YepCode process to create these CMS entries
+-   Enable YepCode forms for this process
+-   Embed the form into the blog post page template
+-   It's done!
+
+## Clone a Webflow template to create a brand new blog
+
+To build the sample from scratch, we are cloning [a FREE Webflow template](https://webflow.com/templates/html/moon-blog-website-template).
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d197ec794522f426123310_Moon-Blog-HTML5-Responsive-Website-Template.png)
+
+The blog template we are using
+
+## Add a new CMS collection to store the blog post comments
+
+This Webflow template already has two CMS collections (blog post and blog post category). We are adding a new CMS collection with the name **Blog Post Comments**.
+
+This collection will have three attributes:
+
+-   name: attribute of type plain text representing the comment author
+-   message: attribute of type plain text
+-   blog-post: will be a reference to the Blog Post collection, and will represent the post where this comment must be shown
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d199b132ab33e662b1e6f9_Webflow-YepCode-Blog-Playground.png)
+
+CMS collection to store blog post comments
+
+At this point, we could manually add some comment samples:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d19aa14cadc900da90dae1_samples.png)
+
+Blog Post comment samples
+
+## ‍Change the blog post page template to render these comments
+
+Having this collection ready, we may go to the page where it must be included and add the collection item to show them.
+
+In our case, we have included a title (**Comments**), and then some containers and styles to display the comments list:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d19bfe858dad111fcf8831_add-collection.png)
+
+Changes in blog post template page to include comments
+
+At this point, we need to add a filter over the collection, to make sure that only the comments related to the current blog post are included:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d19d1e84817e62aaefcb06_Screenshot-2023-01-25-at-22.17.19.png)
+
+Add one collection filter to only include comments for the current blog post
+
+At this point, we have done all the needed changes to display the comments, but Webflow doesn't include out-of-the-box any system that allow us to create CMS entries using their forms.
+
+So now is when YepCode enters to scene to allow doing this integration!
+
+## Build a new YepCode process to create these CMS entries
+
+We'll need to have a YepCode account to implement the process that will provide the form to embed and also all the logic to create the CMS entry with each submit.
+
+We can create a new YepCode Account using the FREE plan that is offered. Just go to the [registration page](https://cloud.yepcode.io/), and create your own account.
+
+Once into the platform, we just need to create a [new process,](https://yepcode.io/docs/processes) giving it a name:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a04b2019c13a0d21ca72_Screenshot-2023-01-25-at-22.33.55.png)
+
+Create a new YepCode process
+
+After that, we may provide the source code that will implement the logic. For this sample, the [source code](https://yepcode.io/docs/processes) to use would be this one:
+
+```js
+
+const { context: { parameters } } = yepcode
+
+// TODO Change these two ids with your collection identifies
+const BLOG_POST_COLLECTION_ID = "63d015316533bf50728fa311"
+const BLOG_POST_COMMENT_COLLECTION_ID = "63d015e1d5eb3810e7e34985"
+
+const webflow = yepcode.integration.webflow('yepcode-blog-playground');
+
+// We need to find the blogPostId using the blogPostSlug
+const {
+    items: blogPosts
+} = await webflow.items({
+    collectionId: BLOG_POST_COLLECTION_ID,
+});
+
+const blogPost = blogPosts.filter((blogPost) => blogPost.slug === parameters.blogPostSlug)[0];
+
+if (!blogPost) {
+    return {
+        status: 404,
+        body: {
+            error: {
+                message: `Blog post not found for slug ${parameters.blogPostSlug}`,
+            },
+        }
+    };
+}
+
+console.log(`Creating comment for blog post ${blogPost._id}`)
+
+try {
+    await webflow.createItem({
+        collectionId: BLOG_POST_COMMENT_COLLECTION_ID,
+        fields: {
+            name: parameters.name,
+            message: parameters.message,
+            "blog-post": blogPost._id,
+            _archived: false,
+            _draft: false,
+        },
+    }, {
+        live: "true"
+    }
+    );
+} catch (error) {
+    console.error(`There has been an error creating CMS entry`, error);
+    throw error;
+}
+
+return {
+    message: "CMS entry successfully created"
+}
+```
+
+Take into account that you'll need to change the collection IDs for the ones of your Webflow project. You may find the collection IDs in each collection settings page:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a132fa703d43d8c8c48b_Screenshot-2023-01-25-at-22.37.45.png)
+
+Find each collection ID and configure it in your source code
+
+The next step is to configure the [input parameters form](https://yepcode.io/docs/processes/input-params). This must be done in the second tab of your process configuration and is defined using a JSON Schema specification. In our case, the source code to use will be:
+
+```js
+
+{
+  "title": "Share your thoughts about this post",
+  "type": "object",
+  "properties": {
+    "blogPostSlug": {
+      "title": "Blog post slug",
+      "type": "string",
+      "ui": {
+        "ui:widget": "hidden"
+      }
+    },
+    "name": {
+      "title": "Your name",
+      "type": "string"
+    },
+    "message": {
+      "title": "Your message",
+      "type": "string",
+      "ui": {
+        "ui:widget": "textarea"
+      }
+    }
+  },
+  "required": [
+    "blogPostSlug",
+    "name",
+    "message"
+  ]
+}
+```
+
+After setting this form source code, you should be seeing a form like this, that shows the name & message and also includes a hidden field for the blog post slug.
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a24230ce1b34ebaacdad_Screenshot-2023-01-25-at-22.40.56.png)
+
+YepCode process form previsualization
+
+The last step to build the YepCode process is to create our Webflow credential, that will allow YepCode to manage the CMS collections in your project.
+
+Just click on the new credential button:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a2d4091c1e355312d1e8_Screenshot-2023-01-25-at-22.44.27.png)
+
+Create a new Credential
+
+And then follow the instructions in our [docs page](https://yepcode.io/docs/processes/input-params) to create the Webflow credential:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a2ecc496b215bbd77c12_Screenshot-2023-01-24-at-19.30.21.png)
+
+Webflow credential including the API token
+
+## Enable YepCode forms for this process
+
+Time to enable the YepCode form for this process. [Our docs](https://yepcode.io/docs/forms) include the needed steps to go to the process dashboard and enable the forms flag:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a443e6e745804ca9d540_Screenshot-2023-01-25-at-22.50.30.png)
+
+Enable Forms for this YepCode process
+
+After enable the form, you could see the source code that needs to be used to embed the form in any webpage. Copy it, because we are going to need in the next step.
+
+## ‍Embed the form into the blog post page template
+
+Having done all the configuration in YepCode, it's time to go back to Webflow and add an HTML embed component to include the source code that will render the form:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a51afa703d81b0c91872_Screenshot-2023-01-25-at-22.53.36.png)
+
+Add one HTML embed component with form source code
+
+There are some changes from the provided code of the previous step. Every configuration option is detailed in our docs, and for this use case, we have added default values for the blog post slug hidden field, and also we have changed the [form theme](https://yepcode.io/docs/forms) to fit with our blog styles:
+
+```js
+<div
+  data-yepcode-form-team="yepcode-playground"
+  data-yepcode-form-process="f6e3bab2-4b0c-4ff5-8e2d-8b045132ef54"
+  data-yepcode-form-default-values='{
+    "blogPostSlug": "{Slug}"
+  }'
+  data-yepcode-form-theme="antd"
+></div>
+```
+
+To add the current blog post slug, we need to use the option **\+ Add Field** that the HTML Embed component provides.
+
+We also need to include the snippet with our forms SDK, but instead of add it in this component, we are adding it in the page configuration for the <head> section:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a599df704b79c81f7049_Screenshot-2023-01-25-at-22.56.32.png)
+
+Add YepCode Forms SDK in page configuration
+
+## It's done 🚀
+
+Time to test the full integration! To do that, it's needed first to publish your Webflow site. After that, if you navigate to the published version and you go into one blog post page, you should see the comments form:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a7782b53c505a1530ec2_empty-form.png)
+
+Form embedded in the blog post page
+
+If you fill the form and click on **Submit**, one YepCode process execution will be done. If you go to YepCode dashboard, you could see it:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1a86af65e7662e16d9e18_Screenshot-2023-01-25-at-23.08.26.png)
+
+YepCode process execution for submitted form (I)
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1af9fbbb7a84270bcea6b_Screenshot-2023-01-25-at-23.39.10.png)
+
+YepCode process execution for submitted form (II)
+
+Now, if you refresh the blog post page, you should see the new comment:
+
+![](../../assets/blog/support-visitor-comments-in-webflow-blog-using-yepcode-forms/63d1afe72b53c5090a5396f1_Screenshot-2023-01-25-at-23.40.30.png)
+
+And that's it! You have a fully featured comments' module in Webflow and you only need YepCode, as no Webflow forms or webhooks are used, just an embed YepCode form.
+
+Take into account that this is only one example of all the potential of YepCode forms. You could achieve much more complex features, like read information from any external service and then show it in the page where the form is embedded.
+
+Don't hesitate about contact us if you think this may help you to solve any of your information integration needs.

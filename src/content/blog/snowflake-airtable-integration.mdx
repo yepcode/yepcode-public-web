@@ -1,0 +1,39 @@
+---
+title: "Using YepCode to publish a Snowflake query result into Airtable"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/snowflake-airtable-integration/633b02f05ca5dbb4eda04086_Snowflake-query-to-Airtable.webp"
+thumbnailImage: "../../assets/blog/snowflake-airtable-integration/633b02f52463bd285b317a26_Snowflake-query-to-Airtable.webp"
+seoTitle: "Streamlining Data Transfer between Snowflake and Airtable"
+description: "Efficiently transfer data between Snowflake and Airtable by creating a process that executes an SQL query in Snowflake and streams the results to Airtable."
+postSummary: "We move information between Snowflake and Airtable by creating a process that executes an SQL query in Snowflake and streams the results to Airtable."
+pubDate: "2022-01-13"
+---
+
+[**Airtable**](https://www.airtable.com/) and [**Snowflake**](https://www.snowflake.com/) are two of the big players in the modern **databases ecosystem.**‍
+
+Their approach is quite different. **Snowflake** focus on **data warehouse** features **allowing the management of enormous amounts of information** in a faster and more flexible way than traditional databases. **Airtable**, on the other hand, is more similar to Excel on steroids, **allowing to build powerful applications with a NoCode approach**.
+
+### How can I move data from Snowflake to Airtable with YepCode?
+
+In this post we'll show how **YepCode** may be **used to move information between these two SaaS**, creatinga generic process that receives the following input **parameters**:
+
+-   The Snowflake query to be executed
+-   The Airtable base & view names
+-   The (optional) mapping between Snowflake and Airtable column names
+-   A flag to decide if use streams instead of loading all query results in memory (more suitable for a great number of rows)
+
+The process will start by **opening the connection** to Snowflake.
+
+Then it will **run the query in an asynchronous way** (using JS promises).
+
+When the query **returns all the rows** (or for each row in the streamed approach), **it will create new entries in Airtable** using the correct column mapping.
+
+### **Ok, but too much text, show me code!**
+
+In this case, **we are not doing a _copy&paste_** of the full process code (as we have done in one previous post for [**Cryptocurrency dollar-cost averaging sample**](https://yepcode.io/yepcode-universe/cryptocurrency-dollar-cost-averaging-using-yepcode/). Here, we only reference a public view of the process that is already created in our [**Sandbox account**](https://docs.yepcode.io/quickstart/sandbox).
+
+From that public page, you couldn't run the sample, but you only have to [**create your own YepCode account**](https://yepcode.io/get-started/) and create the needed [**Airtable**](https://docs.yepcode.io/integrations/airtable) **and** [**Snowflake**](https://docs.yepcode.io/integrations/snowflake) credentials to start to use it!
+
+Happy coding 🧑‍💻[](https://cloud.yepcode.io/public/sandbox/processes/sample-snowflake-query-to-airtable-base)
+
+[Click here to view the process in full detail](https://cloud.yepcode.io/public/sandbox/processes/sample-snowflake-query-to-airtable-base)

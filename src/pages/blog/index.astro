@@ -95,13 +95,14 @@ const posts = (await getCollection("blog")).sort(
             posts.map((post) => (
               <li>
                 <a href={`/blog/${post.id}/`}>
-                  {post.data.heroImage && (
+                  {post.data.thumbnailImage && (
                     <Image
-                      src={post.data.heroImage}
-                      alt={post.data.title + " hero image"}
+                      src={post.data.thumbnailImage}
+                      alt={post.data.title + " thumbnail image"}
                     />
                   )}
                   <h3 class="title">{post.data.title}</h3>
+                  <p class="post-summary">{post.data.postSummary}</p>
                   <p class="date">
                     <FormattedDate date={post.data.pubDate} />
                   </p>

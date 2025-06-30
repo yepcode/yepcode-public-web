@@ -1,0 +1,57 @@
+---
+title: "NodeJS streams to solve a data movement problem, minimizing memory and increasing speed"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/nodejs-stream-system-to-move-data-and-save-memory-consumption/633b01ff3d39f1adb22f9de5_NodeJS-streams.webp"
+thumbnailImage: "../../assets/blog/nodejs-stream-system-to-move-data-and-save-memory-consumption/633b0208b91ca5d571697325_NodeJS-streams.webp"
+mainVideo: "https://www.youtube.com/watch?v=re7036zMtsI"
+seoTitle: "Solving Data Movement Problems with NodeJS Streams & YepCode"
+description: "Optimize data transfer speed and minimize memory consumption with this tutorial on using NodeJS streams to solve complex data movement problems."
+postSummary: "We solved a data movement problem while minimizing memory consumption and with high-speed transfer data rates thanks to a NodeJS Stream system and FTP and SQL server integrations."
+pubDate: "2022-03-08"
+---
+
+As you may know, YepCode uses **JavaScript** as programming language, and **NodeJS** is the current execution engine.We are working to support other languages like **Python** or **Go!** in the future.
+
+NodeJS is an open-source, cross-platform, single-threaded **runtime environment** for building **fast and scalable** server-side and network **applications**.
+
+It uses a non-blocking, event-driven I/O architecture, making it efficient and **suitable for real-time applications**.
+
+One of the advantages of using NodeJS is that it allows you to **handle a large number of simultaneous connections with high performance**. It is fast, efficient and widely used for **Chatbots**, **Streaming** applications (Netflix uses it!) and **IOT**.
+
+As seen before, moving information between applications can be an extremely tedious task, especially if [**we are dealing with large volumes of data**](https://yepcode.io/using-yepcode/how-to-automate-efficiently-data-movements-from-google-bigquery-to-snowflake/).
+
+Today we bring you an example demonstrating how YepCode can solve a data movement problem while **minimizing memory consumption** and **with great transfer data rates.**
+
+### What can I use a NodeJS Stream for?
+
+A Stream is a flow of information that programmers usually use to **transfer data**. 'Streams' were built to **handle data in real-time** through a buffer.
+
+Their main advantage is that **you do not need to store the entire data in memory** at the same time, but parts of this data. So it can also process file streams that can be read in parts without their full context.
+
+Streams are very useful when we need to **query information** that comes **from multiple data sources**.
+
+This sample shows one need that one of our clients had, as they needed to [**download a CSV file**](https://docs.yepcode.io/libraries/request), [**process each CSV line**](https://docs.yepcode.io/libraries/csv), convert each entry to a JSON format upload it to an [**FTP server**](https://docs.yepcode.io/integrations/sftp) and also insert each row in a [**Microsoft SQL Server**](https://docs.yepcode.io/integrations/mssql) database. This use case could be a full project created from scratch, but with YepCode, and some dozens of lines of code, it's done!
+
+The YepCode **integrations used have streams support**, so we are able to create a stream from the file URL, **pipe** the content to a transformer that **converts each entry to a JSON**, and in parallel, **pipe that JSON to the FTP and SQL Server integrations**. All the process is extremely **fast** and with no memory consumption!
+
+### Watch how to execute this Stream process in the next video
+
+If you watch the video below, you will see an example of the execution of this process.
+
+As you may see, we copy the **URL** and when we hit the execution, **italready asks us for the URLof the file** that we include. We run it and this is already processing all the data.
+
+As we have said before, the process does not load all data in memory.
+
+You can also observe that the **process has finished successfully**, **processing** the entire **89 rows**.
+
+If you now go to the **FTP server** we will see that **the generated JSON data is here**.
+
+Here you can also see that the process has converted the **.CSV to a JSON** format.
+
+And finally, if you go to the **SQL Server Database**, you will see that we have 89 records.
+
+Remember that our [**Docs platform**](https://docs.yepcode.io/) includes every single detail to make the most out of YepCode,
+
+Enjoy the video and...
+
+Happy coding! 🧑‍💻

@@ -1,0 +1,46 @@
+---
+title: "Using YepCode to collect and visualize strategic data from your e-commerce"
+categories: [Using YepCode]
+mainImage: "../../assets/blog/yepcode-to-get-strategic-ecommerce-data/633b03a3e9bf1114365159bc_Ecommerce-data-collection-_-visualization.webp"
+thumbnailImage: "../../assets/blog/yepcode-to-get-strategic-ecommerce-data/633b03a74eabd7b1ac664e73_Ecommerce-data-collection-_-visualization.webp"
+mainVideo: "https://www.youtube.com/watch?v=jjJ9t7QVrhg"
+seoTitle: "Collect and visualize strategic data from your e-commerce with YepCode"
+description: "Collect and visualize strategic data from your e-commerce MySQL database to help you improve your business and save time"
+postSummary: "This is an example showing how YepCode may be used to retrieve information from a MySQL database and expose that info in a HTTP endpoint with JSON format."
+pubDate: "2022-01-27"
+---
+
+As seen before, [**YepCode can be used for tedious ETL tasks**](https://yepcode.io/using-yepcode/how-to-automate-efficiently-data-movements-from-google-bigquery-to-snowflake/) that can be time-consuming to perform. Just simply using its automation potential.
+
+From the point of view that we can offer as its creators, we believe that the potential of Yepcode is enormous. And **capable of dealing with very complex processes that involve the treatment of large volumes of data,** in a very efficient way.
+
+Today, we are happy to tell you **how to retrieve, filter and extract your most important e-commerce data.** This can help you improve your business and save time configuring servers, tools or scripts.
+
+### So, let's code!
+
+This example shows how we can use [**#YepCode**](https://twitter.com/hashtag/YepCode?src=hashtag_click) to retrieve information from a **MySQL** database of an online store built with **Woocommerce** and expose that information to a **JSON-formatted HTTP endpoint.**
+
+The first step to get the most out of your e-commerce data is to create a credential that stores the information to access the MySQL **database by giving access to them from YepCode cloud.**
+
+We’ll use the [**YepCode tunneling system**](https://docs.yepcode.io/network-access), which allows using SSH tunnels to connect to services behind a firewall.
+
+Next, we’ll create a new process accepting the product name filter as a parameter.
+
+We’ll use promises to ensure that the result is returned after every needed work has been done.
+
+Then we’ll add the process source **code** to:
+
+-   Open the database **connection**
+-   Run the **query** with the filter as param
+-   Close **connection**
+-   And return the **results**
+
+As we want to expose that information in an HTTP **endpoint,** we’ll create a new **Webhook** **Trigger** that will generate a **cURL** sample to run the Webhook from a terminal.
+
+We’ll run a synchronous execution to retrieve and show the final result.
+
+Remember that our [**Docs platform**](https://docs.yepcode.io/) includes every single detail to make the most out of YepCode,
+
+You can watch this process in the next video!
+
+Happy coding!
