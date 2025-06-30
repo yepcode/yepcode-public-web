@@ -22,6 +22,12 @@ import privaliaLogo from "../assets/home/clients/privalia.svg";
 import ImageSlider from "../components/ImageSlider.astro";
 import mcpImage from "../assets/home/images/mcp.svg";
 import Card from "../components/Card.astro";
+import { marked } from "marked";
+const { frontmatter } = Object.values(
+  import.meta.glob<{ frontmatter: { cards: any[] } }>("../content/index.mdx", {
+    eager: true,
+  })
+)[0];
 ---
 
 <!doctype html>
@@ -181,36 +187,17 @@ import Card from "../components/Card.astro";
 
       <section class="mt-32">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Card
-            title="Run AI Code, Not Infrastructure"
-            description="Skip DevOps headaches. YepCode runs your AI-generated code in secure, scalable environments — ready to connect with APIs, databases, or cloud services out of the box."
-            icon="code"
-          />
-          <Card
-            title="Full Control, Zero Compromise"
-            description="Access and manage everything: secrets, environment variables, dependencies, logs, and audit trails. You're always in control of what runs and how."
-            icon="cloud"
-          />
-          <Card
-            title="From Developers, for Developers"
-            description="Write the code in our web editor or offline using our CLI to push changes, use versions and alias, sync your code with your git repos and manage deployment environments."
-            icon="share"
-          />
-          <Card
-            title="Connect AI with the Real World"
-            description="Trigger executions as MCP tools or using webhooks, schedules, or our Rest API. Build agent workflows that plug into your services and systems with minimal effort."
-            icon="play"
-          />
-          <Card
-            title="Secure by Design"
-            description="Every function runs in an isolated container with strict boundaries. Secrets are encrypted, access is logged, and everything is audited."
-            icon="shield"
-          />
-          <Card
-            title="Enterprise-Ready from Day One"
-            description="SOC 2 and GDPR compliant. Deploy on-premise or in your cloud. Integrate with your identity provider and meet your audit and SLA requirements."
-            icon="server"
-          />
+          {
+            frontmatter?.cards?.map(
+              (card: { title: string; description: string; icon: string }) => (
+                <Card
+                  title={card.title}
+                  description={card.description}
+                  icon={card.icon}
+                />
+              )
+            )
+          }
         </div>
       </section>
       <Footer />

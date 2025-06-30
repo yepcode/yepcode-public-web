@@ -1,0 +1,104 @@
+---
+interface ImageTab {
+  label: string;
+  img: string;
+  description: string;
+}
+
+interface Props {
+  tabs: ImageTab[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<div class="max-w-4xl mx-auto p-4" id="tabs">
+  <!-- Tab Buttons -->
+  <div class="flex flex-wrap gap-2 mb-4">
+    {
+      tabs.map((tab, i) => (
+        <button
+          type="button"
+          class={`px-4 py-2 rounded border text-sm font-medium transition-colors ${
+            i === 0
+              ? "bg-blue-600 text-white border-blue-600"
+              : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
+          }`}
+          data-index={i}
+        >
+          {tab.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Tab Contents -->
+  {
+    tabs.map((tab, i) => (
+      <div
+        class={`tab-content ${i === 0 ? "block" : "hidden"}`}
+        data-content={i}
+      >
+        <div class="relative">
+          <img
+            src={tab.img}
+            alt={tab.label}
+            class="tab-img w-full max-w-xl rounded shadow mb-4 opacity-100 transition-opacity duration-300"
+            loading="lazy"
+          />
+        </div>
+        <p class="text-gray-700">{tab.description}</p>
+      </div>
+    ))
+  }
+</div>
+
+<!-- Fade Animation Script -->
+<script type="module" is:inline>
+  const container = document.getElementById("tabs");
+  const buttons = container.querySelectorAll("button[data-index]");
+  const contents = container.querySelectorAll(".tab-content");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const index = btn.dataset.index;
+
+      // Update active tab button styles
+      buttons.forEach(
+        (b) =>
+          b.classList.replace("bg-blue-600", "bg-gray-100") ||
+          b.classList.replace("text-white", "text-gray-800") ||
+          b.classList.replace("border-blue-600", "border-gray-300")
+      );
+      btn.classList.replace("bg-gray-100", "bg-blue-600");
+      btn.classList.replace("text-gray-800", "text-white");
+      btn.classList.replace("border-gray-300", "border-blue-600");
+
+      // Find current and next content
+      const current = container.querySelector(".tab-content:not(.hidden)");
+      const next = container.querySelector(
+        `.tab-content[data-content="${index}"]`
+      );
+
+      const currentImg = current.querySelector("img");
+      const nextImg = next.querySelector("img");
+
+      // Start fade out
+      currentImg.classList.add("opacity-0");
+
+      setTimeout(() => {
+        // Hide current, show next
+        current.classList.add("hidden");
+        currentImg.classList.remove("opacity-0");
+
+        next.classList.remove("hidden");
+
+        // Ensure next image starts hidden then fades in
+        nextImg.classList.add("opacity-0");
+        setTimeout(() => {
+          nextImg.classList.remove("opacity-0");
+        }, 10);
+      }, 300); // match transition duration
+    });
+  });
+</script>
