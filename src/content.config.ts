@@ -20,6 +20,6 @@ export const collections = { blog };
 
 import { marked } from "marked";
 // @ts-ignore
-String.prototype.toHtml = function () {
+String.prototype.mdToHtml = function () {
   return marked(this.toString());
 };

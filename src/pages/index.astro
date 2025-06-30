@@ -46,7 +46,7 @@ const { frontmatter: content } = Object.values(
           />
           <p
             class="text-white/70 mt-16 text-lg"
-            set:html={content.hero.description.toHtml()}
+            set:html={content.hero.description.mdToHtml()}
           />
           <div class="mt-8 flex gap-8">
             {
@@ -99,7 +99,7 @@ const { frontmatter: content } = Object.values(
         />
         <p
           class="text-white/70 mt-8 text-lg"
-          set:html={content.integration.description.toHtml()}
+          set:html={content.integration.description.mdToHtml()}
         />
         <div class="mt-16">
           <Tabs syncKey="yc-run-code">
@@ -132,14 +132,14 @@ const { frontmatter: content } = Object.values(
             <Image src={mcpImage} alt="MCP Logo" />
             <p
               class="text-white/70 text-md"
-              set:html={content.integration.mcp.description.toHtml()}
+              set:html={content.integration.mcp.description.mdToHtml()}
             />
           </div>
           <div class="flex items-center flex-col gap-4">
             <h2>{content.integration.rest.title}</h2>
             <p
               class="text-white/70 text-md"
-              set:html={content.integration.rest.description.toHtml()}
+              set:html={content.integration.rest.description.mdToHtml()}
             />
           </div>
         </div>
@@ -174,7 +174,7 @@ const { frontmatter: content } = Object.values(
             content.cards?.map((card: any) => (
               <Card
                 title={card.title}
-                description={card.description.toHtml()}
+                description={card.description.mdToHtml()}
                 icon={card.icon}
               />
             ))
