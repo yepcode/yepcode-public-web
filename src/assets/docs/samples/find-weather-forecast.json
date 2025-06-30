@@ -1,0 +1,9 @@
+{
+  "name": "Find weather forecast 🌦",
+  "description": "Show the weather forecast using weatherbit API with the provided latitude and longitude.",
+  "script": {
+    "sourceCode": "const { context: { parameters } } = yepcode\n\nconst _ = require(\"lodash\");\n\nconst axios = require('axios');\n\n// We could create a credential for this client\nconst weatherbitClient = axios.create({\n    baseURL: \"https://api.weatherbit.io/v2.0\",\n    headers: { \"Accept\": \"application/json\" }\n});\n\nweatherbitClient.get(\"/forecast/daily\", {\n    params: {\n        \"key\": yepcode.env.WEATHERBIT_API_KEY,\n        \"lat\": parameters.lat ?? 43.325093,\n        \"lon\": parameters.lon ?? -8.364285,\n        \"lang\": \"en\"\n    }\n}).then((response) => {\n    console.log(\"Day forecasting for city \" + response.data.city_name + \":\")\n    _.forEach(response.data.data, (day) => {\n        console.log(\"On \" + day.valid_date + \" weather will be \" + day.weather.description + \" with a lowest temperature of \" + day.low_temp + \" and a higher of \" + day.max_temp)\n    })\n}).catch((err) => {\n    console.error('Error executing API query', err.message)\n    throw err\n})",
+    "parametersSchema": "{\"$id\":\"http://example.com/root.json\",\"$schema\":\"http://json-schema.org/draft-07/schema\",\"type\":\"object\",\"title\":\"Weather forecast location\",\"properties\":{\"lat\":{\"type\":\"number\",\"description\":\"The location latitude\",\"ui:schema\":{\"ui:help\":\"Default: 43.325093\"}},\"lon\":{\"type\":\"number\",\"description\":\"The location longitude\",\"ui:schema\":{\"ui:help\":\"Default: -8.364285\"}}}}"
+  },
+  "scriptLibraries": []
+}

@@ -1,0 +1,84 @@
+---
+title: Datastore
+description: Explore YepCode's Datastore, a simple, fast, and powerful key-value storage system.
+---
+
+import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
+
+# YepCode Datastore
+
+YepCode Datastore is a robust key-value storage system that is both simple and fast. It's designed to empower your processes through accessible [source code integration](/docs/processes/source-code/).
+
+With YepCode Datastore, you can store and retrieve data within your processes and modules, facilitating information sharing across different executions. Unlock a myriad of possibilities, including:
+
+- Preserving process states between executions (e.g., maintaining the last loaded date for use in subsequent executions of an ETL process).
+- Efficient session management (e.g., performing a login only if your session has expired).
+- Maintaining a shared team global state (e.g., tracking counters, execution usage, and more).
+
+## Claim Your Access
+
+Access to YepCode Datastore is exclusive to our [paid plans](/docs/plans-and-limits#datastore). If you're interested in trying it out, simply [reach out to us](https://yepcode.io/contact/).
+
+## Usage
+
+Manipulating Datastore values is accomplished through the following YepCode commands:
+
+<Tabs syncKey="programming-language">
+    <TabItem label="JavaScript" icon="seti:javascript">
+```js title="Configure a dependency to use the last version"
+// @add-package openai
+const OpenAI = require('openai');
+
+const client = new OpenAI({
+  apiKey: yepcode.env.OPENAI_API_KEY,
+});
+
+async function main() {
+  const chatCompletion = await client.chat.completions.create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
+    model: 'gpt-4o',
+  });
+}
+
+main();
+```
+
+```js title="Configure a dependency to use a specific version"
+// @add-package openai=4.79.1
+const OpenAI = require('openai');
+
+...
+```
+    </TabItem>
+    <TabItem label="Python" icon="seti:python">
+```py title="Configure a dependency to use the last version"
+# @add-package openai
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=yepcode.env.OPENAI_API_KEY
+)
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Say this is a test",
+        }
+    ],
+    model="gpt-4o",
+)
+```
+
+```py title="Configure a dependency to use a specific version"
+# @add-package openai=1.59.8
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=yepcode.env.OPENAI_API_KEY
+)
+
+...
+```
+    </TabItem>
+</Tabs>

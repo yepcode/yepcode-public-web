@@ -1,0 +1,38 @@
+---
+title: Scheduled Executions
+description: Discover how to use the YepCode scheduling features.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+
+# Scheduled Executions
+
+A manual execution may not be the best if you are trying to automate tasks. A much more interesting execution approach is the scheduled.
+
+YepCode supports two scheduled configurations, fixed date and cron expression, and both of them are configured from the process page using the calendar icon:
+
+<Screenshot src="executions-schedule-icon.png" />
+
+## Fixed Date Execution
+
+A process can be configured to be executed on a certain date and time.
+
+With this configuration, the process will be executed when that moment is reached.
+
+In this sample, we are scheduling a process execution for `27/11/2021 at 10 am`:
+
+<Screenshot src="executions-schedule-fixed.png" />
+
+## Periodic Executions
+
+If you need to start an execution with a periodic configuration, you can use the integrated form that allows you to build the periodicity, or if you prefer, we also accept a [cron expression](https://en.wikipedia.org/wiki/Cron).
+
+<Screenshot src="executions-schedule.png" />
+
+## Pause a Periodic Execution
+
+If you need to pause a periodic execution, you can use the schedule summary to pause the execution.
+
+When you want to resume it, you will only have to activate it from the schedule summary.
+
+<Screenshot src="executions-schedule-pause.png" />

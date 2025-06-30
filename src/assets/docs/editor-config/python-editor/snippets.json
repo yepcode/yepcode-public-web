@@ -1,0 +1,1028 @@
+{
+  "snippets": [
+    {
+      "label": "YepCode: Input parameters const",
+      "code": "parameters = yepcode.context.parameters"
+    },
+    {
+      "label": "YepCode: Import module",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Use team variable",
+      "code": "${1:variable} = yepcode.env.${2:variableName};"
+    },
+    {
+      "label": "YepCode: Read from datastore",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Write to datastore",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Delete from datastore",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Execution attributes",
+      "code": "id, comment = yepcode.execution.values()"
+    },
+    {
+      "label": "YepCode: Process attributes",
+      "code": "processId, processName = yepcode.execution.process.values()"
+    },
+    {
+      "label": "YepCode: Schedule attributes",
+      "code": "scheduleId, scheduleComment = yepcode.execution.get(\"schedule\", {}).values()"
+    },
+    {
+      "label": "YepCode AWS Cognito: New integration from credential",
+      "code": "aws_cognito_client = yepcode.integration.aws_cognito(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS Cognito: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\n\naws_cognito_client = session.client(\"cognito\")"
+    },
+    {
+      "label": "YepCode AWS Cognito: Create identify provider",
+      "code": "response = aws_cognito_client.create_identity_provider(\n    UserPoolId = userPoolId,\n    ProviderName = providerName,\n    ProviderType = providerType,\n    ProviderDetails = {\n        keys: providerDetails,\n    }\n)"
+    },
+    {
+      "label": "YepCode AWS Cognito: Create user pool",
+      "code": "response = aws_cognito_client.create_user_pool(\n    PoolName =  poolName\n    LambdaConfig = {\n        CustomSMSSender: {\n            'LambdaVersion': lambdaVersion,\n            'LambdaArn': lambdaArn,\n        },\n        CustomEmailSender: {\n            'LambdaVersion': lambdaVersion,\n            'LambdaArn': lambdaArn,\n        }\n    },\n    SmsConfiguration = {\n        'SnsCallerArn': snsCallerArn\n    },\n    UsernameConfiguration = {\n        'CaseSensitive': caseSensitive\n    },\n    AccountRecoverySetting: {\n        'RecoveryMechanisms': [\n            {\n                'Priority': recoveryMechanismsPriority,\n                'Name': recoveryMechanismsName,\n            },\n        ]\n    }\n)\n"
+    },
+    {
+      "label": "YepCode AWS Cognito: List identity providers",
+      "code": "response = aws_cognito_client.list_identity_providers(\n    UserPoolId=userPoolId\n)\n\nfor provider in response['Providers']:\n    print(provider)\n"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: New integration from credential",
+      "code": "aws_dynamodb_client = yepcode.integration.aws_dynamodb(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\naws_dynamodb_client = session.client(\"dynamodb\")"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: List tables",
+      "code": "response = aws_dynamodb_client.list_tables()\n\nfor table in response.get(\"TableNames\", []):\n    print(table)"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: Get all table items",
+      "code": "response = aws_dynamodb_client.scan(TableName='table-name')\n\nfor item in response.get(\"Items\", []):\n    print(item)"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: Put item",
+      "code": "item = {\n    \"key-property-name\": {\"S\": \"key-property-value\"},\n    \"other-prop\": {\"S\": \"other-value\"},\n}\n\naws_dynamodb_client.put_item(\n  TableName='table-name',\n  Item=item\n)"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: Get item",
+      "code": "response = aws_dynamodb_client.get_item(\n  TableName='table-name',\n  Key={'key-property-name': {'S': 'key-property-value'}}\n)\nprint(response.get(\"Item\"))"
+    },
+    {
+      "label": "YepCode AWS Lambda: New integration from credential",
+      "code": "aws_lambda_client = yepcode.integration.aws_lambda(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS Lambda: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\naws_lambda_client = session.client(\"lambda\")"
+    },
+    {
+      "label": "YepCode AWS Lambda: List functions",
+      "code": "response = aws_lambda_client.list_functions()\n\nfor function in response['Functions']:\n    print(function)"
+    },
+    {
+      "label": "YepCode AWS Lambda: Invoke function",
+      "code": "import json\n\npayload = {\n    \"foo\": \"bar\"\n}\n\nresponse = aws_lambda_client.invoke(\n    FunctionName='funcName',\n    Payload=json.dumps(payload),\n)\nprint(response['Payload'].read().decode('utf-8'))"
+    },
+    {
+      "label": "YepCode AWS Lambda: Get function",
+      "code": "response = aws_lambda_client.get_function(\n    FunctionName='funcName',\n)\n\nprint(response)"
+    },
+    {
+      "label": "YepCode AWS Redshift: New integration from credential",
+      "code": "aws_redshift_client = yepcode.integration.aws_redshift(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS Redshift: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\naws_redshift_client = session.client(\"redshift-data\")"
+    },
+    {
+      "label": "YepCode AWS Redshift: Execute statement",
+      "code": "response = aws_redshift_client.execute_statement(\n    ClusterIdentifier=\"cluster-name\",\n    Database=\"db-name\",\n    DbUser=\"db-user\",\n    Sql=\"sql\"\n)\n\nprint(response.get(\"Id\"))"
+    },
+    {
+      "label": "YepCode AWS Redshift: Execute statement with parameters",
+      "code": "sql = \"select * from users where id = :id\"\nparams = [{\"name\": \"id\", \"value\": \"1\"}]\n\nresponse = aws_redshift_client.execute_statement(\n    ClusterIdentifier=\"cluster-name\",\n    Database=\"db-name\",\n    DbUser=\"db-user\",\n    Sql=sql,\n    Parameters=params\n)\n\nprint(response.get(\"Id\"))"
+    },
+    {
+      "label": "YepCode AWS Redshift: Describe statement",
+      "code": "response = aws_redshift_client.describe_statement(Id=\"statement-id\")\n\nprint(response.get(\"Status\"))"
+    },
+    {
+      "label": "YepCode AWS Redshift: Get statement result",
+      "code": "response = aws_redshift_client.get_statement_result(Id=\"statement-id\")\n\nfor record in response.get(\"Records\", []):\n    print(record)"
+    },
+    {
+      "label": "YepCode AWS Redshift: List statements",
+      "code": "result = aws_redshift_client.list_statements()\n\nfor statement in result.get(\"Statements\", []):\n    print(statement)"
+    },
+    {
+      "label": "YepCode AWS S3: New integration from credential",
+      "code": "aws_s3_client = yepcode.integration.aws_s3(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS S3: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\naws_s3_client = session.client(\"s3\")"
+    },
+    {
+      "label": "YepCode AWS S3: List buckets",
+      "code": "response = aws_s3_client.list_buckets()\n\nfor bucket in response['Buckets']:\n    print(bucket)"
+    },
+    {
+      "label": "YepCode AWS S3: Create a bucket",
+      "code": "aws_s3_client.create_bucket(Bucket=\"bucket-name\")"
+    },
+    {
+      "label": "YepCode AWS S3: Delete a bucket",
+      "code": "aws_s3_client.delete_bucket(Bucket=\"bucket-name\")"
+    },
+    {
+      "label": "YepCode AWS S3: Get file content",
+      "code": "response = aws_s3_client.get_object(\n  Bucket=\"bucket_name\", Key=\"object_key\"\n)\nfile_stream = response['Body']\n\nprint(file_stream.read().decode('utf-8'))"
+    },
+    {
+      "label": "YepCode AWS S3: Upload file",
+      "code": "aws_s3_client.put_object(\n  Bucket=\"bucket_name\", Key=\"object_key\", Body=\"object_body\"\n)\n"
+    },
+    {
+      "label": "YepCode AWS S3: Upload file with stream",
+      "code": "import io\n\nsample_file_content = \"\"\"\nSample file content\nWith 2 lines\n\"\"\"\n\ncontent_stream = io.BytesIO()\ncontent_stream.write(sample_file_content.encode('utf-8'))\n# Reset stream position to the beginning\ncontent_stream.seek(0)\n\naws_s3_client.put_object(\n  Bucket=\"bucket_name\", Key=\"object_key\", Body=content_stream\n)"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: New integration from credential",
+      "code": "aws_secrets_manager_client = yepcode.integration.aws_secrets_manager(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\naws_secrets_manager_client = session.client(\"secretsmanager\")"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: Create secret",
+      "code": "aws_secrets_manager_client.create_secret(\n        Name=\"secret-name\",\n        SecretString=\"secret-value-to-store\"\n    )"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: List secrets",
+      "code": "response = aws_secrets_manager_client.list_secrets()\nsecrets = response['SecretList']\nfor secret in secrets:\n    print(f\"Found secret with name {secret['Name']}\")"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: Get secret value",
+      "code": "response = aws_secrets_manager_client.get_secret_value(\n    SecretId=\"secret-name-or-ARN\"\n)\n# Secret value comes in response.SecretString or response.SecretBinary\n# If you store other types of secrets different than key value pairs,\n# then it will come as a JSON string"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: Delete secret",
+      "code": "aws_secrets_manager_client.delete_secret(\n        SecretId=\"secret-name-or-ARN\",\n        ForceDeleteWithoutRecovery=True\n    )"
+    },
+    {
+      "label": "YepCode AWS SQS: New integration from credential",
+      "code": "aws_sqs_client = yepcode.integration.aws_sqs(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode AWS SQS: New integration from plain authentication data",
+      "code": "import boto3\n\nsession = boto3.Session(\n    aws_access_key_id=\"accessKeyId\",\n    aws_secret_access_key=\"secretAccessKey\",\n    region_name=\"region\"\n)\naws_sqs_client = session.client(\"sqs\")"
+    },
+    {
+      "label": "YepCode AWS SQS: List queues",
+      "code": "response = aws_sqs_client.list_queues()\n\nfor queue_url in response.get('QueueUrls', []):\n    print(queue_url)"
+    },
+    {
+      "label": "YepCode AWS SQS: Send message",
+      "code": "aws_sqs_client.send_message(\n    QueueUrl=\"the-queue-url\",\n    MessageBody=\"the-message-body\"\n)"
+    },
+    {
+      "label": "YepCode AWS SQS: Receive messages",
+      "code": "aws_sqs_client.receive_message(\n    QueueUrl=\"the-queue-url\",\n    MaxNumberOfMessages=10\n)\n\nfor message in response.get('Messages', []):\n    print(message)"
+    },
+    {
+      "label": "YepCode HTTP: New integration from credential",
+      "code": "import requests\nsession = yepcode.integration.http(\"credential_slug\")"
+    },
+    {
+      "label": "YepCode HTTP: New integration from plain authentication data",
+      "code": "import requests\nfrom integrations.http import BaseUrlSession\n\nsession = BaseUrlSession(\"https://some-domain.com/api/\",\n  auth=(\"user\", \"password\"), headers={\"X-Custom-Header\": \"foobar\"})"
+    },
+    {
+      "label": "YepCode HTTP: GET",
+      "code": "try:\n  response = session.get(\"/users/12345\")\n\n  # Raise an exception if an error occurs\n  response.raise_for_status()\n\n  print(\"Response status: \", response.status_code)\n  print(\"User: \", response.json())\n  print(response.headers)\nexcept requests.exceptions.HTTPError as e:\n  logging.error(\"HTTP error: \" + str(e))\nexcept requests.exceptions.ConnectionError as e:\n  logging.error(\"Connection error: \" + str(e))\nexcept requests.exceptions.Timeout as e:\n  logging.error(\"Request timeout: \" + str(e))\nexcept requests.exceptions.RequestException as e:\n  logging.error(\"Error: \" + str(e))"
+    },
+    {
+      "label": "YepCode HTTP: POST",
+      "code": "try:\n  response = session.post(\"/users/12345\",\n    json={\"firstName\": \"John\", \"lastName\": \"Doe\"})\n\n  # Raise an exception if an error occurs\n  response.raise_for_status()\n\n  print(\"Response status: \", response.status_code)\n  print(\"User was updated successfully: \", response.json().user)\n  print(response.headers)\nexcept requests.exceptions.HTTPError as e:\n  logging.error(\"HTTP error: \" + str(e))\nexcept requests.exceptions.ConnectionError as e:\n  logging.error(\"Connection error: \" + str(e))\nexcept requests.exceptions.Timeout as e:\n  logging.error(\"Request timeout: \" + str(e))\nexcept requests.exceptions.RequestException as e:\n  logging.error(\"Error: \" + str(e))"
+    },
+    {
+      "label": "YepCode HTTP: PUT",
+      "code": "try:\n  response = session.put(\"/users/12345\",\n    json={\"firstName\": \"John\", \"lastName\": \"Doe\"})\n\n  # Raise an exception if an error occurs\n  response.raise_for_status()\n\n  print(\"Response status: \", response.status_code)\n  print(\"User was updated successfully: \", response.json().user)\n  print(response.headers)\nexcept requests.exceptions.HTTPError as e:\n  logging.error(\"HTTP error: \" + str(e))\nexcept requests.exceptions.ConnectionError as e:\n  logging.error(\"Connection error: \" + str(e))\nexcept requests.exceptions.Timeout as e:\n  logging.error(\"Request timeout: \" + str(e))\nexcept requests.exceptions.RequestException as e:\n  logging.error(\"Error: \" + str(e))"
+    },
+    {
+      "label": "YepCode HTTP: DELETE",
+      "code": "try:\n  response = session.delete(\"/users/12345\")\n\n  # Raise an exception if an error occurs\n  response.raise_for_status()\n\n  print(\"Response status: \", response.status_code)\n  print(\"User was deleted successfully: \", response.json().user)\n  print(response.headers)\nexcept requests.exceptions.HTTPError as e:\n  logging.error(\"HTTP error: \" + str(e))\nexcept requests.exceptions.ConnectionError as e:\n  logging.error(\"Connection error: \" + str(e))\nexcept requests.exceptions.Timeout as e:\n  logging.error(\"Request timeout: \" + str(e))\nexcept requests.exceptions.RequestException as e:\n  logging.error(\"Error: \" + str(e))"
+    },
+    {
+      "label": "YepCode Azure Blob: New integration from credential",
+      "code": "azure_blob_client = yepcode.integration.azure_blob(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode Azure Blob: New integration from plain authentication data",
+      "code": "from azure.storage.blob import BlobServiceClient\n\nazure_blob_client = BlobServiceClient.from_connection_string(conn_str=\"your_connection_string\");"
+    },
+    {
+      "label": "YepCode Azure Blob: Create container",
+      "code": "container_client = azure_blob_client.get_container_client(\"container-name\")\n\ncreate_container_response = container_client.create_container()\nprint('Create container successfully', create_container_response)"
+    },
+    {
+      "label": "YepCode Azure Blob: List containers",
+      "code": "containers = azure_blob_client.list_containers()\nfor container in containers:\n  print(f\"Found container: {container['name']}\")"
+    },
+    {
+      "label": "YepCode Azure Blob: Delete container",
+      "code": "container_client = azure_blob_client.get_container_client(\"container-name\")\n\ncontainer_client.delete_container()\nprint('Deleted container!')"
+    },
+    {
+      "label": "YepCode Azure Blob: List blobs",
+      "code": "container_client = azure_blob_client.get_container_client(\"container-name\")\n\nblobs = container_client.list_blobs()\nfor blob in blobs:\n  print(f\"Found blob: {blob.name}\")"
+    },
+    {
+      "label": "YepCode Azure Blob: Create blob from string",
+      "code": "container_client = azure_blob_client.get_container_client(\"container-name\")\nblock_blob_client = container_client.get_blob_client(\"blob-name\")\n\ncontent = \"content\"\nupload_blob_response = block_blob_client.upload_blob(\n  content,\n  len(content)\n)\nprint(f\"Created block blob successfully: {upload_blob_response})"
+    },
+    {
+      "label": "YepCode Azure Blob: Create blob from stream",
+      "code": "container_client = azure_blob_client.get_container_client(\"container-name\")\nblock_blob_client = container_client.get_blob_client(\"blob-name\")\n\nblock_blob_client.upload_blob(stream)\nprint(\"Created block blob successfully\")"
+    },
+    {
+      "label": "YepCode Azure Blob: Read blob content",
+      "code": "container_client = azure_blob_client.get_container_client(\"container-name\")\nblob_client = container_client.get_blob_client(\"blob-name\")\n\ndownload_block_response = blob_client.download_blob(encoding='UTF-8')\ndata = download_block_response.readall()\n\nprint(f\"Blob contents: {data}\")"
+    },
+    {
+      "label": "YepCode Cassandra: New integration from credential",
+      "code": "cassandra_client = yepcode.integration.cassandra(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode Cassandra: New integration from plain authentication data",
+      "code": "from cassandra.cluster import Cluster\n\ncassandra_client = Cluster(['192.168.0.1', '192.168.0.2'])\n\n#The connect() method takes an optional keyspace argument which sets the default keyspace for all queries made through that Session\nsession = cluster.connect('mykeyspace')"
+    },
+    {
+      "label": "YepCode Cassandra: New integration with authentication data",
+      "code": "from cassandra.cluster import Cluster, PlainTextAuthProvider\n\nauth_provider = PlainTextAuthProvider(username=\"username\", password=\"password\")\ncassandra_client = Cluster(['192.168.0.1', '192.168.0.2'], auth_provider=auth_provider)\n\n#The connect() method takes an optional keyspace argument which sets the default keyspace for all queries made through that Session\nsession = cluster.connect('mykeyspace')"
+    },
+    {
+      "label": "YepCode Cassandra: Executes a query",
+      "code": "rows = cassandra_client.execute('SELECT name, age, email FROM users')\n\nfor user_row in rows:\n    print(user_row.name, user_row.age, user_row.email)\n"
+    },
+    {
+      "label": "YepCode Cassandra: Prepared Statements",
+      "code": "user_lookup_stmt = cassandra_client.prepare(\"SELECT * FROM users WHERE user_id=?\")\n\nusers = []\nfor user_id in user_ids_to_query:\n    user = session.execute(user_lookup_stmt, [user_id])\n    users.append(user)"
+    },
+    {
+      "label": "YepCode Cassandra: Delete container",
+      "code": "cassandra_client.execute((\"CREATE KEYSPACE IF NOT EXISTS examples \"\n                    \"WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1' }\"))\ncassandra_client.execute(\"USE examples\")\ncassandra_client.execute(\"CREATE TABLE IF NOT EXISTS tbl_sample_kv (id uuid, value text, PRIMARY KEY (id))\")\ncassandra_client = session.prepare(\"INSERT INTO tbl_sample_kv (id, value) VALUES (?, ?)\")\n\nfor i in range(TOTAL_QUERIES):\n    cassandra_client.execute_async(prepared_insert, (uuid.uuid4(), str(i)))\n"
+    },
+    {
+      "label": "YepCode Cassandra: Paging",
+      "code": "from cassandra.query import SimpleStatement\n\nquery = \"SELECT * FROM users\"\nstatement = SimpleStatement(query, fetch_size=10)\nresults = cassandra_client.execute(statement)\n\n# save the paging_state somewhere and return current results\nweb_session['paging_state'] = results.paging_state\n\n# resume the pagination sometime later...\nstatement = SimpleStatement(query, fetch_size=10)\nps = web_session['paging_state']\nresults = session.execute(statement, paging_state=ps)"
+    },
+    {
+      "label": "YepCode ClickHouse: New integration from credential",
+      "code": "clickhouse = yepcode.integration.clickhouse('credential-slug')"
+    },
+    {
+      "label": "YepCode ClickHouse: New integration from plain authentication data",
+      "code": "import clickhouse_connect\n\nclickhouse = clickhouse_connect.get_client(\n  host='https://play-api.clickhouse.com',\n  port=8123,\n  username='playground',\n  password='clickhouse',\n  database='my_database_name'\n)"
+    },
+    {
+      "label": "YepCode ClickHouse: Execute query",
+      "code": "result_set = clickhouse.query(query='SELECT * FROM my_table FORMAT JSONEachRow')\ndataset = result_set.result_rows\nprint(dataset)"
+    },
+    {
+      "label": "YepCode ClickHouse: Execute query (stream)",
+      "code": "with clickhouse.query_row_block_stream('SELECT * FROM my_table FORMAT JSONEachRow') as stream:\n    for block in stream:\n        for row in block:\n            print(row)"
+    },
+    {
+      "label": "YepCode ClickHouse: Insert",
+      "code": "data = [\n    [42, 'foo'],\n    [43, 'bar'],\n]\n\nclickouse.insert('my_table', data)"
+    },
+    {
+      "label": "YepCode Elasticsearch: New integration from credential",
+      "code": "elasticsearch = yepcode.integration.elasticsearch('credential-slug')"
+    },
+    {
+      "label": "YepCode Elasticsearch: New integration from plain authentication data",
+      "code": "from elasticsearch import Elasticsearch\n\n# Use the params you need for your use case\nelasticsearch = Elasticsearch(\n    cloud_id=\"your-cloud-id\",\n    # hosts=\"https://localhost:9200\",\n    # basic_auth=(\"username\", \"password\"),\n    api_key=\"base64EncodedKey\",\n    # bearer_auth=\"bearerToken\",\n    # Other extra options\n)"
+    },
+    {
+      "label": "YepCode Elasticsearch: Add data to an index",
+      "code": "doc = {\n  \"character\": \"Ned Stark\",\n  \"quote\": \"Winter is coming.\"\n}\n\nelasticsearch.index(index=\"index-name\", document=doc)"
+    },
+    {
+      "label": "YepCode Elasticsearch: Search in index",
+      "code": "query = {\"match\": {\"someKey\": \"someValue\"}}\n\nresult = elasticsearch.search(index=\"index-name\", query=query)\n\nfor hit in result['hits']['hits']:\n  print(hit)"
+    },
+    {
+      "label": "YepCode Elasticsearch: Execute SQL query",
+      "code": "result = elasticsearch.sql.query(query= \"SELECT * FROM \\\"search-api-index\\\" WHERE key='value'\")\n\nfor column in result['columns']:\n  print(column)"
+    },
+    {
+      "label": "YepCode GraphQL: New integration from credential",
+      "code": "graphql_client = yepcode.integration.graphql('credential-slug')"
+    },
+    {
+      "label": "YepCode GraphQL: New integration from plain authentication data",
+      "code": "from gql import gql, Client\nfrom gql.transport.aiohttp import AIOHTTPTransport\n\ntransport = AIOHTTPTransport(url='https://api.spacex.land/graphql/', headers={})\ngraphql_client = Client(transport=transport, fetch_schema_from_transport=True)"
+    },
+    {
+      "label": "YepCode GoogleAds: New integration from credential",
+      "code": "google_ads = yepcode.integration.googleAds(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode GoogleAds: New integration from plain authentication data",
+      "code": "from google.ads.googleads.client import GoogleAdsClient\n\ncredentials = {\n    \"developer_token\": \"abcdef123456\",\n    \"refresh_token\": \"1//0abcdefghijklABCDEF\",\n    \"client_id\": \"123456-abcdef.apps.googleusercontent.com\",\n    \"client_secret\": \"aBcDeFgHiJkL\"}\n\ngoogle_ads = GoogleAdsClient.load_from_dict(credentials)"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: New integration from credential",
+      "code": "big_query_client = yepcode.integration.google_big_query(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: New integration from plain authentication data",
+      "code": "from google.cloud.bigquery.client import Client\nfrom google.oauth2.service_account import Credentials\n\nproject_id = \"yepcode\"\ncredentialsDict = {\n    \"type\": \"service_account\",\n    \"project_id\": \"yepcode\",\n    \"private_key_id\": \"XXXXX\",\n    \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    \"client_email\": \"yepcode@example.org\",\n    \"client_id\": \"1234567890\",\n    \"auth_uri\": \"https://example.org\",\n    \"token_uri\": \"https://example.org\",\n    \"auth_provider_x509_cert_url\": \"https://example.org\",\n    \"client_x509_cert_url\": \"https://example.org\",\n}\ncredentials = Credentials.from_service_account_info(credentialsDict)\nbig_query_client = Client(project=project_id, credentials=credentials)"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Create a dataset",
+      "code": "from google.cloud import bigquery\n\ndataset_name = \"dataset-name\"\ndataset_id = f\"{big_query_client.project}.{dataset_name}\"\ndataset = bigquery.Dataset(dataset_id)\ndataset.location = \"dataset-location\"\n\ndataset = big_query_client.create_dataset(dataset)"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: List datasets",
+      "code": "datasets = list(big_query_client.list_datasets())\nfor dataset in datasets:\n  print(dataset.dataset_id)"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Delete a dataset",
+      "code": "dataset_name = \"dataset-name\"\ndataset_id = f\"{big_query_client.project}.{dataset_name}\"\nbig_query_client.delete_dataset(dataset_id, delete_contents=True, not_found_ok=True)"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Query to a dataset",
+      "code": "dataset_id = \"dataset-id\"\ntable_id = \"table-id\"\nquery=f\"SELECT * FROM `{big_query_client.project}.{dataset_id}.{table_id}`\"\n\nquery_job = big_query_client.query(query, location=\"dataset-location\")\nrows = query_job.result()\n\nfor row in rows:\n    print(row)"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Insert data to a table",
+      "code": "rows_to_insert = [(\"Foo\", 1), (\"BAR\", 2)]\ntable_ref = big_query_client.dataset(\"dataset-id\").table(\"table-id\")\ntable = big_query_client.get_table(table_ref)\nerrors = big_query_client.insert_rows(table, rows_to_insert)\n\nif errors == []:\n    print(\"New rows have been added.\")\nelse:\n    print(\"Encountered errors while inserting rows: {}\".format(errors))"
+    },
+    {
+      "label": "YepCode GoogleBigTable: New integration from credential",
+      "code": "big_table_client = yepcode.integration.google_big_table(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode GoogleBigTable: New integration from plain authentication data",
+      "code": "from google.cloud.bigtable.client import Client\nfrom google.oauth2.service_account import Credentials\n\nproject_id = \"yepcode\"\ncredentialsDict = {\n    \"type\": \"service_account\",\n    \"project_id\": \"yepcode\",\n    \"private_key_id\": \"XXXXX\",\n    \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    \"client_email\": \"yepcode@example.org\",\n    \"client_id\": \"1234567890\",\n    \"auth_uri\": \"https://example.org\",\n    \"token_uri\": \"https://example.org\",\n    \"auth_provider_x509_cert_url\": \"https://example.org\",\n    \"client_x509_cert_url\": \"https://example.org\",\n}\ncredentials = Credentials.from_service_account_info(credentialsDict)\nbig_table_client = Client(project=project_id, credentials=credentials)"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Create an instance",
+      "code": "from google.cloud.bigtable import enums\n\nmy_instance_id = \"instance-id\"\nmy_cluster_id = \"cluster-id\"\nlocation_id = \"location-id\"\nserve_nodes = 1\nstorage_type = enums.StorageType.SSD\nproduction = enums.Instance.Type.PRODUCTION\nlabels = {\"prod-label\": \"prod-label\"}\ninstance = big_table_client.instance(my_instance_id, instance_type=production, labels=labels)\ncluster = instance.cluster(\n    my_cluster_id,\n    location_id=location_id,\n    serve_nodes=serve_nodes,\n    default_storage_type=storage_type,\n)\noperation = instance.create(clusters=[cluster])\noperation.result(timeout=100)"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Create a table",
+      "code": "instance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\ntable.create()"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Create a column family",
+      "code": "instance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\ncolumn_family = table.column_family(\"column_family_id\"\")\ncolumn_family.create()"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Simple",
+      "code": "instance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\n\ncolumn_family_id = \"stats_summary\"\nrow_key = \"id#4c410523#20190501\"\nrow = table.direct_row(row_key)\nrow.set_cell(column_family_id, \"kind\", \"human\")\nrow.set_cell(column_family_id, \"nature\", \"agressive\")\nrow.set_cell(column_family_id, \"constitution\", \"strong\")\n\nrow.commit()\n\nprint(f\"Successfully wrote row {row_key}.\")\n"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Multiple",
+      "code": "instance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\ncolumn_family_id = \"stats_summary\"\n\nrows = [\n        table.direct_row(\"id#7x410521#90190501\"),\n        table.direct_row(\"id#4c410523#20190501\"),\n      ]\n\n  rows[0].set_cell(column_family_id, \"kind\", \"fremen\")\n  rows[0].set_cell(column_family_id, \"nature\", \"peaceful\")\n  rows[0].set_cell(column_family_id, \"constitution\", \"strong\")\n  rows[1].set_cell(column_family_id, \"kind\", \"human\")\n  rows[1].set_cell(column_family_id, \"nature\", \"agressive\")\n  rows[1].set_cell(column_family_id, \"constitution\", \"strong\")\n\nresponse = table.mutate_rows(rows)\nfor i, status in enumerate(response):\n  if status.code != 0:\n    print(f\"Error writing row {i}: {status.message}\")\n    raise Exception()\nprint(\"Successfully wrote 2 rows.\")"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Conditional",
+      "code": "from google.cloud.bigtable import row_filters\n\ninstance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\ncolumn_family_id = \"stats_summary\"\n\nrow_key = \"row-id\"\n\nrow_filter = row_filters.RowFilterChain(\nfilters=[\n          row_filters.FamilyNameRegexFilter(column_family_id),\n          row_filters.ColumnQualifierRegexFilter(\"conditional-column-qualifier\"),\n          row_filters.ValueRegexFilter(\"conditional-value\"),\n      ]\n)\nrow = table.conditional_row(row_key, filter_=row_filter)\nrow.set_cell(column_family_id, \"column-qualifier\", \"value\")\nrow.commit()\n\nprint(\"Successfully updated row.\")"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Simple",
+      "code": "instance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\n\nrow_key = \"row-id\"\nrow = table.read_row(row_key)\nprint(row)"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Multiple",
+      "code": "from google.cloud.bigquery.row_set import RowSet\ninstance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\n\nrow_set = RowSet()\nrow_set.add_row_key(b\"row-id-1\")\nrow_set.add_row_key(b\"row-id-2\")\n\n\nrows = table.read_rows(row_set=row_set)\nfor row in rows:\n  print(row.cells)"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Multiple based on prefix",
+      "code": "from google.cloud.bigquery.row_set import RowSet\ninstance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\n\nprefix = \"prefix\"\nend_key = prefix[:-1] + chr(ord(prefix[-1]) + 1)\n\nrow_set = RowSet()\nrow_set.add_row_range_from_keys(prefix.encode(\"utf-8\"), end_key.encode(\"utf-8\"))\n\nrows = table.read_rows(row_set=row_set)\nfor row in rows:\n  print(row.cells)"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Conditional",
+      "code": "\nfrom google.cloud.bigtable import row_filters\n\ninstance = big_table_client.instance(\"instance-id\")\ntable = instance.table(\"table_id\")\nfilter = row_filters.RowFilterChain(\n  filters=[\n    row_filters.FamilyNameRegexFilter(\"column-family-id\"),\n    row_filters.ColumnQualifierRegexFilter(\"column-qualifier\"),\n    row_filters.ValueRegexFilter(\"value\"),\n  ]\n)\nrows = table.read_rows(filter_=filter)\nfor row in rows:\n  print(row.cells)"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: New integration from credential",
+      "code": "google_spreadsheet = yepcode.integration.googleSpreadsheet(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: New integration from plain authentication data",
+      "code": "import gspread\nfrom google.oauth2.service_account import Credentials\n\nscopes = [\"https://www.googleapis.com/auth/spreadsheets\"]\ncredentials = {\n    \"type\": \"service_account\",\n    \"project_id\": \"yepcode\",\n    \"private_key_id\": \"XXXXX\",\n    \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    \"client_email\": \"yepcode@example.org\",\n    \"client_id\": \"1234567890\",\n    \"auth_uri\": \"https://example.org\",\n    \"token_uri\": \"https://example.org\",\n    \"auth_provider_x509_cert_url\": \"https://example.org\",\n    \"client_x509_cert_url\": \"https://example.org\"\n}\ngc = gspread.authorize(\n  Credentials.from_service_account_info(service_account_info, scopes=scopes)\n)\ngoogle_spreadsheet = gc.open_by_key('your_sheet_id')"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Create new sheet and add rows",
+      "code": "sh.add_worksheet(title=\"A worksheet\", rows=100, cols=20)"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Get worksheet",
+      "code": "worksheet = google_spreadsheet.worksheet(\"sheetTitle\")\n# or\nworksheet = google_spreadsheet.get_worksheet(0)"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Add row (append)",
+      "code": "worksheet.append_row([\"valueColumnA\", \"valueColumnB\", \"valueColumnC\"])"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Add rows (at start)",
+      "code": "worksheet.insert_row([\"valueColumnA\", \"valueColumnB\", \"valueColumnC\"], 1)"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Get all rows",
+      "code": "records = worksheet.get_all_records()\n\nfor row in records:\n    print(row)"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Update rows",
+      "code": "worksheet.update('A1:B1', [[1, 2]])\nworksheet.update('A2:B4', [[1, 2], [3,4]])"
+    },
+    {
+      "label": "YepCode GoogleStorage: New integration from credential",
+      "code": "storage_client = yepcode.integration.google_storage(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode GoogleStorage: New integration from plain authentication data",
+      "code": "from google.cloud.storage.client import Client\nfrom google.oauth2.service_account import Credentials\n\nproject_id = \"yepcode\"\ncredentialsDict = {\n    \"type\": \"service_account\",\n    \"project_id\": \"yepcode\",\n    \"private_key_id\": \"XXXXX\",\n    \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    \"client_email\": \"yepcode@example.org\",\n    \"client_id\": \"1234567890\",\n    \"auth_uri\": \"https://example.org\",\n    \"token_uri\": \"https://example.org\",\n    \"auth_provider_x509_cert_url\": \"https://example.org\",\n    \"client_x509_cert_url\": \"https://example.org\",\n}\ncredentials = Credentials.from_service_account_info(credentialsDict)\nstorage_client = Client(project=project_id, credentials=credentials)"
+    },
+    {
+      "label": "YepCode GoogleStorage: Create a new bucket",
+      "code": "storage_client.create_bucket(\"bucket_name\")"
+    },
+    {
+      "label": "YepCode GoogleStorage: Create a notification",
+      "code": "bucket = storage_client.bucket(\"bucket_name\")\nnotification = bucket.notification(topic_name=\"topic_name\")\nnotification.create()\nprint(f\"Successfully created notification with ID {notification.notification_id} for bucket {bucket_name}\")\n"
+    },
+    {
+      "label": "YepCode GoogleStorage: Delete a bucket",
+      "code": "bucket = storage_client.get_bucket(\"bucket_name\")\nbucket.delete()"
+    },
+    {
+      "label": "YepCode GoogleStorage: Delete a notification",
+      "code": "bucket = storage_client.bucket(\"bucket_name\")\nnotification = bucket.notification(notification_id=notification_id)\nnotification.delete()"
+    },
+    {
+      "label": "YepCode GoogleStorage: List buckets",
+      "code": "for bucket in storage_client.list_buckets():\n    print(bucket.name)"
+    },
+    {
+      "label": "YepCode GoogleStorage: List notifications",
+      "code": "bucket = storage_client.bucket(\"bucket_name\")\nfor notification in bucket.list_notifications():\n    print(notification.notification_id)"
+    },
+    {
+      "label": "YepCode GoogleStorage: Upload a file",
+      "code": "bucket = storage_client.bucket(\"bucket_name\")\nblob = bucket.blob(\"destination_file_name\")\nsource_file = BytesIO(b\"Some data\")  # Use a BytesIO object as the \"file\" to upload\n\nblob.upload_from_file(source_file)"
+    },
+    {
+      "label": "YepCode GoogleStorage: Download a file",
+      "code": "import io\n\nbucket = storage_client.bucket(\"bucket_name\")\nblob = bucket.blob(\"file_name\")\nbyte_stream = io.BytesIO()\n\nblob.download_to_file(byte_stream)\nbyte_stream.seek(0)\n\nprint(byte_stream.read())"
+    },
+    {
+      "label": "YepCode Kafka: New integration from credential",
+      "code": "kafka = yepcode.integration.kafka('credential-slug')\n\nconsumer = kafka.consumer()\nproducer = kafka.producer()"
+    },
+    {
+      "label": "YepCode Kafka: New integration from plain authentication data (Consumer)",
+      "code": "from kafka import KafkaConsumer\nimport msgpack\n\nkafka = KafkaConsumer(\n  client_id='my-app',\n  bootstrap_servers=['kafka1:9092', 'kafka2:9092']\n  security_protocol='SASL_SSL',\n  sasl_mechanism='PLAIN',\n  sasl_plain_username='my-username',\n  sasl_plain_password='my-password',\n  # consume msgpack\n  value_deserializer=msgpack.unpackb\n)"
+    },
+    {
+      "label": "YepCode Kafka: New integration from plain authentication data (Producer)",
+      "code": "from kafka import KafkaProducer\nimport msgpack\n\nkafka = KafkaProducer(\n  client_id='my-app',\n  bootstrap_servers=['kafka1:9092', 'kafka2:9092']\n  security_protocol='SASL_SSL',\n  sasl_mechanism='PLAIN',\n  sasl_plain_username='my-username',\n  sasl_plain_password='my-password',\n  # encode objects via msgpack\n  value_serializer=msgpack.dumps\n)"
+    },
+    {
+      "label": "YepCode Kafka: Producer",
+      "code": "# Asynchronous by default\nkafka.send('test-topic', {'value': 'Hello Kafka user!'})\n# block until all async messages are sent\nkafka.flush()"
+    },
+    {
+      "label": "YepCode Kafka: Consumer",
+      "code": "for message in kafka:\n  print(message.value)"
+    },
+    {
+      "label": "YepCode Keycloak: New integration from credential",
+      "code": "keycloak_admin_client = yepcode.integration.keycloak(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode Keycloak: New integration from plain authentication data (username and password)",
+      "code": "from keycloak import KeycloakAdmin\nfrom keycloak import KeycloakOpenIDConnection\n\nkeycloak_connection = KeycloakOpenIDConnection(\n                        server_url='baseUrl',\n                        realm_name='realm-name',\n                        client_id='keycloak-client-id',\n                        username='username',\n                        password='password',\n                        verify=True)\n\nkeycloak_admin_client = KeycloakAdmin(connection=keycloak_connection);"
+    },
+    {
+      "label": "YepCode Keycloak: New integration from plain authentication data (client secret)",
+      "code": "\nfrom keycloak import KeycloakAdmin\nfrom keycloak import KeycloakOpenIDConnection\n\nkeycloak_connection = KeycloakOpenIDConnection(\n                        server_url='baseUrl',\n                        realm_name='realm-name',\n                        client_id='keycloak-client-id',\n                        client_secret_key='your-client-secret',\n                        verify=True)\n\nkeycloak_admin_client = KeycloakAdmin(connection=keycloak_connection);"
+    },
+    {
+      "label": "YepCode Keycloak: Find all realm users",
+      "code": "users = keycloak_admin_client.get_users({})"
+    },
+    {
+      "label": "YepCode Keycloak: Find a single user by id",
+      "code": "user = keycloak_admin_client.get_user('user-id')"
+    },
+    {
+      "label": "YepCode Keycloak: Find a single user by email",
+      "code": "user = keycloak_admin_client.get_users({ email: \"user-email\" })"
+    },
+    {
+      "label": "YepCode Keycloak: Get user roles",
+      "code": "roles = keycloak_admin_client.get_client_roles_of_user(user_id='user-id')"
+    },
+    {
+      "label": "YepCode Keycloak: Get user groups",
+      "code": "groups = keycloak_admin_client.get_user_groups(user_id='user-id')"
+    },
+    {
+      "label": "YepCode Keycloak: Find all realm groups",
+      "code": "groups = keycloak_admin_client.get_groups()"
+    },
+    {
+      "label": "YepCode Keycloak: Find a single group",
+      "code": "group = keycloak_admin_client.get_group(group_id='group-id')"
+    },
+    {
+      "label": "YepCode MongoDB: New integration from credential",
+      "code": "mongodb_client = yepcode.integration.mongodb('credential-slug')"
+    },
+    {
+      "label": "YepCode MongoDB: New integration from plain authentication data",
+      "code": "from pymongo import MongoClient\n\nmongodb_client = MongoClient(\n    \"mongodb://yourhost:27017/\",\n    username=\"username\",\n    password=\"password\",\n    tls=False,\n)"
+    },
+    {
+      "label": "YepCode MongoDB: Insert a document",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\ndocument = {\n    \"name\": \"John\",\n    \"age\": 30,\n    \"city\": \"New York\"\n}\n\ncollection.insert_one(document)"
+    },
+    {
+      "label": "YepCode MongoDB: Insert multiple documents",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\ndocuments = [\n    {\"name\": \"John\", \"age\": 30},\n    {\"name\": \"Jane\", \"age\": 25},\n    {\"name\": \"Alex\", \"age\": 35},\n]\nresult = collection.insert_many(documents)\nprint(result.inserted_ids)"
+    },
+    {
+      "label": "YepCode MongoDB: Find a document",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\nquery = {\"name\": \"John\"}\nresult = collection.find_one(query)\nprint(result)"
+    },
+    {
+      "label": "YepCode MongoDB: Find multiple documents",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\nquery = {\"age\": {\"$gt\": 25}}\ndocs = collection.find(query)\nfor doc in docs:\n    print(doc)"
+    },
+    {
+      "label": "YepCode MongoDB: Update a single document",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\nfilter_query = {\"name\": \"John\"}\nupdate_query = {\"$set\": {\"age\": 32}}\n\ncollection.update_one(filter_query, update_query)"
+    },
+    {
+      "label": "YepCode MongoDB: Update multiple documents",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\nfilter_query = {\"age\": {\"$eq\": 30}}\nupdate_query = {\"$inc\": {\"age\": 5}}\n\nresult = collection.update_many(filter_query, update_query)\nprint(\"Modified %d documents\", result.modified_count)"
+    },
+    {
+      "label": "YepCode MongoDB: Delete one document",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\nquery = {\"name\": \"John\"}\n\ncollection.delete_one(query)"
+    },
+    {
+      "label": "YepCode MongoDB: Delete multiple documents",
+      "code": "db = mongodb_client[\"your_database_name\"]\ncollection = db[\"your_collection_name\"]\n\nquery = {\"age\": {\"$gt\": 30}}\n\nresult = collection.delete_many(query)\nprint(\"Deleted %d documents\", result.modified_count)"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: New integration from credential",
+      "code": "mssql_connection = yepcode.integration.mssql('credential-slug')"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: New integration from plain authentication data",
+      "code": "import pymssql\n\nmssql_connection = pymssql.connect(server='localhost', user='sa', password='Pass@word', database='master')"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: SELECT Text only",
+      "code": "cursor = mssql_connection.cursor()\ntry:\n  cursor.execute('SELECT name, price FROM products')\n  row = cursor.fetchone()\n  while row:\n    print(str(row[0]) + \" \" + str(row[1]))\n    row = cursor.fetchone()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: SELECT Parameterized",
+      "code": "cursor = mssql_connection.cursor()\ntry:\n  cursor.execute('SELECT * FROM products WHERE name = %s', ('awesome-product-name'))\n  row = cursor.fetchone()\n  while row:\n    print('row = %r' % (row,))\n    row = cursor.fetchone()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: INSERT Text only",
+      "code": "cursor = mssql_connection.cursor()\ntry:\n  cursor.execute('INSERT INTO products(name, price, stock, created_at) VALUES('awesome-product-name', 14, 99, CURRENT_TIMESTAMP)')\n  mssql_connection.commit()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: INSERT Parameterized",
+      "code": "cursor = mssql_connection.cursor()\nquery = 'INSERT INTO products(name, price, stock, created_at) VALUES(%s, %s, %s, CURRENT_TIMESTAMP)'\ntry:\n  cursor.execute(query, ('awesome-product-name', 14, 99))\n  mssql_connection.commit()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode MySQL: New integration from credential",
+      "code": "mysql_connection = yepcode.integration.mysql('credential-slug')"
+    },
+    {
+      "label": "YepCode MySQL: New integration from plain authentication data",
+      "code": "import mysql.connector\n\nmysql_connection = mysql.connector.connect(\n    host=\"localhost\",\n    port=3306,\n    user=\"user\",\n    password=\"password\",\n    database=\"database\"\",\n)\n"
+    },
+    {
+      "label": "YepCode MySQL: SELECT Text only",
+      "code": "cursor = mysql_connection.cursor(dictionary=True)\nquery = \"SELECT * FROM your_table where id = 1\"\n\ncursor.execute(query)"
+    },
+    {
+      "label": "YepCode MySQL: SELECT Parameterized",
+      "code": "cursor = mysql_connection.cursor(dictionary=True)\nquery = \"SELECT * FROM your_table WHERE id = %s\"\n\ncursor.execute(query, [2])"
+    },
+    {
+      "label": "YepCode MySQL: SELECT Query object",
+      "code": "cursor = mysql_connection.cursor(dictionary=True)\nquery = \"SELECT * FROM your_table WHERE id = %(id)s\"\n\ncursor.execute(query, {\"id\": 2})"
+    },
+    {
+      "label": "YepCode MySQL: INSERT Text only",
+      "code": "cursor = mysql_connection.cursor()\nquery = \"INSERT INTO your_table (id, name, price) VALUES (2, 'bar', 19.99)\"\n\ncursor.execute(query)\n\nmysql_connection.commit()"
+    },
+    {
+      "label": "YepCode MySQL: INSERT Parameterized",
+      "code": "cursor = mysql_connection.cursor()\nquery = \"INSERT INTO your_table (id, name, price) VALUES (%s, %s, %s)\"\n\ncursor.execute(query, [3, \"baz\", 29.99])\n\nmysql_connection.commit()"
+    },
+    {
+      "label": "YepCode MySQL: INSERT Query object",
+      "code": "cursor = mysql_connection.cursor()\nquery = \"INSERT INTO your_table (id, name, price) VALUES (%(id)s, %(name)s, %(price)s)\"\n\ncursor.execute(query, {\"id\": 4, \"name\": \"qux\", \"price\": 39.99})\n\nmysql_connection.commit()"
+    },
+    {
+      "label": "YepCode SMTP: New integration from credential",
+      "code": "smtp = yepcode.integration.smtp('credential-slug')"
+    },
+    {
+      "label": "YepCode SMTP: New integration from plain authentication data",
+      "code": "import smtplib\n\nsmtp = smtplib.SMTP(\"host\", \"port\")\n# If you need SSL\n# smtp = smtplib.SMTP_SSL(\"host\", \"port\")\n\nsmtp.login(\"username\", \"password\")\n# You should use a yepcode env variable to don't store plain password\n# See: https://docs.yepcode.io/docs/processes/team-variables"
+    },
+    {
+      "label": "YepCode SMTP: Verify SMTP connection configuration",
+      "code": "smtp.noop()"
+    },
+    {
+      "label": "YepCode SMTP: Send mail (plain text)",
+      "code": "try:\n    mail_content = \"Subject: Mail subject\\n\\n\"\n    mail_content += \"Some message.\\n\"\n\n    smtp.sendmail(\"sender_email\", \"receiver_email\", mail_content)\n    print(\"Email sent successfully!\")\nexcept Exception as e:\n    print(f\"Error sending email: {e}\")"
+    },
+    {
+      "label": "YepCode SMTP: Send mail",
+      "code": "from email.mime.text import MIMEText\nfrom email.mime.multipart import MIMEMultipart\n\nsender_email = \"sender_email\"\nreceiver_email = \"receiver_email\"\nbody = \"\"\"\n<h1>Hello from YepCode</h1>\n<p>This is a test email sent using Python</p>\n\"\"\"\n\nmessage = MIMEMultipart()\nmessage[\"From\"] = sender_email\nmessage[\"To\"] = receiver_email\nmessage[\"Subject\"] = \"Hello, World! Sent from YepCode\"\nmessage.attach(MIMEText(body, \"html\"))\n\ntry:\n    smtp.sendmail(sender_email, receiver_email, message.as_string())\n    print(\"Email sent successfully!\")\nexcept Exception as e:\n    print(f\"Error sending email: {e}\")"
+    },
+    {
+      "label": "YepCode OpenAI: New integration from credential",
+      "code": "openai = yepcode.integration.openai('credential-slug')"
+    },
+    {
+      "label": "YepCode OpenAI: New integration from plain authentication data",
+      "code": "from openai import OpenAI\n\nclient = OpenAI(\n  api_key=\"your-openai-api-key\"\n)"
+    },
+    {
+      "label": "YepCode OpenAI: Create completion",
+      "code": "completion = openai.completions.create(\n  model=\"gpt-3.5-turbo\",\n  prompt=\"Say this is a test\",\n  max_tokens=7,\n  temperature=0\n)\n\nprint(completion.choices[0].text)"
+    },
+    {
+      "label": "YepCode OpenAI: Create chat completion",
+      "code": "chat_completion = openai.chat.completions.create(model=\"gpt-3.5-turbo\", messages=[{\"role\": \"user\", \"content\": \"Hello World\"}])\nprint(chat_completion.choices[0].message.content)"
+    },
+    {
+      "label": "YepCode OpenAI: List models",
+      "code": "models = openai.models.list()\nprint(models)"
+    },
+    {
+      "label": "YepCode OpenAI: Create image",
+      "code": "response = openai.images.generate(\n  prompt=\"A cute baby sea otter\",\n  n=2,\n  size=\"256x256\"\n)\nprint(response)"
+    },
+    {
+      "label": "YepCode Oracle: New integration from credential",
+      "code": "oracle_pool = yepcode.integration.oracle('credential-slug')"
+    },
+    {
+      "label": "YepCode Oracle: New integration from plain authentication data",
+      "code": "import oracledb\n\noracle_pool = oracledb.create_pool(\n  user='username',\n  password='password',\n  dsn='connectionString'\n)"
+    },
+    {
+      "label": "YepCode Oracle: Close pool",
+      "code": "oracle_pool.close()"
+    },
+    {
+      "label": "YepCode Oracle: Get connection from pool",
+      "code": "connection = oracle_pool.acquire()"
+    },
+    {
+      "label": "YepCode Oracle: Close connection",
+      "code": "connection.close()"
+    },
+    {
+      "label": "YepCode Oracle: SELECT text only",
+      "code": "cursor = connection.cursor()\n\ntry:\n  cursor.execute('SELECT id, name, email FROM Persons')\n  row = cursor.fetchone()\n  while row:\n    print(row)\n    row = cursor.fetchone()\nexcept (oracledb.IntegrityError as error):\n  print(error)\n\ncursor.close()"
+    },
+    {
+      "label": "YepCode Oracle: SELECT parametrized with array",
+      "code": "cursor = connection.cursor()\n\ntry:\n  cursor.execute(\n    'SELECT * FROM Persons where firstName = :0 and lastName = :1',\n    ['firstName', 'lastName']\n  )\n\n  row = cursor.fetchone()\n  while row:\n    print(row)\n    row = cursor.fetchone()\nexcept (oracledb.IntegrityError as error):\n  print(error)\n\ncursor.close()"
+    },
+    {
+      "label": "YepCode Oracle: SELECT parametrized with object (async/await)",
+      "code": "cursor = connection.cursor()\n\ntry:\n  cursor.execute(\n    'SELECT * FROM Persons where firstName = :firstName and lastName = :lastName',\n    {\n      firstName: 'firstName',\n      lastName: 'lastName'\n    }\n  )\n\n  row = cursor.fetchone()\n  while row:\n    print(row)\n    row = cursor.fetchone()\nexcept (oracledb.IntegrityError as error):\n  print(error)\n\ncursor.close()"
+    },
+    {
+      "label": "YepCode Oracle: INSERT text only",
+      "code": "cursor = connection.cursor()\n\ntry:\n  cursor.execute('INSERT INTO Persons values (id, 'theName', 'theEmail')')\n  connection.commit()\nexcept (oracledb.IntegrityError as error):\n  print(error)\n\ncursor.close()"
+    },
+    {
+      "label": "YepCode Oracle: INSERT parametrized with array",
+      "code": "cursor = connection.cursor()\n\ntry:\n  cursor.execute('INSERT INTO Persons values (:0, :1, :2)', [\n    '1',\n    'name',\n    'email'\n  ])\n  connection.commit()\nexcept (oracledb.IntegrityError as error):\n  print(error)\n\ncursor.close()"
+    },
+    {
+      "label": "YepCode Oracle: INSERT parametrized with dict",
+      "code": "cursor = connection.cursor()\n\ntry:\n  cursor.execute('INSERT INTO Persons values (:id, :name, :email)', {\n    id: 1,\n    name: 'name',\n    email: 'email'\n  })\n  connection.commit()\nexcept (oracledb.IntegrityError as error):\n  print(error)\n\ncursor.close()"
+    },
+    {
+      "label": "YepCode Pinecone: New integration from credential",
+      "code": "pineconeClient = yepcode.integration.pinecone('credential-slug')"
+    },
+    {
+      "label": "YepCode Pinecone: New integration from plain authentication data",
+      "code": "from pinecone import Pinecone\n\npineconeClient = Pinecone(api_key=\"YOUR_API_KEY\")"
+    },
+    {
+      "label": "YepCode Pinecone: Creates an index",
+      "code": "pineconeClient.create_index(name=\"example-index\", dimension=1024)"
+    },
+    {
+      "label": "YepCode Pinecone: List indexes in your current project",
+      "code": "active_indexes = pineconeClient.list_indexes()"
+    },
+    {
+      "label": "YepCode Pinecone: Construct an index objet with an existing index name",
+      "code": "index = pineconeClient.Index(\"example-index\");"
+    },
+    {
+      "label": "YepCode Pinecone: Describes an index",
+      "code": "index_description = pineconeClient.describe_index(\"example-index\")"
+    },
+    {
+      "label": "YepCode Pinecone: Deletes an index",
+      "code": "pineconeClient.delete_index(\"example-index\")"
+    },
+    {
+      "label": "YepCode Pinecone: Sets the number of replicas and pod type for an index",
+      "code": "new_number_of_replicas = 4\npineconeClient.configure_index(\"example-index\", replicas=new_number_of_replicas)"
+    },
+    {
+      "label": "YepCode Pinecone: Upserts vector to an index",
+      "code": "index = pineconeClient.Index(\"example-index\")\n\nupsert_response = index.upsert(\n    vectors=[\n        (\n         \"vec1\",                # Vector ID\n         [0.1, 0.2, 0.3, 0.4],  # Dense vector values\n         {\"genre\": \"drama\"}     # Vector metadata\n        ),\n        (\n         \"vec2\",\n         [0.2, 0.3, 0.4, 0.5],\n         {\"genre\": \"action\"}\n        )\n    ],\n    namespace=\"example-namespace\"\n)"
+    },
+    {
+      "label": "YepCode Pinecone: Queries an index filtering",
+      "code": "index = pineconeClient.Index(\"example-index\")\n\nquery_response = index.query(\n    namespace=\"example-namespace\",\n    top_k=10,\n    include_values=True,\n    include_metadata=True,\n    vector=[0.1, 0.2, 0.3, 0.4],\n    filter={\n        \"genre\": {\"$in\": [\"comedy\", \"documentary\", \"drama\"]}\n    }\n)"
+    },
+    {
+      "label": "YepCode Pinecone: Updates a vector",
+      "code": "index = pineconeClient.Index(\"example-index\")\n\nupdate_response = index.update(\n    id=\"vec1\",\n    values=[0.1, 0.2, 0.3, 0.4],\n    set_metadata={\"genre\": \"drama\"},\n    namespace=\"example-namespace\"\n)"
+    },
+    {
+      "label": "YepCode Pinecone: Deletes a vector",
+      "code": "index = pineconeClient.Index(\"example-index\")\n\ndelete_response = index.delete(ids=[\"vec1\", \"vec2\"], namespace=\"example-namespace\")"
+    },
+    {
+      "label": "YepCode Pinecone: Creates a collection from an index",
+      "code": "pineconeClient.create_collection(\n  name=\"example-collection\",\n  source=\"example-index\"\n)"
+    },
+    {
+      "label": "YepCode Pinecone: List the collections from in the current project",
+      "code": "active_collections = pineconeClient.list_collections()"
+    },
+    {
+      "label": "YepCode Pinecone: Returns a description of one collection",
+      "code": "collection_description = pineconeClient.describe_collection(\"example-collection\")"
+    },
+    {
+      "label": "YepCode Pinecone: Delete a collection",
+      "code": "pineconeClient.delete_collection(\"example-collection\")"
+    },
+    {
+      "label": "YepCode Postgres: New integration from credential",
+      "code": "postgres_pool = yepcode.integration.postgres('credential-slug')"
+    },
+    {
+      "label": "YepCode Postgres: New integration from plain authentication data",
+      "code": "from psycopg2 import pool\n\npostgres_pool = pool.SimpleConnectionPool(\n    minconn=1,\n    maxconn=10,\n    host=\"localhost\"\",\n    database=\"database\",\n    user=\"username\",\n    password=\"password\"\",\n    port=\"5432\",\n    sslmode=\"require\", # or \"disable\"\n)"
+    },
+    {
+      "label": "YepCode Postgres: Connect",
+      "code": "connection = postgres_pool.getconn()\ncursor = connection.cursor()"
+    },
+    {
+      "label": "YepCode Postgres: Disconnect",
+      "code": "cursor.close()\nconnection.close()"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Text only",
+      "code": "query = \"SELECT * FROM table_name\"\n\ncursor.execute(query)\n\nfor row in cursor:\n    print(row)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Parameterized",
+      "code": "query = \"SELECT * FROM table_name WHERE name = %s\"\nvalue = (\"some name\")\n\ncursor.execute(query, value)\n\nfor row in cursor:\n    print(row)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Query object",
+      "code": "query = \"SELECT * FROM table_name WHERE name =  %(name)s\"\nvalue = {\"name\": \"some name\"}\n\ncursor.execute(query)\n\nfor row in cursor:\n    print(row)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Text only",
+      "code": "query = \"INSERT INTO table_name (id, name) VALUES ('some-id', 'some-name')\"\n\ncursor.execute(query)\nconnection.commit()"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Parameterized",
+      "code": "query = \"INSERT INTO table_name (id, name) VALUES (%s, %s)\"\nvalue = ('some-id','some-name')\n\ncursor.execute(query, value)\nconnection.commit()"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Query object",
+      "code": "query = \"INSERT INTO table_name (id, name) VALUES (%(id)s, %(name)s)\"\nvalue = {\"id\":'some-id', \"name\":'some-name'}\n\ncursor.execute(query, value)\nconnection.commit()"
+    },
+    {
+      "label": "YepCode Redis: New integration from credential",
+      "code": "redis = yepcode.integration.redis('credential-slug')"
+    },
+    {
+      "label": "YepCode Redis: New integration from plain authentication data",
+      "code": "import redis\n\nredis = redis.Redis(\n  host='the-host',\n  port=the-port,\n  username='the-username',\n  password='the-password',\n  db=theDatabaseNumber,\n  decode_response=True\n)\n\nredis.ping()"
+    },
+    {
+      "label": "YepCode Redis: Set a new entry",
+      "code": "redis.set('the-key', 'the-value')"
+    },
+    {
+      "label": "YepCode Redis: Get entry",
+      "code": "redis.get('the-key')"
+    },
+    {
+      "label": "YepCode Redis: Delete entry",
+      "code": "redis.delete('the-key')"
+    },
+    {
+      "label": "YepCode SAP HANA: New integration from credential",
+      "code": "connection = yepcode.integration.sap_hana('credential-slug');"
+    },
+    {
+      "label": "YepCode SAP HANA: New integration from plain authentication data",
+      "code": "const hana = require('@sap/hana-client');\n\nconst connection = hana.createConnection();\nconnection.connect({\n  serverNode: 'your-host-and-port',\n  uid: 'your-user',\n  pwd: 'your-password',\n  sslValidateCertificate: 'false'\n});"
+    },
+    {
+      "label": "YepCode SAP HANA: Disconnect",
+      "code": "connection.close()"
+    },
+    {
+      "label": "YepCode SAP HANA: DDL Statement",
+      "code": "cursor = connection.cursor()\ncursor.execute('CREATE TABLE Test (ID INTEGER PRIMARY KEY, msg VARCHAR(128))')\ncursor.close()"
+    },
+    {
+      "label": "YepCode SAP HANA: DML Statement",
+      "code": "sql = 'INSERT INTO T1 (ID, C2) VALUES (?, ?)'\ncursor = connection.cursor()\ncursor.execute(sql, (1, 'hello'))\ncursor.execute(sql, (2, 'hello again'))\ncursor.close()"
+    },
+    {
+      "label": "YepCode SAP HANA: Query",
+      "code": "sql = 'SELECT * FROM T1'\ncursor = connection.cursor()\ncursor.execute(sql)\nfor row in cursor:\n    print(row)"
+    },
+    {
+      "label": "YepCode SAP HANA: Query Parametrized",
+      "code": "cursor = connection.cursor()\ncursor.execute(\"SELECT * FROM Test WHERE ID BETWEEN ? AND ?\", (5, 8))\nfor row in cursor:\n    print(row)"
+    },
+    {
+      "label": "YepCode Slack: New integration from credential",
+      "code": "app = yepcode.integration.slack(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode Slack: New integration from plain authentication data",
+      "code": "from slack_bolt import App\n\napp = App(token=\"your-token\", signing_secret=\"your-signing-secret\")"
+    },
+    {
+      "label": "YepCode Slack: Lists channels",
+      "code": "channels = app.client.conversations_list()\n\nprint(channels)"
+    },
+    {
+      "label": "YepCode Slack: Retrieve messages",
+      "code": "result = app.client.conversations_history(\n    channel=\"channel_id\"\n)\nmessages = result[\"messages\"]\n\nprint(messages)"
+    },
+    {
+      "label": "YepCode Slack: Post a message",
+      "code": "app.client.chat_postMessage(\n    channel=\"channel_id\",\n    text=\"Test bot message!\"\n)"
+    },
+    {
+      "label": "YepCode Slack: Upload a file",
+      "code": "import io\n\nfile_content = \"\"\"\nSome multiline file content\nOther line\n\"\"\"\n\napp.client.files_upload_v2(\n    channel=\"channel_id\",\n    initial_comment=\"Here's the file :smile:\",\n    file=io.BytesIO(file_content.encode(\"utf-8\")),\n    filename=\"filename.txt\"\n)"
+    },
+    {
+      "label": "YepCode Snowflake: New integration from credential",
+      "code": "snowflake_connection = yepcode.integration.snowflake('credential-slug')"
+    },
+    {
+      "label": "YepCode Snowflake: New integration from plain authentication data",
+      "code": "from snowflake.connector import connect\n\nsnowflake_connection = connect(\n    user=\"username\",\n    password=\"password\",\n# You should use a yepcode env variable to don't store plain password\n# See: https://docs.yepcode.io/docs/processes/team-variables\n    account=\"account\",\n    database=\"database\",\n    schema=\"schema\",\n)"
+    },
+    {
+      "label": "YepCode Snowflake: Execute statement",
+      "code": "cursor = snowflake_connection.cursor()\n\ncursor.execute(\"SELECT * FROM sales_stock WHERE COLOR_ID = 38379663 LIMIT 10;\")\n\nfor item in cursor:\n    print(item)"
+    },
+    {
+      "label": "YepCode Snowflake: Execute statement with parameters (literals)",
+      "code": "cursor = snowflake_connection.cursor()\n\ncursor.execute(\n  \"SELECT * FROM sales_stock WHERE COLOR_ID = %s LIMIT 10;\", (\n      \"38379663\"\n    )\n)\n\nfor item in cursor:\n    print(item)"
+    },
+    {
+      "label": "YepCode Snowflake: Execute statement with parameters (bind variables)",
+      "code": "cursor = snowflake_connection.cursor()\n\ncursor.execute(\n    \"SELECT * FROM sales_stock WHERE COLOR_ID = %(color_id)s LIMIT 10\", {\n        \"color_id\": 38379663,\n    }\n)\n\n\nfor item in cursor:\n    print(item)"
+    },
+    {
+      "label": "YepCode Snowflake: Insert statement",
+      "code": "cursor = snowflake_connection.cursor()\n\ncursor.execute(\n    'INSERT INTO yourtable(\"Name\",\"Number\") VALUES(%s,%d)', (\n        'some-name',\n        4023\n    )\n )"
+    },
+    {
+      "label": "YepCode Snowflake: Select statement",
+      "code": "cursor = snowflake_connection.cursor()\n\ncursor.execute(\"SELECT * FROM sales_stock WHERE COLOR_ID = 38379663 LIMIT 10;\")\n\nfor item in cursor:\n    print(item)"
+    },
+    {
+      "label": "YepCode Snowflake: Terminating a connection",
+      "code": "snowflake_connection.close()"
+    },
+    {
+      "label": "YepCode SOAP: New integration from credential",
+      "code": "soap_client = yepcode.integration.soap(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode SOAP: New integration from plain data",
+      "code": "import zeep\nsoap_client = zeep.Client(wsdl='http://example.com/wsdl?wsdl')"
+    },
+    {
+      "label": "YepCode SOAP: Using basic authentication with a webservice",
+      "code": "from requests import Session\nfrom requests.auth import HTTPBasicAuth\n\nimport zeep\nfrom zeep.transports import Transport\n\nsession = Session()\nsession.auth = HTTPBasicAuth('username', 'password')\ntransport_with_basic_auth = Transport(session=session)\n\nsoap_client = zeep.Client(wsdl='http://example.com/wsdl?wsdl', transport=transport_with_basic_auth)"
+    },
+    {
+      "label": "YepCode SOAP: Call a method on the SOAP service",
+      "code": "response = soap_client.my_function_name('value')"
+    },
+    {
+      "label": "YepCode SOAP: Call a method using a specific service and port",
+      "code": "from requests import Session\nfrom requests.auth import HTTPBasicAuth\n\nimport zeep\nfrom zeep.transports import Transport\n\nsession = Session()\nsession.auth = HTTPBasicAuth('username', 'password')\ntransport_with_basic_auth = Transport(session=session)\n\nsoap_client = zeep.Client(\n  wsdl='http://example.com/wsdl?wsdl',\n  transport=transport_with_basic_auth,\n  service_name='my_service',\n  port_name='my_port'\n)\n\nresponse = soap_client.my_function_name('value')"
+    },
+    {
+      "label": "YepCode SQLServer: New integration from credential",
+      "code": "mssql_connection = yepcode.integration.mssql('credential-slug')"
+    },
+    {
+      "label": "YepCode SQLServer: New integration from plain authentication data",
+      "code": "import pymssql\n\nmssql_connection = pymssql.connect(server='localhost', user='sa', password='Pass@word', database='master')"
+    },
+    {
+      "label": "YepCode SQLServer: SELECT Text only",
+      "code": "cursor = mssql_connection.cursor()\ntry:\n  cursor.execute('SELECT name, price FROM products')\n  row = cursor.fetchone()\n  while row:\n    print(str(row[0]) + \" \" + str(row[1]))\n    row = cursor.fetchone()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode SQLServer: SELECT Parameterized",
+      "code": "cursor = mssql_connection.cursor()\ntry:\n  cursor.execute('SELECT * FROM products WHERE name = %s', ('awesome-product-name'))\n  row = cursor.fetchone()\n  while row:\n    print('row = %r' % (row,))\n    row = cursor.fetchone()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode SQLServer: INSERT Text only",
+      "code": "cursor = mssql_connection.cursor()\ntry:\n  cursor.execute('INSERT INTO products(name, price, stock, created_at) VALUES('awesome-product-name', 14, 99, CURRENT_TIMESTAMP)')\n  mssql_connection.commit()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode SQLServer: INSERT Parameterized",
+      "code": "cursor = mssql_connection.cursor()\nquery = 'INSERT INTO products(name, price, stock, created_at) VALUES(%s, %s, %s, CURRENT_TIMESTAMP)'\ntry:\n  cursor.execute(query, ('awesome-product-name', 14, 99))\n  mssql_connection.commit()\nexcept (pymssql.Error as error):\n  print(error)\n\nmssql_connection.close()"
+    },
+    {
+      "label": "YepCode SSH2: New integration from credential",
+      "code": "ssh_connection = yepcode.integration.ssh2(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode SSH2: New integration from plain authentication data (username and password)",
+      "code": "from paramiko.client import SSHClient\n\nssh_connection = SSHClient()\nssh_connection.connect(\n  hostname='hostname',\n  port='portNumber',\n  username='username',\n  password='password'\n)"
+    },
+    {
+      "label": "YepCode SSH2: New integration from plain authentication data (private key)",
+      "code": "from paramiko.client import SSHClient\n\nssh_connection = SSHClient()\nssh_connection.connect(\n  hostname='hostname',\n  port='portNumber',\n  username='username',\n  pkey='privateKey'\n)"
+    },
+    {
+      "label": "YepCode SSH2: Shell session",
+      "code": "## The command’s input and output streams are returned as Python file-like objects representing stdin, stdout, and stderr.\n## Official docs: https://docs.paramiko.org/en/latest/api/client.html\nssh_stdin, ssh_stdout, ssh_stderr = ${1.ssh_connection}.exec_command('your-command-here')"
+    },
+    {
+      "label": "YepCode Twilio: New integration from credential",
+      "code": "twilio = yepcode.integration.twilio('credential-slug')"
+    },
+    {
+      "label": "YepCode Twilio: New integration from plain authentication data",
+      "code": "from twilio.rest import Client\ntwilio = Client('your-account-SID', 'your-auth-token')"
+    },
+    {
+      "label": "YepCode Twilio: Send SMS message",
+      "code": "message = twilio.messages.create(\n  body='SMS content',\n  from='Your twilio phone number in international format',\n  to='Destination phone number in international format'\n)\n\nprint(message.sid)"
+    },
+    {
+      "label": "YepCode Twilio: Send Whatsapp message",
+      "code": "message = twilio.messages.create(\n  body='Whatsapp content',\n  from='whatsapp:Your twilio phone number in international format',\n  to='Destination phone number in international format'\n)\n\nprint(message.sid)"
+    }
+  ]
+}

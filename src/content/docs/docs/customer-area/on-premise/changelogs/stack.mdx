@@ -1,0 +1,86 @@
+---
+title: Stack changelog
+---
+# YepCode Stack chart
+
+### [0.11.1] - 2025-05-26
+
+#### Fixed
+ - Helm template error.
+
+
+### [0.11.0] - 2025-05-23
+
+#### Added
+ - Support git repositories in python dependencies.
+
+
+### [0.10.2] - 2025-05-02
+
+#### Added
+ - Add migration to add missing keycloak role 'rest-api:full'.
+
+#### Updated
+ - Improved process page styles for small screens.
+
+
+### [0.10.1] - 2025-04-30
+
+#### Added
+ - Automatic configuration of datastore on team upgrade.
+ - Added queued executions, when concurrent executions limit is reached.
+ - Mcp sse server
+
+#### Updated
+ - Keycloak library v24.
+
+#### Removed
+ - Credentials from new teams.
+
+
+### [0.9.0] - 2025-02-13
+
+#### Added
+- Added dependencies-checker microservice.
+- Add process-level dependencies.
+- Add process/module version and alias auditors.
+- Add callback_url on execution creation in REST API.
+- Add monaco copilot as AI assistant.
+- Allow service-accounts management in UI.
+- Add module versions and alias to REST API.
+- Show team limits in settings page.
+
+#### Updated
+- Make forms playground page private.
+- Allow opening links in new tab.
+
+
+### [0.8.1] - 2025-01-28
+
+#### Added
+- Rest API: option to automatically add dependencies to team in proces create/update operations.
+- Add tags to processes.
+
+
+### [0.8.0] - 2025-01-15
+
+#### Added
+- Rest API: added operations to update and delete processes.
+- Rest API: added operations to manage variables.
+- Rest API: added operation to get process or schedule by id.
+- Rest API: allow using slug in schedule operations
+- Added alias on module versions
+
+#### Changed
+- Improved dependencies installation process in UI. Now it performs the dependencies installation before saving them to be used in executions.
+- Increased execution timeout of
+- Do not allow to delete a module if it is being used in a process.
+
+#### Fixed
+- General bug fixes and improvements.
+
+
+### [0.7.1] - 2024-12-11
+
+#### Fixed
+- Fixed process cache not managing version as expected.

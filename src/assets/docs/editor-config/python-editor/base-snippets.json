@@ -1,0 +1,40 @@
+{
+  "snippets": [
+    {
+      "label": "YepCode: Input parameters const",
+      "code": "parameters = yepcode.context.parameters"
+    },
+    {
+      "label": "YepCode: Import module",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Use team variable",
+      "code": "${1:variable} = yepcode.env.${2:variableName};"
+    },
+    {
+      "label": "YepCode: Read from datastore",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Write to datastore",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Delete from datastore",
+      "code": "#Work in progress"
+    },
+    {
+      "label": "YepCode: Execution attributes",
+      "code": "id, comment = yepcode.execution.values()"
+    },
+    {
+      "label": "YepCode: Process attributes",
+      "code": "processId, processName = yepcode.execution.process.values()"
+    },
+    {
+      "label": "YepCode: Schedule attributes",
+      "code": "scheduleId, scheduleComment = yepcode.execution.get(\"schedule\", {}).values()"
+    }
+  ]
+}

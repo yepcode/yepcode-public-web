@@ -1,0 +1,128 @@
+---
+title: Dependencies
+description: YepCode allows to import any JavaScript or Python package to be used in your processes.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Screenshot from "@components/Screenshot.astro";
+
+# Dependencies
+
+Leverage existing solutions. The software development ecosystem offers a wealth of powerful libraries that can significantly enhance your development process and productivity.
+
+To incorporate these libraries into your YepCode processes, simply specify the package name and version in the dedicated editor accessible through your team settings. This streamlined approach allows you to effortlessly integrate and utilize external dependencies:
+
+:::info
+Custom packages can be configured in any plan, but we have some [amount limits](/docs/plans-and-limits#package-dependencies).
+:::
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+  <div>
+    We allow to use any <a href="https://www.npmjs.com/" target="_blank">npmjs</a> packages, that must be provided with the <code>package.json</code> format.
+    <Screenshot src="dependencies-javascript.png" />
+    </div>
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+  <div>
+    We allow to use any <a href="https://pypi.org/" target="_blank">Pypi</a> packages, that must be provided with the <code>requirements.txt</code> format.
+    <Screenshot src="dependencies-python.png" />
+    </div>
+  </TabItem>
+</Tabs>
+
+When you perform a dependency change, YepCode proceeds to install them, but process executions will use the previous version until we ensure that the installation has been successfully completed.
+
+## Dependencies scope
+
+Dependencies will be global for your team by default, but if you need to use process scoped dependencies, you may do that enabling the flag under process dependencies settings.
+
+<Screenshot src="dependencies-process-scope.png" />
+
+:::info
+Dependencies created from YepCode Run SDKs will be always process scoped.
+:::
+
+## Dependencies guessing
+
+YepCode tries to guess the dependencies you use in your process and modules. You'll see an alert if we detect that you're using a dependency that is not installed on your team:
+
+<Screenshot src="dependencies-not-available-alert.png" />
+
+Just clicking the alert will open the dependencies editor where you can add the missing dependencies, and if you use the 'Add' button, we'll use the last available version of the dependency.
+
+:::info
+Dependencies guessing is specially useful when you're using YepCode As A Service through our [Rest API](https://cloud.yepcode.io/api/rest/public/swagger-ui/index.html). Check for example the **Create process endpoint**, that allows to send the `"autoDetect": true` configuration inside the `settings` node. With that, you may create fully executable processes and all the needed dependencies will be installed automatically.
+:::
+
+
+## Use @add-package comment
+
+Sometimes, the dependencies guessing is not enough. You can use the `@add-package` comment to manually add a dependency to your process. You can even set the version of the dependency with the syntax `@add-package <package-name>=<version>`.
+
+Some samples about how to use it:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+
+```js title="Configure a dependency to use the last version"
+// @add-package openai
+const OpenAI = require('openai');
+
+const client = new OpenAI({
+  apiKey: yepcode.env.OPENAI_API_KEY,
+});
+
+async function main() {
+  const chatCompletion = await client.chat.completions.create({
+    messages: [{ role: 'user', content: 'Say this is a test' }],
+    model: 'gpt-4o',
+  });
+}
+
+main();
+```
+
+```js title="Configure a dependency to use a specific version"
+// @add-package openai=4.79.1
+const OpenAI = require('openai');
+
+...
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py title="Configure a dependency to use the last version"
+# @add-package openai
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=yepcode.env.OPENAI_API_KEY
+)
+
+chat_completion = client.chat.completions.create(
+    messages=[
+        {
+            "role": "user",
+            "content": "Say this is a test",
+        }
+    ],
+    model="gpt-4o",
+)
+```
+
+```py title="Configure a dependency to use a specific version"
+# @add-package openai=1.59.8
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=yepcode.env.OPENAI_API_KEY
+)
+
+...
+```
+  </TabItem>
+</Tabs>
+
+:::tip
+If you have any issue with dependencies installation (like for example using a private package from some private registry), please [contact us](https://yepcode.io/contact).
+:::

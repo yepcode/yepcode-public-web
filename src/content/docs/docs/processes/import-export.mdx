@@ -1,0 +1,37 @@
+---
+title: Import and Export
+description: Learn how to import/export YepCode processes using JSON format.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+
+# Import and Export
+
+YepCode enables you to effortlessly import and export processes using the JSON format. This feature is highly advantageous, allowing you to quickly share processes and create local backups.
+
+```json title="[Sample] Find SpaceX launches.json"
+{
+  "id": "0f32e404-d02a-4db7-83a1-603a1900622f",
+  "name": "[Sample] Find SpaceX launches",
+  "description": "This process retrieves SpaceX launches information and displays it in a textual format.",
+  "readme": null,
+  "script": {
+    "sourceCode": "const { context: { parameters } } = yepcode\nconst { DateTime } = require(\"luxon\");\n\nconst spacexClient = yepcode.integration.graphql('spacex-api')\n\nspacexClient.request(\n  `\n    query launchesPast($limit: Int) {\n      launchesPast(limit: $limit) {\n        mission_name\n        launch_date_utc\n        launch_site {\n          site_name_long\n        }\n        links {\n          video_link\n          wikipedia\n        }\n        rocket {\n          rocket_name\n          rocket_type\n        }\n        launch_year\n        launch_success\n      }\n    }\n  `,\n    { limit: parameters.limit  }\n  )\n  .then((data) => {\n    data.launchesPast.forEach((launch => {\n      console.log(\"Mission \" + launch.mission_name + \" used a \" + launch.rocket.rocket_name + \" rocket, and took place on \" + DateTime.fromISO(launch.launch_date_utc).toRFC2822() + \", being the rocket launched from \" + launch.launch_site.site_name_long + \". \" + (launch.links.video_link ? \"You can see a video on \" + launch.links.video_link + \". \": \"\") + (launch.links.wikipedia ? \"Wikipedia page is available at \" + launch.links.wikipedia + \".\" : \"\"));\n    }))\n  })\n  .catch((error) => {\n    console.error(JSON.stringify(error, undefined, 2));\n    throw error;\n  });\n",
+    "parametersSchema": "{\"$schema\":\"http://json-schema.org/draft-07/schema\",\"type\":\"object\",\"title\":\"SpaceX launches process\",\"required\":[\"limit\"],\"properties\":{\"limit\":{\"type\":\"number\",\"description\":\"How many launches do you want to retrieve?\"}}}"
+  }
+}
+```
+
+---
+
+You can import from processes page by clicking on the cloud upload icon.
+
+<Screenshot src="processes-import.png" />
+
+---
+
+You can export from the process or processes pages by clicking `Export as file` in the three dots menu.
+
+<Screenshot src="processes-export-one.png" />
+
+<Screenshot src="processes-export-two.png" />

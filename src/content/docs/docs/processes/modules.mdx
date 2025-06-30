@@ -1,0 +1,121 @@
+---
+title: Modules
+description: Learn how YepCode supports the use of user libraries to be used in processes.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Screenshot from "@components/Screenshot.astro";
+
+# Using User Modules
+
+YepCode Modules allow you to define an isolated set of JavaScript or Python functions for reuse in any of your processes. These modules are designed to help share functions across processes, solve business logic problems, encapsulate access to services, and more.
+
+<Screenshot src="modules-list.png" />
+
+Modules function slightly differently in JavaScript and Python. Here's a guide for both:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+To use a module, use the custom import syntax in the process (or other module) where you want to utilize it.
+
+```js
+const { myFunc } = yepcode.import("your-module");
+```
+
+:::tip
+Modules also support [versioning](/docs/processes/process-versioning) and aliases, and if you want to import one specific module version or alias, just add a second parameter to the import sentence:
+
+```js
+const { myFunc } = yepcode.import("your-module", "v1.0");
+```
+:::
+
+:::warning
+Modules referenced in any process cannot be **renamed** or **deleted**. This prevents breaking active [schedules](/docs/executions/scheduled), [webhooks](/docs/executions/webhooks), or [forms](/docs/forms) that trigger the process execution.
+:::
+
+You can have as many modules as needed, and they work like any CommonJS module, exporting the functions you want to use from process source code.
+
+For example, a JavaScript module exporting a function to say hello:
+
+```js
+module.exports = () => console.log("Hello world!");
+```
+
+To use this library from a YepCode process named _say_hello_, the code would be:
+
+```js
+const sayHello = yepcode.import("say_hello");
+
+sayHello();
+```
+
+A module can also export several functions:
+
+```js
+const sayHelloToMike = () => console.log("Hello Mike!");
+const sayHelloToDavid = () => console.log("Hello David!");
+
+module.exports = { sayHelloToMike, sayHelloToDavid };
+```
+
+To use these functions, read them from the returned object:
+
+```js
+const sayHelloModule = yepcode.import("say_hello");
+
+sayHelloModule.sayHelloToMike();
+sayHelloModule.sayHelloToDavid();
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+To use a module, use the custom import syntax in the process (or other module) where you want to use it.
+
+```py
+my_func = yepcode.import_module("your-module");
+```
+
+:::tip
+Modules also support [versioning](/docs/processes/process-versioning) and aliases, and if you want to import one specific module version or alias, just add a second parameter to the import sentence:
+
+```py
+my_func = yepcode.import_module("your-module", "v1.0");
+```
+:::
+
+:::warning
+Modules referenced in any process cannot be **renamed** or **deleted**. This prevents breaking active [schedules](/docs/executions/scheduled), [webhooks](/docs/executions/webhooks), or [forms](/docs/forms) that trigger the process execution.
+:::
+
+You can have as many modules as needed, and they work like any Python module.
+
+For example, a Python module exporting several functions:
+
+```py
+def say_hello_to_mike():
+    print("Hello Mike!")
+
+def say_hello_to_david():
+    print("Hello David!");
+```
+
+To use these functions, read them from the returned object:
+
+```py
+say_hello_module = yepcode.import_module("say_hello");
+
+say_hello_module.say_hello_to_mike();
+say_hello_module.say_hello_to_david();
+```
+  </TabItem>
+</Tabs>
+
+## Writing Modules from Process Edition Screen
+
+You can easily view and change modules from the process edition page by opening a component with this shortcut:
+
+<Screenshot src="modules-source-code-bottom-bar.png" />
+
+A modal window then shows you the defined modules, making it easy to modify or consult them.
+
+<Screenshot src="modules-from-editor.png" />

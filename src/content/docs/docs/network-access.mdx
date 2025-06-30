@@ -1,0 +1,22 @@
+---
+title: Network Access
+description: Learn how to enable network access for YepCode integrations to connect with your private services.
+---
+
+# Network Access
+
+When using YepCode with a service that is not accessible from the internet, such as a Postgres server on your internal infrastructure or a REST API behind a firewall, you need to configure access to allow YepCode servers to connect.
+
+## Configure Your Firewall for YepCode Access
+
+Configure your firewalls to allow connections from the IP <b>34.89.54.108</b> for the required ports. This step ensures that YepCode integrations function seamlessly.
+
+If altering your company's firewall rules is not feasible, we offer an alternative solution: tunneling.
+
+## YepCode Tunneling
+
+We provide a tunneling system that exposes your ports for YepCode using [SSH tunnels](https://www.ssh.com/academy/ssh/tunneling).
+
+With this approach, you start an agent on your network and then you configure the tunnel as destination from your YepCode credentials.
+
+This deployment option is only available on paid plans, so please [contact us](https://yepcode.io/contact/) if you are interested in using this.

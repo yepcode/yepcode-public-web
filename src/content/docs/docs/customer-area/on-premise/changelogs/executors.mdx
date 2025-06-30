@@ -1,0 +1,82 @@
+---
+title: Executors changelog
+---
+# YepCode Executors chart
+
+### [0.11.1] - 2025-06-12
+
+#### Added
+- Added `extraImagePullSecrets` configuration.
+
+
+### [0.11.0] - 2025-02-28
+
+#### Updated
+- Update python to v3.13.
+
+### [0.10.0] - 2025-02-23
+
+#### Added
+- Support git repositories in python dependencies.
+- New prometheus metrics.
+- Support callback url on executions.
+- Add keys(pattern) function to datastore.
+
+#### Updated
+- Updated node v20 to v22.
+- Retry executions that fails with unexpected errors.
+- Allow to use process.env and os.environ with all yepcode.env variables.
+- Keep execution logs sorted.
+- Allow exporting a non async main in node.
+
+#### Fixed
+- Exception returning not serializable objects in python.
+- module.exports not detected as expected in node processes.
+- Python logger only prints the first line with correct level.
+- Console logs of more than 1Mb cause socket disconnect.
+- Datastore fails when called 15 seconds after execution start
+
+
+### [0.9.0] - 2025-01-30
+
+#### Added
+- Allow importing yepcode library
+- Automatically call `main()` function if exported in the script
+
+#### Fixed
+- Return value now accepts falsy values (0, "", False)
+
+
+### [0.8.6] - 2025-01-15
+
+#### Fixed
+- Do not count datastore entries if limit is disabled.
+- Fixed DATASTORE_TIMEOUT_SECONDS env variable.
+
+
+### [0.8.5] - 2024-12-18
+
+#### Updated
+- Added timeout to datastore operations.
+
+#### Fixed
+- Fixed datastore password encryption.
+
+
+### [0.8.4] - 2024-12-13
+
+#### Fixed
+- Fixed error when loading a module multiple times.
+- Fixed error message when trying to import a library not available in python.
+
+
+### [0.8.3] - 2024-12-10
+
+#### Fixed
+- Add /tmp mount point to dependencies-manager, not working in some environments.
+
+
+### [0.8.2] - 2024-12-09
+
+#### Added
+- Added `executor_dependencies_manager.forceDependenciesPermissionsDeep` and `executor_dependencies_manager.forceDependenciesPermissions` configurations. 

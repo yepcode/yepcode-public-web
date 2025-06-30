@@ -1,0 +1,38 @@
+---
+title: Team Variables
+description: Explore how YepCode supports the use of variables that may contain sensitive information.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+# Using Team Variables
+
+YepCode team variables allow you to define key-value pairs for use in process source code. These variables are versatile, serving purposes such as storing configuration parameters used across various processes or safeguarding sensitive information like passwords or API keys (using the secured flag).
+
+<Screenshot src="team-variables-list.png" />
+
+When you click on the `New` icon, you can specify the variable name and value, and check whether it is secured.
+
+<Screenshot src="team-variables-new.png" />
+
+To use these team variables in process source code, you may use just plain JavaScript or Python env vars syntax (or use the `yepcode.env` approach):
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const apiKey = process.env.KRAKEN_API_KEY;
+// or
+const apiKey = yepcode.env.KRAKEN_API_KEY;
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+api_key = os.getenv("KRAKEN_API_KEY")
+# or
+api_key = yepcode.env.KRAKEN_API_KEY
+```
+  </TabItem>
+</Tabs>
+
+Subsequently, `apiKey` will contain the value defined in the team variable regardless of whether it was marked as secured or not. Exercise caution to avoid logging or transmitting it from the code.

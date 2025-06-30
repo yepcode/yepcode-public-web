@@ -1,0 +1,263 @@
+---
+title: Executors On-Premise
+description: We provide an on-premise flavor where only the YepCode executors layer is deployed.
+---
+
+# Executors Layer On-Premise Deployment
+
+This is a simpler approach but very suitable to meet some clients' needs. In this case, we only deploy the executors layer, and the rest of the services are not deployed, so you'll use the YepCode cloud ones.
+
+This allows the processes to run in your system infrastructure but without the need to deploy the whole stack.
+
+This flavor is quite interesting under various situations:
+
+- If you don't want to [grant access](/docs/network-access) to your internal services. As the processes' source code runs in your systems, there is no need to open network connections from the YepCode cloud.
+- If you need to move large amounts of information between services deployed in your system infrastructure, and you don't want to incur in the related network traffic cost.
+- If you want to remotely run code in several destinations without the need to deploy any project in each one. This may be a good use case for SaaS companies that need to get information from their clients' systems and then return the result of processing that information.
+
+## Ask for credentials to configure the on-premise deployment
+
+Each team that wants to use the on-premise deployment must have an account in our docker registry and also must ask for the `LICENSE_TOKEN` to start the executors.
+
+You can ask for these credentials and configuration [contacting us](https://yepcode.io/contact/).
+
+## Login to our Docker registry
+
+All the needed docker images are available in our docker registry, and you'll receive the credentials after filling the form above:
+
+```sh
+$ docker login https://europe-docker.pkg.dev
+Username: _json_key_base64
+Password: *********
+```
+
+After that, to start your executor you can use a `docker-compose` file with or without using the `docker swarm` mode. For both options, you'll only need to provide the executor with the license token we gave you. Instructions for both ways are below.
+
+## Using Docker Compose
+
+For this approach you only need to create a `docker-compose.yml` file with the YepCode executor service.
+
+To provide the license token you have two alternatives:
+
+- Fill it directly in the docker-compose file
+- Store it in an external file and reference it from the docker-compose file
+
+If you want to have the token inside the docker-compose file, here is your file sample:
+
+```yaml
+version: "3.7"
+
+services:
+  executor-manager:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-manager:latest
+    environment:
+      LICENSE_TOKEN: <your-token-here>
+  executor-agent-nodejs:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-nodejs:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+  executor-agent-python:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-python:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+```
+
+If you prefer the second approach, create a file and store in it only the license token. The docker-compose file you need is this:
+
+```yaml
+version: "3.7"
+
+services:
+  executor-manager:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-manager:latest
+    environment:
+      LICENSE_TOKEN: "{{DOCKER-SECRET:license_token}}"
+    secrets:
+      - license_token
+  executor-agent-nodejs:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-nodejs:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+  executor-agent-python:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-python:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+
+secrets:
+  license_token:
+    file: <path to the license token file>
+```
+
+:::tip
+In any of these approaches, you can configure the number of replicas of the executor-agent-nodejs service to have more than one executor running.
+This way you can multiply your processing power and run more processes in parallel!
+
+An example docker-compose.yaml file:
+
+```yaml
+version: "3.7"
+
+services:
+  executor-manager:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-manager:latest
+    environment:
+      LICENSE_TOKEN: <your-token-here>
+  executor-agent-nodejs-1:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-nodejs:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+  executor-agent-nodejs-2:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-nodejs:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+  executor-agent-python-1:
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-python:latest
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+```
+
+:::
+
+Once you have configured one of the previous approaches, you only need to start the YepCode executor.
+
+For this, open a terminal in the same folder where your docker-compose file is and use the following command:
+
+```sh
+docker-compose up -d
+```
+
+If you need to update the YepCode executor image, you can use the pull command and then recreate the container:
+
+```sh
+docker-compose pull && docker-compose up -d
+```
+
+You can stop it using the next command:
+
+```sh
+docker-compose down
+```
+
+## Using Docker Compose with Swarm Mode
+
+It is recommended to deploy the YepCode executor using docker swarm, as it allows you to set the number of replicas to have running.
+
+If you have not enabled docker swarm mode in your server, do it by executing:
+
+```sh
+docker swarm init
+```
+
+Docker swarm allows you to use docker secrets, which are a safe way to keep your license token and inject it in the executors. You can create a docker secret for your license key following one of these options:
+
+```sh
+# Take value from standard input
+docker secret create yepcode_license_token
+
+# Take value from a file
+docker secret create yepcode_license_token <path-to-the-file>
+
+# Take token value from the command
+echo "<license_token_content>" | docker secret create yepcode_license_token -
+```
+
+Now, you can create the `docker-compose.yml` file to deploy the executor. Here you have the sample:
+
+```yaml
+version: "3.7"
+
+services:
+  executor-manager:
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: "500M"
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-manager:latest
+    pull_policy: always
+    environment:
+      LICENSE_TOKEN: '{{"{{"}}DOCKER-SECRET:yepcode_license_token}}'
+    secrets:
+      - yepcode_license_token
+  executor-agent-nodejs:
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "1"
+          memory: "500M"
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-nodejs:latest
+    pull_policy: always
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+  executor-agent-python:
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "1"
+          memory: "500M"
+    image: europe-docker.pkg.dev/yepcode/docker-executors/yepcode-executor-agent-python:latest
+    pull_policy: always
+    depends_on:
+      - executor-manager
+    links:
+      - executor-manager
+    environment:
+      MANAGER_HOSTNAME: executor-manager
+
+secrets:
+  yepcode_license_token:
+    external: true
+```
+
+You can deploy the YepCode executor with:
+
+```sh
+docker stack deploy --compose-file ./docker-compose.yml yepcode-executors
+```
+
+If you need to update the YepCode executor image, you can use:
+
+```sh
+docker service update --force yepcode-executors
+```
+
+You can remove it with:
+
+```sh
+docker stack rm yepcode-executors
+```

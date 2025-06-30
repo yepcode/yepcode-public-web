@@ -1,0 +1,57 @@
+---
+title: AI Code Assistant
+description: Use this module to generate JavaScript and Python code using AI.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+
+# AI Code Assistant
+
+## Introduction
+
+The AI Code Assistant helps you generate JavaScript or Python code for your processes.
+
+## Setting Up the AI Code Assistant Engine
+
+To configure the engine, go to your team [Settings tab](/docs/settings) and press the `Configure AI engine` button:
+
+<Screenshot src="ai-assistant/config-button.png" />
+
+You can also configure it in your [processes source code](/docs/processes/source-code) status bar by clicking the `AI Assistant` button on the bottom left:
+
+<Screenshot src="ai-assistant/process-status-bar-button.png" />
+
+Then select the **provider**, **model** and **API key** you want to use:
+
+<Screenshot src="ai-assistant/config.png" />
+
+The available **providers** and **models** are:
+
+- **OpenAI**
+  - [gpt-4o](https://platform.openai.com/docs/models#gpt-4o)
+  - [gpt-4o-mini](https://platform.openai.com/docs/models#gpt-4o-mini)
+  - [o1-mini](https://platform.openai.com/docs/models#o1)
+- **Google**
+  - [gemini-1.5-flash](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash)
+  - [gemini-1.5-flash-8b](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-flash-8b)
+  - [gemini-1.5-pro](https://ai.google.dev/gemini-api/docs/models/gemini#gemini-1.5-pro)
+- **Anthropic**
+  - [claude-3-5-sonnet](https://docs.anthropic.com/en/docs/about-claude/models)
+  - [claude-3-5-haiku](https://docs.anthropic.com/en/docs/about-claude/models)
+  - [claude-3-haiku](https://docs.anthropic.com/en/docs/about-claude/models)
+- **Groq**
+  - [llama-3-70b](https://console.groq.com/docs/models)
+- **DeepSeek**
+  - [v3](https://www.deepseek.com/)
+
+## Using the AI Code Assistant
+
+After saving the configuration, the source code editors for your [processes](/docs/processes/source-code/) and [modules](/docs/processes/modules) will show completions that you can use as in any other well known AI editors:
+
+<Screenshot src="ai-assistant/completion.png" />
+
+## AI Code Assistant Settings
+
+When an AI Assistant is configured, you'll be able to update the configuration, deactivate the completions or delete it.
+
+<Screenshot src="ai-assistant/settings.png" />

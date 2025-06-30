@@ -1,0 +1,76 @@
+---
+title: Multi-step Forms
+description: Multi-step forms guide for YepCode
+---
+
+If you need to gather information from users in a multi-step approach, YepCode Forms can support you.
+
+During the execution of the first process, simply return a JSON with the next step process ID:
+
+```js
+return {
+  nextProcessId: "719d7c83-...",
+};
+```
+
+By doing this, after a successfull form submission, our SDK will render the form related to the received next process identifier.
+
+:::tip
+For a multistep form, consider changing the button title to "Next". See [how to do that](/docs/forms/customization).
+:::
+
+In the second, third,... and successive form steps, process executions will receive the previous generated data, and execution results. This allows, for example, collecting information in several steps and using all of them in the last step.
+
+The information from previous steps is published into YepCode. If you write this code in the third step:
+
+```js
+const {
+  context: { parameters },
+} = yepcode;
+
+console.log(parameters);
+```
+
+You'll see an output like this:
+
+```json
+{
+  "attribute1FromThirdStep": "your-value",
+  "attribute2FromThirdStep": "your-value",
+  "steps": [
+    {
+      "processId": "f3997abe3-....",
+      "data": {
+        "attributeFromFirstStep": "your-value"
+      },
+      "result": {
+        "executionResultAttributeFirstStep": "your-value"
+      }
+    },
+    {
+      "processId": "f39975e3-....",
+      "data": {
+        "attributeFromSecondStep": "your-value"
+      },
+      "result": {
+        "executionResultAttributeSecondStep": "your-value"
+      }
+    }
+  ]
+}
+```
+
+## Variables in Multi-step Forms
+
+Default values, variables, and i18n configurations set in the first form in a multi-step flow will be applied to the next steps' forms.
+
+Another interesting feature is to return a `variables` object in one form step execution and reuse it in the following steps. This can be done by simply returning a `variables` node in process execution result:
+
+```js
+return {
+  nextProcessId: "719d7c83-...",
+  variables: {
+    aNewVar: "This is a new var for next form steps",
+  },
+};
+```

@@ -1,0 +1,65 @@
+---
+title: Getting Started with YepCode Forms
+description: Learn how to initiate process executions from any webpage by embedding process input parameter forms.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+
+## Enable YepCode Form
+
+The first step is to create your [YepCode process](/docs/processes) and configure the [input parameters](/docs/processes/input-params) that will define form fields.
+
+:::tip
+The input parameters configuration for the form on the [Overview](/docs/forms) page would be:
+
+```json
+{
+  "title": "Sign-Up Form",
+  "type": "object",
+  "properties": {
+    "name": {
+      "title": "Your Name",
+      "type": "string"
+    },
+    "email": {
+      "title": "Your Email",
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "title": "Your Password",
+      "type": "string",
+      "isSensitive": true,
+      "ui": {
+        "ui:placeholder": "Use a Secure Password"
+      }
+    },
+    "yourIdDocument": {
+      "title": "Upload Your ID Document",
+      "type": "string",
+      "ui": {
+        "ui:widget": "file"
+      }
+    },
+    "plan": {
+      "title": "Which Plan Do You Want to Use",
+      "type": "string",
+      "ui": {
+        "ui:widget": "radio"
+      },
+      "enum": ["FREE", "STARTER", "GROWTH"],
+      "default": "STARTER"
+    }
+  },
+  "required": ["name", "email", "password"],
+  "embedFormOptions": {
+    "loadingOverlayContent": "Creating a New User..."
+  }
+}
+```
+
+:::
+
+With these input parameters configured, it is time to enable the forms feature. Simply visit the process [Dashboard](/docs/processes/dashboard) and enable the `Forms` flag.
+
+<Screenshot src="form-enabled.png" />

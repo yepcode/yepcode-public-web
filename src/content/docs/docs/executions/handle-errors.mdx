@@ -1,0 +1,84 @@
+---
+title: Handle execution errors
+description: Discover how to handle the errors of your executions.
+---
+
+# Handle execution errors
+
+An execution of a process may fail, so probably you want to be aware when this occurs. For example, you may send the error by mail or to a slack channel.
+
+YepCode allows you to configure one of your processes to handle the errors when any execution fail. You can do it in [settings](/docs/settings) page.
+
+A process which you want to configure to handle the errors of the executions has a predefined parameters schema. You can copy from here or find it parameters schema editor actions, by doing right click in the editor.
+
+Also, you can download two process samples built in JavaScript ready to be directly imported into your team:
+
+- [Error notification using SMTP](/docs/samples/error-handler-with-smtp.json)
+- [Error notification using Slack](/docs/samples/error-handler-with-slack.json)
+
+```js title="Error handler process parameters schema"
+{
+  "description": "These are the input params for an execution error handler process",
+  "title": "Execution error handler params",
+  "type": "object",
+  "properties": {
+    "execution": {
+      "title": "Execution",
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "title": "Execution input params",
+          "ui:schema": {
+            "ui:field": "json"
+          }
+        },
+        "schedule": {
+          "title": "Schedule",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            }
+          }
+        },
+        "process": {
+          "title": "Process",
+          "type": "object",
+          "required": ["id"],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "title": "Error",
+      "type": "object",
+      "required": ["message", "stacktrace"],
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "stacktrace": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import BaseHead from "@components/BaseHead.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
 import ycRunJsExampleCode from "../assets/home/code-examples/yepcode-run.js?raw";
@@ -19,10 +19,10 @@ import docutenLogo from "../assets/home/clients/docuten.svg";
 import trackTheRaceLogo from "../assets/home/clients/track-the-race.svg";
 import teimasLogo from "../assets/home/clients/teimas.svg";
 import privaliaLogo from "../assets/home/clients/privalia.svg";
-import ImageSlider from "../components/ImageSlider.astro";
+import ImageSlider from "@components/ImageSlider.astro";
 import mcpImage from "../assets/home/images/mcp.svg";
-import Card from "../components/Card.astro";
-import YouTube from "../components/YouTube.astro";
+import Card from "@components/Card.astro";
+import YouTube from "@components/YouTube.astro";
 import Accordion from "@/components/Accordion.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("../content/index.mdx", {

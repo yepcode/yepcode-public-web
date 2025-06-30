@@ -1,0 +1,109 @@
+---
+title: YepCode Form Samples
+description: Explore various examples of embedded YepCode forms with React component YepCodeForm.
+---
+
+<script src="https://yepcode.io/sdk/forms.js"></script>
+
+The following presents a series of examples of embedded forms using the React component YepCodeForm.
+
+## Basic Embedded Form
+
+The next example is a basic demonstration of how to render a form for executing a process. This process accepts a name as input and returns a greeting for the entered name.
+
+Check the source code in our [sandbox account](https://cloud.yepcode.io/sandbox/processes/3b4e4494-aa66-46bb-89f0-d9f78c7a39a3).
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="sandbox"
+    data-yepcode-form-process="3b4e4494-aa66-46bb-89f0-d9f78c7a39a3"
+  ></div>
+</div>
+
+## Form using variables
+
+Explore a form sample that renders different content using [variables](/docs/forms/customization#variables-replacement-in-form-definition).
+
+Check the source code in our [sandbox account](https://cloud.yepcode.io/sandbox/processes/a7543eea-f280-49ad-bcd8-ef6a513da44d).
+
+### Upgrade to STARTER
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="sandbox"
+    data-yepcode-form-process="a7543eea-f280-49ad-bcd8-ef6a513da44d"
+    data-yepcode-form-options='{
+      "variables": {
+        "newPlan": "STARTER",
+        "benefits": [
+          "Includes 50k Yeps  (executions) / month",
+          "5 min. max execution time",
+          "Up to 10 team members"
+        ]
+      }
+    }'
+  ></div>
+</div>
+
+### Upgrade to GROWTH
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="sandbox"
+    data-yepcode-form-process="a7543eea-f280-49ad-bcd8-ef6a513da44d"
+    data-yepcode-form-options='{
+      "variables": {
+        "newPlan": "GROWTH",
+        "benefits": [
+          "Includes 250k Yeps  (executions) / month",
+          "10 min. max execution time",
+          "Unlimited team members"
+        ]
+      }
+    }'
+  ></div>
+</div>
+
+## Form Using i18nVariables
+
+Explore a form sample that renders content in different languages using [i18nVariables](/docs/forms/customization#internationalization).
+
+Check the source code in our [sandbox account](https://cloud.yepcode.io/sandbox/processes/a7543eea-f280-49ad-bcd8-ef6a513da44d).
+
+### English
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="sandbox"
+    data-yepcode-form-process="9c0a2be3-1a6f-4cae-98bc-0178dfe45119"
+    data-yepcode-form-options='
+      {
+        "locale": "en"
+      }'
+  ></div>
+</div>
+
+### Spanish
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="sandbox"
+    data-yepcode-form-process="9c0a2be3-1a6f-4cae-98bc-0178dfe45119"
+    data-yepcode-form-options='
+      {
+        "locale": "es"
+      }'
+  ></div>
+</div>
+
+## Open Form in Modal Window
+
+Explore a form sample that opens in a [modal window](/docs/forms/customization#modal-window) after clicking a button.
+
+<button className="customButton"
+  data-yepcode-form-modal
+  data-yepcode-form-team="sandbox"
+  data-yepcode-form-process="3b4e4494-aa66-46bb-89f0-d9f78c7a39a3"
+>
+Open the form
+</button>

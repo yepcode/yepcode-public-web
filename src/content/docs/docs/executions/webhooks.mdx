@@ -1,0 +1,201 @@
+---
+title: Webhook Executions
+description: Discover how to configure and start a YepCode process using webhooks.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Screenshot from "@components/Screenshot.astro";
+
+# Webhook Executions
+
+[Webhooks](https://en.wikipedia.org/wiki/Webhook) are endpoints that you can provide to other external ecosystems.
+
+This is very handy because it allows you to trigger process executions from external systems.
+
+## Configuration
+
+From the process page, you may find the _Webhook configuration_ section on the right sidebar.
+
+<Screenshot src="triggers-section.png" />
+
+Once you press the `Add +` button, you can create a webhook passing optional authentication params. If you don't provide a user and password, no authentication would be needed to start the process, so take care about it!
+
+<Screenshot src="create-webhook.png" />
+
+After creating the webhook, you can see:
+
+- The generated URL link, points to the process using its [Slug](/docs/processes/dashboard#details), which you can configure.
+- The [cURL](https://curl.se/) command.
+
+<Screenshot src="webhook-ready.png" />
+
+Now in the process _Webhook configuration_ section you'll see the created webhook. From the options menu you can:
+
+- Update the previously created auth in `Edit auth`
+- See the URL link and [cURL](https://curl.se/) command in `Show endpoint` (also by clicking on the webhook itself).
+
+<Screenshot src="webhook-options.png" />
+
+Congrats! Your webhook is ready for external requests.
+
+## Invoking Webhooks Externally
+
+Make an HTTP `GET` or `POST` to test your configured webhook, use a tool like [Postman](https://www.postman.com/), [Insomnia](https://insomnia.rest/) or `curl` in your terminal.
+
+Payloads passed from the request body are included in [YepCode parameters](/docs/processes/input-params).
+
+For example, this implementation would perform echoes from provided parameters:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+// my echo process
+const {
+  context: { parameters },
+} = yepcode;
+
+return parameters;
+```
+
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+# my echo process
+parameters = yepcode.context.parameters
+
+return parameters;
+```
+  </TabItem>
+</Tabs>
+
+Invoke it using `curl` from the terminal with some parameters:
+
+```sh
+curl -X GET -H "Content-Type: application/json" \
+https://cloud.yepcode.io/api/your-team/webhooks/your-process-slug?name=John%20Doe
+# {"name":"John Doe"}
+```
+
+The same example using `POST`, parameters in `POST` are passed as request body:
+
+```sh
+curl -X POST -H "Content-Type: application/json" -d '{"name": "John Doe"}' \
+https://cloud.yepcode.io/api/your-team/webhooks/your-process-slug
+# {"name":"John Doe"}
+```
+
+### Request Headers
+
+- **Yep-Version-Tag:** Specify your [process version](/docs/processes/process-versioning) tag to run a concrete version of your process. _(optional)_
+- **Yep-Async:** Choose to run the webhook synchronously or asynchronously. Sync executions will wait the process to finish before returning the response, while async executions will respond instantly with 201 HTTP code and a JSON informing about execution id. _(optional)_ default:**false**
+- **Yep-Initiated-By:** Provide an additional level of abstraction to identify who is initiating requests to the YepCode endpoints. Its value will be recorded and can be consulted in the [audit events](/docs/audit-events). This allows clients to track and review the specific initiators of API requests for auditing and compliance purposes. It is optional and can be used in addition to the standard user authentication. _(optional)_
+- **Yep-Agent-Pool:** If your team has configured more than one _Agent Pool_ you can specify in which one the process will execute. Otherwise, the default pool will be used. _(optional)_
+- **Yep-Comment:** The comment for the new execution. _(optional)_
+
+:::info
+For synchronous requests, if execution last more than 60 seconds, invokations will result in a Request Timeout (HTTP Code 408), but execution will continue in YepCode.
+
+Result body will be something like:
+```json
+{"status":408,"message":"Timed out before execution with id 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' ended"}
+```
+:::
+
+All request headers sent to a webhook are available in `yepcode.context.request.headers`. You could access them and use their values as you please.
+
+For example we could send a header signature to improve our process security:
+
+```sh
+curl --location --request POST 'https://cloud.yepcode.io/api/your-team/webhooks/your-process-slug' \
+--header 'Content-Type: application/json' \
+--header 'YepCode-Signature: yp_test_y4Fb38t5RngUZiZSzFC4c4lZHFKHcC'
+```
+
+And validate that signature matches in the process:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const {
+  context: { request },
+} = yepcode;
+
+if (
+  request.headers["yepcode-signature"] !==
+  "yp_test_y4Fb38t5RngUZiZSzFC4c4lZHFKHcC"
+) {
+  return {
+    status: 400,
+    body: {
+      error: {
+        message:
+          "Invalid signature. Double check the 'YepCode-Signature' header",
+      },
+    },
+  };
+}
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+request = yepcode.context.request
+
+if request.get("headers", {}).get("yepcode-signature", "") != "yp_test_y4Fb38t5RngUZiZSzFC4c4lZHFKHcC":
+  return {
+    "status": 400,
+    "body": {
+      "error": {
+        "message":
+          "Invalid signature. Double check the 'YepCode-Signature' header",
+      },
+    },
+  };
+```
+  </TabItem>
+</Tabs>
+
+### Query Parameters
+
+- **async:** Same as **Yep-Async** header. It takes precedence over the header. _(optional)_ default:**false**
+
+### Response Headers
+
+- **Yep-Execution-ID:** All requests to webhooks returns this header indicating the execution id.
+- **[Location header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location):** Async executions return this header indicating the location of the execution.
+
+## Tips & Examples
+
+:::tip
+The response for async executions (when you set Yep-Async: true or async query param is true) will contain a [Location header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location) with the URL of the execution
+:::
+
+Here you have some sample requests with a sandbox process:
+
+```sh title="Execute current version and async mode (Yep-Async header)"
+curl --location --request POST 'https://cloud.yepcode.io/api/sandbox/webhooks/sample-process-versions' \
+--header 'Yep-Async: true'
+```
+
+```sh title="Execute current version and async mode"
+curl --location --request POST 'https://cloud.yepcode.io/api/sandbox/webhooks/sample-process-versions?async=true' \
+```
+
+```sh title="Execute concrete version and sync mode"
+curl --location --request POST 'https://cloud.yepcode.io/api/sandbox/webhooks/sample-process-versions' \
+--header 'Yep-Version-Tag: v1.0.0' \
+--header 'Yep-Async: false'
+```
+
+```sh title="Execute current version and sync mode (Yep-Async header)"
+curl --location --request POST 'https://cloud.yepcode.io/api/sandbox/webhooks/sample-process-versions' \
+--header 'Yep-Async: false'
+```
+
+```sh title="Execute current version and sync mode"
+curl --location --request POST 'https://cloud.yepcode.io/api/sandbox/webhooks/sample-process-versions?async=false' \
+```
+
+```sh title="Execute current version and sync mode with comment (Yep-Comment header)"
+curl --location --request POST 'https://cloud.yepcode.io/api/sandbox/webhooks/sample-process-versions' \
+--header 'Yep-Comment: execution-comment'
+```

@@ -1,0 +1,133 @@
+---
+title: YepCode Form Installation
+description: Learn how to install YepCode Forms on your website.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+Let's get started by embedding the simplest version of a YepCode form, and later we'll explore the full form configuration.
+
+## Embedding the Form
+
+There are two methods to embed a form on any external webpage:
+
+- Using our JavaScript SDK that replaces DOM elements with forms
+- Using the YepCodeForm [ReactJS](https://reactjs.org/) component
+
+In both cases, you'll need two mandatory parameters:
+
+- **yepcode-team-id**: Your team ID, available on your workspace URL `https://cloud.yepcode.io/<yepcode-team-id>`
+- **yepcode-process-id**: Your process ID, available on your process URL `https://cloud.yepcode.io/<yepcode-team-id>/processes/<yepcode-process-id>`. For example, `fd7f9a83-2d3d-1af8-6c3f-b9caa68531b1`
+
+### Method 1: Embed a Form using our JavaScript SDK
+
+The first step is to place this snippet into the `head` tag of your website.
+
+```html
+<script defer="defer" src="https://yepcode.io/sdk/forms.js"></script>
+```
+
+It can be loaded globally on your website or just on the webpages where you want to embed forms.
+
+<Tabs>
+  <TabItem
+    value="data"
+    label="Init forms using data attributes"
+  >
+By default, the SDK looks for any DOM element containing the data attributes <code>data-yepcode-form-team</code> and <code>data-yepcode-form-process</code> and replaces each element with the full form rendering.
+
+This is the simplest version of a form:
+
+```html
+<div
+  data-yepcode-form-team="<yepcode-team-id>"
+  data-yepcode-form-process="<yepcode-process-id>"
+></div>
+```
+
+  </TabItem>
+  <TabItem
+    value="function"
+    label="Init forms using YepCode.initForm function"
+  >
+Another approach to embed a form with our SDK is by calling a function exposed by the SDK. This function receives the DOM element selector and a JSON with the configuration:
+
+```html
+<div id="my-yepcode-form"></div>
+<script>
+  YepCode.initForm("#my-yepcode-form", {
+    team: "<yepcode-team-id>",
+    process: "<yepcode-process-id>",
+  });
+</script>
+```
+
+If you prefer to provide the DOM element itself, that is also supported:
+
+```html
+<div id="my-yepcode-form"></div>
+<script>
+  YepCode.initForm(document.getElementById("my-yepcode-form"), {
+    team: "<yepcode-team-id>",
+    process: "<yepcode-process-id>",
+  });
+</script>
+```
+
+  </TabItem>
+</Tabs>
+
+### Method 2: Embed a form using `YepCodeForm` ReactJS component
+
+:::info
+It supports ReactJS versions 17 and 18
+:::
+
+- Install as an NPM package using your favourite package manager:
+
+```sh
+yarn add @yepcode/react-forms
+```
+
+or
+
+```sh
+npm install --save @yepcode/react-forms
+```
+
+- Import the component and render it in your ReactJS app:
+
+```jsx
+import YepCodeForm from "@yepcode/react-forms";
+
+const MyComponent = () => {
+  return (
+    <YepCodeForm
+      team={"<yepcode-team-id>"}
+      processId={"<yepcode-process-id>"}
+    />
+  );
+};
+```
+
+:::note
+If you are using a Server-Side Rendering framework like [NextJS](https://nextjs.org/), use dynamic components [with no SSR](https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr):
+
+```jsx
+import dynamic from "next/dynamic";
+
+const YepCodeForm = dynamic(() => import("@yepcode/react-forms"), {
+  ssr: false,
+});
+
+const MyComponent = () => {
+  return (
+    <YepCodeForm
+      team={"<yepcode-team-id>"}
+      processId={"<yepcode-process-id>"}
+    />
+  );
+};
+```
+
+:::

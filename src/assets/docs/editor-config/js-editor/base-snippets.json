@@ -1,0 +1,40 @@
+{
+  "snippets": [
+    {
+      "label": "YepCode: Input parameters const",
+      "code": "const { context: { parameters } } = yepcode"
+    },
+    {
+      "label": "YepCode: Import module",
+      "code": "const ${1:module} = yepcode.import('${2:moduleName}');"
+    },
+    {
+      "label": "YepCode: Use team variable",
+      "code": "const ${1:variable} = yepcode.env.${2:variableName};"
+    },
+    {
+      "label": "YepCode: Read from datastore",
+      "code": "const ${1:variable} = await yepcode.datastore.get('${2:datastoreKey}');"
+    },
+    {
+      "label": "YepCode: Write to datastore",
+      "code": "await yepcode.datastore.set('${1:datastoreKey}', '${2:value}');"
+    },
+    {
+      "label": "YepCode: Delete from datastore",
+      "code": "await yepcode.datastore.del('${1:datastoreKey}');"
+    },
+    {
+      "label": "YepCode: Execution attributes",
+      "code": "const { id, comment } = yepcode.execution;"
+    },
+    {
+      "label": "YepCode: Process attributes",
+      "code": "const { id: processId, name: processName } = yepcode.execution.process;"
+    },
+    {
+      "label": "YepCode: Schedule attributes",
+      "code": "const { id: scheduleId, comment: scheduleComment } = yepcode.execution.schedule;"
+    }
+  ]
+}

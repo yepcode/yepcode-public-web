@@ -1,0 +1,483 @@
+---
+title: Command Line Interface
+description: YepCode's Command Line Interface (CLI) allows interaction with your YepCode account through a terminal.
+---
+
+import YouTube from "@components/YouTube.astro";
+import Screenshot from "@components/Screenshot.astro";
+
+# Command Line Interface
+
+## Introduction
+
+A Command Line Interface (CLI) is a text-based interface that enables users to interact with a computer program. YepCode provides both a Graphic User Interface (GUI), accessible at [https://cloud.yepcode.io](https://cloud.yepcode.io), and a CLI for interacting with YepCode Cloud.
+
+## YepCode CLI
+
+The YepCode Command Line Interface facilitates interaction with YepCode Cloud directly from your local workstation's command line. It's particularly useful if you prefer developing and testing processes' source code locally rather than using the web IDE of YepCode Cloud.
+
+By using YepCode CLI, you can employ version control systems like `git` to manage your code and synchronize your repository with YepCode Cloud. In essence, the CLI allows you to run commands such as `clone` to download all your team workspaces, `run` to test your code locally, and `push` to upload changes to YepCode Cloud.
+
+Watch the video below for an overview of how YepCode CLI can be used ([Spanish version](https://www.youtube.com/watch?v=rlsTo6KIZak)):
+
+<YouTube url="https://www.youtube.com/watch?v=Pggg84OLwnQ" />
+
+:::caution
+Video was recorded when it was needed to ask for access to install CLI. Right now is open to every YepCode user.
+:::
+
+## Installation
+
+YepCode CLI is published on [npmjs](https://www.npmjs.com/package/@yepcode/cli) so just install it as any other nodejs package:
+
+```sh
+npm install -g @yepcode/cli
+```
+
+## Usage
+
+### Ask for help
+
+As with any other command-line tool, you can run the help command to display the list of available commands:
+
+```sh
+$ yepcode help
+YepCode Command Line Interface
+
+VERSION
+  @yepcode/cli/1.0
+
+USAGE
+  $ yepcode [COMMAND]
+
+COMMANDS
+  clone    Clone team processes
+  help     Display help for yepcode.
+  login    Login to the service
+  logout   Logout from service
+  ...
+```
+
+### Login to your YepCode account
+
+Before interacting with your account, you need to log in. These credentials are personal and grant you access to your YepCode teams.
+
+```sh
+$ yepcode login
+What is your yepcode email?: ada.lovelace@yepcode.io
+What is your yepcode password (not stored)?: **********
+🔑  Checking credentials... done
+👐  Hi, Ada Lovelace!
+```
+
+:::tip
+The cli uses a local folder `.yepcode` to store credentials and metadata. By default this folder is in your HOME directory, but you may configure it using the `YEPCODE_CONFIG_PATH` env variable.
+:::
+
+You can provide your credentials using the credentials prompt, or you can use the `--email` and `--password` options.
+
+```sh
+$ yepcode login --email your-email --password your-password
+```
+
+:::info
+We don't yet support the external identity providers in YepCode CLI (Google Auth, Github or Microsoft).
+
+If you have used it to create your account, you need ask for a password reset and setup one:
+<Screenshot src="reset-password.png" width="40%" />
+:::
+
+### Logout from your YepCode account
+
+Perform a logout to remove access to your YepCode account.
+
+```sh
+$ yepcode logout
+👋  Bye!
+```
+
+### Clone your team workspace locally
+
+Clone one of your team workspaces using:
+
+```sh
+$ yepcode clone ada-lovelace
+fetching processes...
+
+fetching modules...
+
+fetching variables...
+
+🎉  ada-lovelace team processes cloned successfully!
+
+$  cd ada-lovelace
+```
+
+:::tip
+If you don't provide parameters to the `clone` command, you'll see the list of available teams.
+:::
+
+```sh
+$ yepcode clone
+🏢 Allowed teams:
+	ada-lovelace
+	sandbox
+```
+
+Inspect the generated folder, and you'll see some folders and files:
+
+```
+📦 ada-lovelace
+┣ 📂 modules
+┃ ┣ 📂 <javascript-module-slug>
+┃ ┃ ┗ 📜 <module-slug>.js
+┃ ┣ 📂 <python-module-slug>
+┃ ┃ ┗ 📜 <module-slug>.py
+┃ ┣ 📂 <module-with-versions>
+┃ ┃ ┣ 📂 versions
+┃ ┃ ┃ ┣ 📂 v1.0
+┃ ┃ ┃ ┃ ┗ 📜 <module-slug>.js
+┃ ┃ ┃ ┗ 📂 ...
+┃ ┃ ┗ 📜 <module-slug>.js
+┃ ┗ 📂 ...
+┣ 📂 processes
+┃ ┣ 📂 <javascript-process-slug>
+┃ ┃ ┣ 📜 README.md
+┃ ┃ ┣ 📜 index.js
+┃ ┃ ┣ 📜 parametersSchema.json
+┃ ┃ ┗ 📜 parameters.json
+┃ ┣ 📂 <python-process-slug>
+┃ ┃ ┣ 📜 README.md
+┃ ┃ ┣ 📜 main.py
+┃ ┃ ┣ 📜 parametersSchema.json
+┃ ┃ ┗ 📜 parameters.json
+┃ ┣ 📂 <process-slug-with-versions>
+┃ ┃ ┣ 📂 versions
+┃ ┃ ┃ ┣ 📂 v1.0
+┃ ┃ ┃ ┃ ┣ 📜 README.md
+┃ ┃ ┃ ┃ ┣ 📜 index.js
+┃ ┃ ┃ ┃ ┣ 📜 parametersSchema.json
+┃ ┃ ┃ ┃ ┗ 📜 parameters.json
+┃ ┃ ┃ ┗ 📂 ...
+┃ ┃ ┣ 📜 README.md
+┃ ┃ ┣ 📜 index.js
+┃ ┃ ┣ 📜 parametersSchema.json
+┃ ┃ ┗ 📜 parameters.json
+┃ ┗ 📂 ...
+┣ 📜 datastore.json
+┣ 📜 variables.env
+┣ 📜 variables.local.env
+┣ 📜 .gitignore
+┗ 📂 .yepcode
+```
+
+- `processes`: Processes' source code, with one folder per process, containing process files.
+  - `README.md`: Markdown file with the process description.
+  - `index.js` or `index.py`: Process source code in JavaScript or Python.
+  - `parametersSchema.json`: Parameters schema JSON file.
+  - `parameters.json`: Sample input file dynamically generated. It will be used as default input file in local executions, but you may provide another one.
+  - `versions`: if process has published versions, a new folder will exists and each version folder will have a process replica with the published contents.
+- `modules`: Modules' source code, with one folder per module, containing the module file.
+  - `versions`: if module has published versions, a new folder will exists and each version folder will have a module replica with the published contents.
+- `variables.env`: Includes all team variables in .env file format (KEY=VALUE).
+- `variables.local.env`: Local environment variables that override `variables.env`.
+- `datastore.json`: YepCode datastore file.
+- `.gitignore`: Auto generated gitignore file. It will be used if you create a git repo for this directory to ignore sensitive resources (variables .env).
+- `.yepcode`: YepCode workspace metadata directory.
+
+:::info
+Variables won't be filled, so for local execution testing, you must fill the values.
+
+The best option is to create the following local files which won't be synced with remote:
+- `variables.local.env`: Local environment variables that override `variables.env`
+:::
+
+:::caution
+`.yepcode` is a directory containing workspace metadata and is not meant to be edited by the user.
+:::
+
+### Execute processes locally
+
+Execute a process locally using the `run` command:
+
+```sh
+$ yepcode run <process-slug>
+```
+
+:::tip
+To see the list of available processes, use the `processes:status` command.
+:::
+
+By default, the process is executed using the `parameters.json` file located in the process folder. You may provide another input params using the `--parameters` option:
+
+```sh
+$ yepcode run <process-slug> --parameters path/to/parameters.json
+```
+
+### Manage package dependencies
+
+YepCode support custom dependencies to use any npmjs or pypi package in your processes. Check [dependencies section](/docs/docs/dependencies) for more information.
+
+In order to run a process, you need to install your team configured dependencies. You can do that with the `dependencies` command:
+
+```sh
+$ yepcode dependencies [all|javascript|python]
+```
+
+There are two flags to manage dependencies:
+
+* `--check`: Check if dependencies are installed and installed versions are up to date.
+* `--reset`: Performs a full reinstall of configured dependencies.
+
+:::info
+By default, dependencies are installed inside `~/.yepcode/dependencies`, but remember that you may configure this using the `YEPCODE_CONFIG_PATH` env variable.
+:::
+
+### Pull changes from cloud
+
+If you or your colleages have performed changes in YepCode cloud, update your local files.
+
+Fetch all processes from cloud and save them locally:
+
+```sh
+$ yepcode pull
+fetching processes...
+- [new]     -> Create process name (<process-slug>)
+- [updated]	-> Updated process name (<process-slug>)
+- [deleted]	-> Deleted process name (<process-slug>)
+
+modules are up to date.
+
+variables are up to date.
+
+```
+
+:::info
+If you or your team have modified process both locally and in the cloud, the CLI prompts you on how to resolve conflicts:
+
+```sh
+🔥 conflictive-process-name (<process-slug>) has been modified both remote and local!
+Do you want to override local changes? yes/no:
+```
+
+:::
+
+### Push changes to cloud
+
+After upgrading your processes or modules locally, update your cloud workspace from local changes using `push` command.
+
+```sh
+$ yepcode push
+uploading processes...
+[uploaded] -> modified-process-name (<process-slug>) uploaded to remote.
+[overwritten] -> conflictive-process-name (<process-slug>) overwritten in remote.
+```
+
+:::info
+If you or your team have modified processes both locally and in the cloud, CLI prompts you on how to resolve conflicts:
+
+```sh
+🔥  conflictive-process-name (<process-slug>) has been modified both origin and local!
+    Do you want force push to origin? yes/no:
+```
+
+:::
+
+### Add local created resources
+
+If you have created resources on your local workspace, you can add them to keep track and after that they could be pushed to remote:
+
+```
+ℹ️  1 processes only existing in local: a-new-local-process
+   Use command 'yepcode processes:add' to keep track of these resources
+```
+
+Using the `yepcode processes:add` command, it will be added and then will be shown in the status log.
+
+### Add new remote cloud team
+
+YepCode CLI is able to work with multiple remotes. This is pretty interesting to keep sync processes or modules between those environments.
+
+Let's say that you have a YepCode staging enviroment where you test your code before going to production. You cloud clone the staging environment and then add a new remote for the production envinroment. This is done with the `yepcode remote` command:
+
+```sh
+$ yepcode remote
+Add a remote team workspace
+
+USAGE
+  $ yepcode remote:COMMAND
+
+COMMANDS
+  remote:add  Add a remote team workspace
+  remote:set  Set the active remote team workspace
+```
+
+After adding a new remote, it may be needed to perform a `yepcode add` just to keep track of the files in this new environment. After that, you could go with a `yepcode push` to deploy changes to the cloud.
+
+
+### Resource topics
+
+Each workspace resource has a dedicated topic, allowing you to manage your workspace resources independently using topics (modules, processes, variables):
+
+| Topic/Command | status             | pull               | push                     |
+| :------------ | :----------------- | :----------------- | :----------------------- |
+| processes     | :white_check_mark: | :white_check_mark: | :white_check_mark:       |
+| modules       | :white_check_mark: | :white_check_mark: | :white_check_mark:       |
+| variables     | :white_check_mark: | :white_check_mark: | :sparkles: (just create) |
+
+#### List resources
+
+You may list all available resources using the `status` command:
+
+```sh
+$ yepcode processes:status
+
+processes status:
+ slug                           name                               status
+ ────────────────────────────── ────────────────────────────────── ────────────────
+ hello-world                    Hello world                        ✅  (up-to-date)
+ stripe-customers-from-supabase Stripe Customers From Supabase Bar ✅  (up-to-date)
+```
+
+#### Pull resources changes from cloud
+
+In addition, you can fetch resources from the cloud and update locally:
+
+```sh
+$ yepcode processes:pull
+fetching processes...
+processes are up to date.
+```
+
+#### Push resources changes to cloud
+
+You can update cloud resources with local changes:
+
+```sh
+$ yepcode modules:push
+updating modules...
+modules up-to-date
+```
+
+:::info
+If you or your team have modified processes both locally and in the cloud, the CLI prompts you on how to resolve conflicts using both `pull` and `push` commands
+:::
+
+### Debug with visual studio code
+
+You can debug your yepcode processes using `vscode`.
+
+In order to have full debugging support you need to encapsulate your code in a main() function:
+
+```js title="javascript example"
+const { yepcode } = require('yepcode');
+
+async function main() {
+  // your code
+}
+
+module.exports = { main };
+```
+
+```python title="python example"
+from yepcode import yepcode, logger
+
+def main():
+    # your code
+```
+
+:::info
+If you try to debug a process without a main() function, you'll get a warning message:
+
+```sh title="Javascript warning message"
+############################################################################################
+###  WARNING!!: Process does not cointain a main() function, breakpoints will not work.  ###
+###  You should encapsulate your code in a main() function for full debugging support.   ###
+############################################################################################
+###  // Sample process code:                                                             ###
+###                                                                                      ###
+###  const { yepcode } = require("yepcode");                                             ###
+###  async function main() {                                                             ###
+###    // your code                                                                      ###
+###  }                                                                                   ###
+###  module.exports = { main }                                                           ###
+###                                                                                      ###
+############################################################################################
+```
+
+```sh title="Python warning message"
+############################################################################################
+###  WARNING!!: Process does not cointain a main() function, breakpoints will not work.  ###
+###  You should encapsulate your code in a main() function for full debugging support.   ###
+############################################################################################
+###  // Sample process code:                                                             ###
+###                                                                                      ###
+###  from yepcode import yepcode, logger                                                 ###
+###  def main():                                                                         ###
+###    // your code                                                                      ###
+###                                                                                      ###
+############################################################################################
+```
+
+:::
+
+Then you need to create the vscode configuration files. You can do it with the `setup-debug` command:
+
+```sh
+$ yepcode setup-debug
+✨ Created .vscode/launch.json
+✨ Created .vscode/settings.json
+```
+
+:::info
+If you rerun this command or already have the vscode configuration files `.vscode/launch.json` / `.vscode/settings.json`, you'll be asked to overwrite the existing files:
+
+```sh
+$ yepcode setup-debug
+✔ ⚠️ File .vscode/launch.json already exists. Do you want to overwrite it? yes/no Yes
+✨ Created .vscode/launch.json
+✔ ⚠️ File .vscode/settings.json already exists. Do you want to overwrite configuration? yes/no Yes
+✨ Updated .vscode/settings.json
+```
+
+:::
+
+Now in your vscode `Run and Debug` tab you can select which process you want to debug:
+
+<Screenshot src="debug-vscode.png" />
+
+- The first two entries will debug your current file, you need to select Python/Node Debugger option depending on the language of your process.
+- Next entries will be your processes, you can select one of them to debug.
+
+:::info
+If you create/delete a process `yepcode setup-debug`
+command should be reruned in order to update the vscode debug configuration files. Then the process will be added/removed from the debug selector options.
+:::
+
+## Update CLI
+
+If you want to update the CLI, you can do it using the `npm install` command:
+
+```sh
+$ npm install -g @yepcode/cli
+```
+
+If a new version is available, you will be notified to update the CLI.
+
+```sh
+$ yepcode --version
+
+      __     __         _____          _
+      \ \   / /        / ____|        | |
+       \ \_/ /__ _ __ | |     ___   __| | ___
+        \   / _ \ '_ \| |    / _ \ / _` |/ _ \
+         | |  __/ |_) | |___| (_) | (_| |  __/
+         |_|\___| .__/ \_____\___/ \__,_|\___|
+                | |
+                |_|
+
+      Update available x.y.z → X.Y.Z
+      Run `npm i -g @yepcode/cli` to update
+
+@yepcode/cli/x.y.z darwin-x64 node-v16.x.x
+```

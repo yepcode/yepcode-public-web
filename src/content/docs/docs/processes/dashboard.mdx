@@ -1,0 +1,47 @@
+---
+title: Dashboard
+description: Explore and configure details of a YepCode process through the Dashboard page.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+
+# Dashboard
+
+The Dashboard page provides a comprehensive view of details and settings for a YepCode process.
+
+To access it, navigate to the process page and click on the gear icon at the top right of the screen:
+
+<Screenshot src="dashboard-icon.png" />
+
+## Details
+
+The initial page presents all available process configurations:
+
+<Screenshot src="dashboard-details.png" />
+
+- **General**:
+  - **Name**: process name (must be unique across all processes).
+  - **Slug**: friendly process identifier (must be unique across all processes). You can use it in [Webhooks](/docs/executions/webhooks) and [Forms](/docs/forms) instead of the process ID.
+  - **Description**: process description.
+- **Forms**: Enable or disable forms integration for this process. This feature allows you to embed process input parameter forms in any webpage. Refer to the full [form documentation](/docs/forms) for more details.
+- **Visibility**: Toggle between [public](/docs/processes/shared) and private. When your process is public, you can edit the process URL token (must be unique across all processes).
+
+## Versions
+
+Explore detailed information about all your [process versions](/docs/processes/process-versioning) in the Versions tab.
+
+If your process has no versions, this tab will not be visible.
+
+<Screenshot src="versions-details.png" />
+
+## Schedules
+
+View every [scheduled configuration](/docs/executions/scheduled) for the process in the Schedules tab.
+
+<Screenshot src="dashboard-scheduled.png" />
+
+## Executions
+
+Track all process [executions](/docs/executions) in the Executions tab.
+
+<Screenshot src="dashboard-executions.png" />

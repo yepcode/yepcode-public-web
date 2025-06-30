@@ -1,0 +1,66 @@
+---
+title: Process Versioning
+description: Learn how to use process versions and alias in YepCode.
+---
+
+import Screenshot from "@components/Screenshot.astro";
+
+# Process Versioning
+
+YepCode allows you to manage different versions of your processes and modules, so then you may start executions using an specific version source code.
+
+## Manage versions
+
+You can publish a version from the process pages by clicking `Publish version` in the three dots menu.
+
+<Screenshot src="publish-version.png" />
+
+This action will display a form where you should write a tag for the new process version and a comment for the version if desired.
+
+<Screenshot src="publish-version-form.png" />
+
+Once you create the version, you can view its code by changing to it in the version selector. It's important to note that you cannot edit the code of a published version. To continue editing your process, simply return to the current version using the selector and continue coding!
+
+<Screenshot src="process-version-change.png" />
+
+Having a version published, you can select that version source code to be used when you start any process execution.
+
+## Run now with version
+
+During one [on-demand execution](/docs/executions/on-demand), you can select the version source code be used:
+
+<Screenshot src="process-version-run-now.png" />
+
+## Scheduled execution with version
+
+For [scheduled executions](/docs/executions/scheduled), you can also select the version source code be used:
+
+<Screenshot src="process-version-scheduler.png" />
+
+## Webhook execution with version
+
+For [webhook executions](/docs/executions/webhooks), you should pass the `Yep-Version-Tag` HTTP Header to use one version source code:
+
+<Screenshot src="process-version-webhook.png" />
+
+## Version aliases
+
+To maximize the utility of versions, we introduce version aliases—pointers to a process or module version that you can update with ease.
+
+<Screenshot src="process-version-alias-create.png" />
+
+This feature addresses the need to change the version used by an external service without deploying changes to that service.
+
+Consider a scenario where an external service calls YepCode via a webhook, specifying a process version (e.g., `v1.0`) in the invocation header. When you release a new process version (e.g., `v2.0`) and want to switch to it, updating the external service can be cumbersome. Instead, by using an alias in the webhook invocation (e.g., `stable`), initially linked to version `v1.0`, you can seamlessly transition to version `v2.0` by simply updating the alias in the YepCode UI.
+
+This approach eliminates the need to modify the external service, making version management more efficient.
+
+<Screenshot src="process-version-alias-list.png" />
+
+Version aliases can be used exactly in the same scenarios where process versions are available: run now, webhooks or scheduled configurations.
+
+## Modules versioning and aliases
+
+YepCode Modules also support versions and aliases. See [modules docs page](/docs/processes/modules) to see how one version or alias can be selected during module import.
+
+<Screenshot src="process-version-module.png" />

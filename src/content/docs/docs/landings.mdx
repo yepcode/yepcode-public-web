@@ -1,0 +1,204 @@
+---
+title: YepCode Landings Overview
+description: Manage unique landing pages for every campaign creating customizable HTML layouts with replaceable tokens.
+---
+
+<script src="https://yepcode.io/sdk/forms.js"></script>
+
+import Screenshot from "@components/Screenshot.astro";
+import YouTube from "@components/YouTube.astro";
+
+# YepCode Landings
+
+YepCode allows to manage countless variations of landing pages effortlessly.
+
+Just create customizable HTML layouts with replaceable tokens and then generate langing instances provided the needed information.
+
+For a comprehensive demonstration of how YepCode Landings works, watch the full demo video below:
+
+<YouTube url="https://www.youtube.com/watch?v=IBlviq_oxgc" />
+
+## Claim Your Access
+
+Access to YepCode Landings is exclusive to some of our [paid plans](/docs/plans-and-limits#yepcode-landings). If you're interested in trying it out, simply fill this form:
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="yepcode"
+    data-yepcode-form-process="41e5c8f6-ad1a-4d21-8d7d-6d49b7239fb7"
+  ></div>
+</div>
+
+## Create your first template
+
+Just use the `Create` button and the form to create a template will be shown:
+
+<Screenshot src="landings-edit-template.png" width="80%" />
+
+Each template has the following information:
+
+### Name and slug
+
+Just some descriptive information.
+
+### HTML Source Code
+
+It's the full HTML code that will be rendered when someone visit the landing.
+
+You can include any necessary external assets such as CSS, JavaScript files, and images within your HTML code. If required, we can provide web storage space to upload your external assets.
+
+Your HTML code can utilize replaceable tokens using the [Mustache syntax](https://mustache.github.io/mustache.5.html). These tokens will be dynamically replaced with values provided during landing creation.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello, {{name}}!</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 5em;
+      color: #b84ef4;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hello, {{name}}!</h1>
+</body>
+</html>
+```
+
+### Properties schema.
+
+The tokens used in your HTML code must be defined in these properties schema, that uses the JSON Schema form specification, and the library we use to render the form is [react-jsonschema-form](https://rjsf-team.github.io/react-jsonschema-form/docs/).
+
+The `slug` and `name` attributes are mandatory, and inside the `variables` node, you coud add as may attributes as you could need (in this sample we only ask for a string field for the name):
+
+```json
+{
+  "title": "Template configuration",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "title": "URL path",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "title": "Landing name"
+    },
+    "variables": {
+      "title": "Template variables",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Your name",
+          "description": "This is a variable that will be replaced in the landing render",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "required": [
+    "slug",
+    "name"
+  ]
+}
+```
+
+Here you have a more complex sample, including text areas and also a input type file, that will allow you to upload files when you create the landings:
+
+```json
+{
+  "title": "Template configuration",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "title": "URL path",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "title": "Landing name"
+    },
+    "variables": {
+      "title": "Template variables",
+      "type": "object",
+      "properties": {
+        "title": {
+          "title": "Page meta title",
+          "type": "string"
+        },
+        "description": {
+          "title": "Page meta description",
+          "type": "string"
+        },
+        "heading_title": {
+          "title": "Heading title",
+          "type": "string"
+        },
+        "heading_text": {
+          "title": "Heading content",
+          "type": "string",
+          "ui": {
+            "ui:widget": "textarea"
+          }
+        },
+        "heading_image": {
+          "type": "string",
+          "format": "file",
+          "title": "Heading image",
+          "isTransient": true
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "heading_title",
+        "heading_text"
+      ]
+    }
+  },
+  "required": [
+    "slug",
+    "name"
+  ]
+}
+```
+
+## Create your first landing
+
+
+Once you've defined your template layout and properties, you can begin creating landings.
+
+Simply select the desired template, and the associated properties will be displayed:
+
+<Screenshot src="landing-create-landing.png" width="80%" />
+
+The URL path will determine the availability of your landing page. By default, it will be hosted under a YepCode domain:
+
+```text
+https://landings.yepcode.io/{{your-workspace-id}}/{{your-landing-url-path}}/
+```
+
+But you can configure a `CNAME` record so that your landing page will also be accessible under your own domain.
+
+## Do you need something more
+
+Just [drop us a message](https://yepcode.io/contact) if you think that YepCode Landings cover your needs you but you need some kind of help.

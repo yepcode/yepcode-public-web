@@ -1,0 +1,10 @@
+{
+  "name": "[Sample] Error handler with mail notification",
+  "description": "Sample for global error handler using mail notification",
+  "script": {
+    "sourceCode": "const { context: { parameters: { error, execution } } } = yepcode\n\nconst nodemailerTransport = yepcode.integration.smtp(\"your-smtp\")\n\nconst watchers = [\"<foo@example.com>\"]\n\nconst executionUrl = `https://cloud.yepcode.io/{your-team-slug}/executions/${execution.id}`\n\nconst errorMessage = (error, execution) => `\nProcess ${execution.process.name} failed: ${executionUrl}\n\n${error.message}\n${error.stacktrace}\n`\n\nconst info = await nodemailerTransport.sendMail({\n    from: \"info@sandbox.io\",\n    to: watchers.join(\", \"),\n    subject: `[YepCode] '${execution.process.name}' failed`,\n    text: errorMessage(error, execution)\n})\nconsole.log(\"Message sent: \" + info.messageId);\n",
+    "parametersSchema": "{\"description\":\"These are the input params for an execution error handler process\",\"title\":\"Execution error handler params\",\"type\":\"object\",\"properties\":{\"execution\":{\"title\":\"Execution\",\"required\":[\"id\"],\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"comment\":{\"type\":\"string\"},\"params\":{\"type\":\"object\",\"title\":\"Execution input params\",\"ui:schema\":{\"ui:field\":\"json\"}},\"schedule\":{\"title\":\"Schedule\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\"},\"comment\":{\"type\":\"string\"}}},\"process\":{\"title\":\"Process\",\"type\":\"object\",\"required\":[\"id\"],\"properties\":{\"id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}}}}},\"error\":{\"title\":\"Error\",\"type\":\"object\",\"required\":[\"message\",\"stacktrace\"],\"properties\":{\"message\":{\"type\":\"string\"},\"stacktrace\":{\"type\":\"string\"}}}}}",
+    "programmingLanguage": "JAVASCRIPT"
+  },
+  "scriptLibraries": []
+}

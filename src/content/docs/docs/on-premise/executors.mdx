@@ -1,0 +1,18 @@
+---
+title: Executors On-Premise
+description: We provide an on-premise flavor where only the YepCode executors layer is deployed.
+---
+
+# Executors Layer On-Premise Deployment
+
+This is a simpler approach but very suitable to meet some clients' needs. In this case, we only deploy the executors layer, and the rest of the services are not deployed, so you'll use the YepCode cloud ones.
+
+This allows the processes to run in your system infrastructure but without the need to deploy the whole stack.
+
+This flavor is quite interesting under various situations:
+
+- If you don't want to [grant access](/docs/network-access) to your internal services. As the processes' source code runs in your systems, there is no need to open network connections from the YepCode cloud.
+- If you need to move large amounts of information between services deployed in your system infrastructure, and you don't want to incur in the related network traffic cost.
+- If you want to remotely run code in several destinations without the need to deploy any project in each one. This may be a good use case for SaaS companies that need to get information from their clients' systems and then return the result of processing that information.
+
+This deployment option is only available on **GROWTH** or **ENTERPRISE** plans, so please [contact us](https://yepcode.io/contact/) if you are interested in this flavor.

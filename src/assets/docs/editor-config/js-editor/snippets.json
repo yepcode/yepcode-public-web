@@ -1,0 +1,1944 @@
+{
+  "snippets": [
+    {
+      "label": "YepCode: Input parameters const",
+      "code": "const { context: { parameters } } = yepcode"
+    },
+    {
+      "label": "YepCode: Import module",
+      "code": "const ${1:module} = yepcode.import('${2:moduleName}');"
+    },
+    {
+      "label": "YepCode: Use team variable",
+      "code": "const ${1:variable} = yepcode.env.${2:variableName};"
+    },
+    {
+      "label": "YepCode: Read from datastore",
+      "code": "const ${1:variable} = await yepcode.datastore.get('${2:datastoreKey}');"
+    },
+    {
+      "label": "YepCode: Write to datastore",
+      "code": "await yepcode.datastore.set('${1:datastoreKey}', '${2:value}');"
+    },
+    {
+      "label": "YepCode: Delete from datastore",
+      "code": "await yepcode.datastore.del('${1:datastoreKey}');"
+    },
+    {
+      "label": "YepCode: Execution attributes",
+      "code": "const { id, comment } = yepcode.execution;"
+    },
+    {
+      "label": "YepCode: Process attributes",
+      "code": "const { id: processId, name: processName } = yepcode.execution.process;"
+    },
+    {
+      "label": "YepCode: Schedule attributes",
+      "code": "const { id: scheduleId, comment: scheduleComment } = yepcode.execution.schedule;"
+    },
+    {
+      "label": "YepCode Airtable: New integration from credential",
+      "code": "const airtableClient = yepcode.integration.airtable('credential-slug')"
+    },
+    {
+      "label": "YepCode Airtable: New integration from plain authentication data",
+      "code": "const Airtable = require('airtable')\n\nconst airtableClient = new Airtable({\n        apiKey: 'your_api_key'\n    })"
+    },
+    {
+      "label": "YepCode Airtable: Select records from base",
+      "code": "airtableClient.base('baseName').select({\n    maxRecords: 30,\n    view: \"Grid view\"\n}).eachPage(function page(records, fetchNextPage) {\n    records.forEach(function(record) {\n        console.log('Retrieved', record.get('productId'));\n    });\n    fetchNextPage();\n\n}, function done(err) {\n    if (err) { console.error(err); return; }\n});"
+    },
+    {
+      "label": "YepCode Airtable: Find one record by id",
+      "code": "airtableClient.base('baseName').find('recordId', function(err, record) {\n    if (err) { console.error(err); return; }\n    console.log('Retrieved', record.id);\n});"
+    },
+    {
+      "label": "YepCode Airtable: Create records",
+      "code": "airtableClient.base('baseName').create([\n  {\n    \"fields\": {\n      \"productId\": 1,\n      \"stock\": 10\n    }\n  },\n  {\n    \"fields\": {\n      \"productId\": 1,\n      \"stock\": 20\n    }\n  }\n], function(err, records) {\n  if (err) {\n    console.error(err);\n    return;\n  }\n  records.forEach(function (record) {\n    console.log(record.getId());\n  });\n});"
+    },
+    {
+      "label": "YepCode Airtable: Update records",
+      "code": "airtableClient.base('baseName').update([\n  {\n    \"id\": \"recordId\",\n    \"fields\": {\n      \"stock\": 20\n    }\n  },\n  {\n    \"id\": \"otherRecordId\",\n    \"fields\": {\n      \"stock\": 20\n    }\n  }\n], function(err, records) {\n  if (err) {\n    console.error(err);\n    return;\n  }\n  records.forEach(function (record) {\n    console.log(record.getId());\n  });\n});"
+    },
+    {
+      "label": "YepCode Airtable: Delete records",
+      "code": "airtableClient.base('baseName').destroy(['recordId'], function(err, deletedRecords) {\n  if (err) {\n    console.error(err);\n    return;\n  }\n  console.log('Deleted', deletedRecords.length, 'records');\n});"
+    },
+    {
+      "label": "YepCode Algolia: New integration from credential",
+      "code": "const algolia = yepcode.integration.algolia('credential-slug')"
+    },
+    {
+      "label": "YepCode Algolia: New integration from plain authentication data",
+      "code": "const algoliasearch = require('algoliasearch');\nconst algolia = algoliasearch('your-application-id', 'your-write-api-key');"
+    },
+    {
+      "label": "YepCode Algolia: Search index",
+      "code": "const index = algolia.initIndex('your-index-name');\nindex.search('your query string').then(({ hits }) => {\n  console.log(hits);\n});"
+    },
+    {
+      "label": "YepCode Algolia: Save objects",
+      "code": "const index = algolia.initIndex('your-index-name');\n\nconst objects = [{\n  firstname: 'Jimmie',\n  lastname: 'Barninger',\n  objectID: 'myID1'\n}, {\n  firstname: 'Warren',\n  lastname: 'Speach',\n  objectID: 'myID2'\n}];\n\nindex.saveObjects(objects).then(({ objectIDs }) => {\n  console.log(objectIDs);\n});"
+    },
+    {
+      "label": "YepCode Algolia: Save single object",
+      "code": "const index = algolia.initIndex('your-index-name');\n\nindex.saveObject({\n  firstname: 'Jimmie',\n  lastname: 'Barninger',\n  objectID: 'myID1'\n}).then(({ objectID }) => {\n  console.log(objectID);\n});"
+    },
+    {
+      "label": "YepCode Algolia: Delete objects",
+      "code": "const index = algolia.initIndex('your-index-name');\nindex.deleteObjects(['myID1', 'myID2']).then(({ objectIDs }) => {\n  console.log(objectIDs);\n});"
+    },
+    {
+      "label": "YepCode AMQP: New integration from credential",
+      "code": "const amqpConnection = await yepcode.integration.amqp('credential-slug')"
+    },
+    {
+      "label": "YepCode AMQP: New integration from plain authentication data",
+      "code": "const amqp = require('amqplib');\n\namqp.connect({\n  hostname: 'localhost',\n  username: 'guest',\n  password: 'guest',\n  port: '5672',\n  vhost: '/'\n}).then(connection => {\n  // Your code here\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode AMQP: New integration from plain authentication data with callback API",
+      "code": "const amqp = require('amqplib/callback_api');\n\namqp.connect({\n  hostname: 'localhost',\n  username: 'guest',\n  password: 'guest',\n  port: '5672',\n  vhost: '/'\n},\n(error, connection) => {\n  if (error) {\n    console.error(error);\n  }\n  // Your code here\n}\n);"
+    },
+    {
+      "label": "YepCode AMQP: Publisher (promise)",
+      "code": "const queue = \"queueName\";\n\nconst publisher = (connection) => {\n  return connection\n    .createChannel()\n    .then((channel) => {\n      return channel.assertQueue(queue).then((ok) => {\n        return channel.sendToQueue(\n          queue,\n          Buffer.from(\"Your message here\")\n        );\n      });\n    })\n    .catch((error) => console.error(error));\n};"
+    },
+    {
+      "label": "YepCode AMQP: Publisher (async/await)",
+      "code": "const queue = \"queueName\";\n\nconst publisher = async (connection) => {\n  try {\n    const channel = await connection.createChannel();\n    await channel.assertQueue(queue);\n    channel.sendToQueue(queue, Buffer.from(\"Your message here\"));\n  } catch (error) {\n    console.error(error);\n  }\n};"
+    },
+    {
+      "label": "YepCode AMQP: Publisher (callback)",
+      "code": "const queue = \"queueName\";\n\nconst publisher = (connection) => {\n  connection.createChannel((error, channel) => {\n    if (error != null) console.error(error);\n    channel.assertQueue(queue);\n    channel.sendToQueue(queue, Buffer.from(\"Your message here\"));\n  });\n};"
+    },
+    {
+      "label": "YepCode AWS Cognito: New integration from credential",
+      "code": "const awsCognitoClient = yepcode.integration.awsCognito(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS Cognito: New integration from plain authentication data",
+      "code": "const { CognitoIdentityProviderClient } = require(\"@aws-sdk/client-cognito-identity-provider\");\n\nconst awsCognitoClient = new CognitoIdentityProviderClient({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS Cognito: Create identify provider",
+      "code": "const { CreateIdentityProviderCommand } = require('@aws-sdk/client-cognito-identity-provider)\nconst input = {\n  UserPoolId: userPoolId,\n  ProviderName: providerName,\n  ProviderType: providerType,\n  ProviderDetails: {\n    keys: providerDetails,\n  }\n};\nconst command = new CreateIdentityProviderCommand(input);\nconst response = await awsCognitoClient.send(command);"
+    },
+    {
+      "label": "YepCode AWS Cognito: Create user pool",
+      "code": "const { CreateUserPoolCommand } = require(\"@aws-sdk/client-cognito-identity-provider\");\n\nconst input = {\n  PoolName: poolName\n  LambdaConfig: {\n    CustomSMSSender: {\n      LambdaVersion: lambdaVersion,\n      LambdaArn: lambdaArn,\n    },\n    CustomEmailSender: {\n      LambdaVersion: lambdaVersion,\n      LambdaArn: lambdaArn,\n    },\n  },\n  SmsConfiguration: {\n    SnsCallerArn: snsCallerArn,\n  },\n  UsernameConfiguration: {\n    CaseSensitive: caseSensitive,\n  },\n  AccountRecoverySetting: {\n    RecoveryMechanisms: [\n      {\n        Priority: Number(recoveryMechanismsPriority),\n        Name: recoveryMechanismsName,\n      },\n    ],\n  }\n};\nconst command = new CreateUserPoolCommand(input);\nconst response = await awsCognitoClient.send(command);"
+    },
+    {
+      "label": "YepCode AWS Cognito: List identify providers",
+      "code": "const { ListIdentityProvidersCommand } = require(\"@aws-sdk/client-cognito-identity-provider\");\nconst input = {\n  UserPoolId: userPoolId\n};\nconst command = new ListIdentityProvidersCommand(input);\nconst response = await awsCognitoClient.send(command);\nfor(const provider of response.Providers) {\n  console.log(provider)\n}"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: New integration from credential",
+      "code": "const awsDynamodbClient = yepcode.integration.awsDynamodb(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: New integration from plain authentication data",
+      "code": "const { DynamoDBClient } = require(\"@aws-sdk/client-dynamodb\");\n\nconst awsDynamodbClient = new DynamoDBClient({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: List tables",
+      "code": "const { ListTablesCommand } = require(\"@aws-sdk/client-dynamodb\");\nconst listTablesCommand = new ListTablesCommand({});\n\nconst listTablesResponse = await awsDynamodbClient.send(listTablesCommand);\n\nconsole.log(listTablesResponse);"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: Get all table items",
+      "code": "const { ScanCommand } = require(\"@aws-sdk/client-dynamodb\");\nconst scanCommand = new ScanCommand({ TableName: \"table-name\" });\n\nconst scanResponse = await awsDynamodbClient.send(scanCommand);\n\nconsole.log(scanResponse.Items);"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: Put item",
+      "code": "const { PutItemCommand } = require(\"@aws-sdk/client-dynamodb\");\nconst putItemCommand = new PutItemCommand({\n  TableName: \"table-name\",\n  Item: {\n    \"table-primary-key-name\": { S: \"table-primary-key-value\" },\n    someOther: { S: \"other-value\" },\n  },\n});\n\nconst putItemResponse = await awsDynamodbClient.send(putItemCommand);\n\nconsole.log(putItemResponse);"
+    },
+    {
+      "label": "YepCode AWS DynamoDB: Get item",
+      "code": "const { GetItemCommand } = require(\"@aws-sdk/client-dynamodb\");\nconst getItemCommand = new GetItemCommand({\n  TableName: \"table-name\",\n  Key: {\n    \"table-primary-key-name\": { S: \"table-primary-key-value\" },\n  },\n});\n\nconst getItemResponse = await awsDynamodbClient.send(getItemCommand);\n\nconsole.log(getItemResponse);"
+    },
+    {
+      "label": "YepCode AWS Lambda: New integration from credential",
+      "code": "const awsLambdaClient = yepcode.integration.awsLambda(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS Lambda: New integration from plain authentication data",
+      "code": "const { LambdaClient } = require(\"@aws-sdk/client-lambda\");\n\nconst awsLambdaClient = new LambdaClient({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS Lambda: List functions",
+      "code": "const { ListFunctionsCommand } = require('@aws-sdk/client-lambda')\nconst listFunctionsCommand = new ListFunctionsCommand({});\n\nconst { Functions } = await awsLambdaClient.send(listFunctionsCommand);\nfor(const func of Functions) {\n  console.log(func.FunctionName, func.Description)\n}"
+    },
+    {
+      "label": "YepCode AWS Lambda: Invoke function",
+      "code": "const { InvokeCommand, LogType } = require('@aws-sdk/client-lambda')\n\ntry {\n    const params = {\n    FunctionName: 'funcName',\n    Payload: JSON.stringify({ foo: 'bar' }),\n    LogType: LogType.Tail\n  }\n  const invokeCommand = new InvokeCommand(params)\n  const { Payload, LogResult } = await awsLambdaClient.send(invokeCommand)\n  const result = Buffer.from(Payload).toString()\n  const logs = Buffer.from(LogResult, 'base64').toString()\n\n  console.log(result)\n  console.log(logs)\n} catch (error) {\n  throw error\n} finally {\n  // if you are using a custom http handler, you may call destroy() to close open connections.\n  client.destroy()\n}"
+    },
+    {
+      "label": "YepCode AWS Lambda: Get function",
+      "code": "const { GetFunctionCommand } = require(\"@aws-sdk/client-lambda\");\nconst getFunctionCommand = new GetFunctionCommand({ FunctionName: 'funcName' });\nconst response = await awsLambdaClient.send(getFunctionCommand)\nconsole.log(response);"
+    },
+    {
+      "label": "YepCode AWS Redshift: New integration from credential",
+      "code": "const awsRedshiftClient = yepcode.integration.awsRedshift(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS Redshift: New integration from plain authentication data",
+      "code": "const { RedshiftDataClient } = require(\"@aws-sdk/client-redshift-data\");\n\nconst awsRedshiftClient = new RedshiftDataClient({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS Redshift: Execute statement",
+      "code": "const { ExecuteStatementCommand } = require(\"@aws-sdk/client-redshift-data\");\n\nconst executeStatementCommand = new ExecuteStatementCommand({\n  ClusterIdentifier: \"clusterIdentifier\",\n  Database: \"database\",\n  DbUser: \"dbUser\",\n  Sql: \"sql\",\n});\n\nconst executeStatementResult = await awsRedshiftClient.send(executeStatementCommand);\nconsole.log(`Statement id: ${executeStatementResult.Id}`);"
+    },
+    {
+      "label": "YepCode AWS Redshift: Execute statement with parameters",
+      "code": "const { ExecuteStatementCommand } = require(\"@aws-sdk/client-redshift-data\");\n\nconst executeStatementCommand = new ExecuteStatementCommand({\n  ClusterIdentifier: \"clusterIdentifier\",\n  Database: \"database\",\n  DbUser: \"dbUser\",\n  Sql: \"your sql with params as :paramName\",\n  Parameters: [\n    {\n      name: \"paramName\",\n      value: \"value\",\n    },\n  ],\n});\n\nconst executeStatementResult = await awsRedshiftClient.send(executeStatementCommand);\nconsole.log(`Statement id: ${executeStatementResult.Id}`);"
+    },
+    {
+      "label": "YepCode AWS Redshift: Get statement result",
+      "code": "const { GetStatementResultCommand } = require(\"@aws-sdk/client-redshift-data\");\n\nconst getStatementResultCommand = new GetStatementResultCommand({\n  Id: \"statementId\",\n});\n\nawsRedshiftClient.send(getStatementResultCommand).then(result => {\n    console.log(getStatementResult.Records)\n})"
+    },
+    {
+      "label": "YepCode AWS Redshift: List statements",
+      "code": "const { ListStatementsCommand } = require(\"@aws-sdk/client-redshift-data\");\n\nconst listStatementsCommand = new ListStatementsCommand({});\n\nawsRedshiftClient.send(listStatementsCommand).then(result => {\n  console.log(result.Statements);\n});"
+    },
+    {
+      "label": "YepCode AWS S3: New integration from credential",
+      "code": "const awsS3Client = yepcode.integration.awsS3(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS S3: New integration from plain authentication data",
+      "code": "const { S3Client } = require(\"@aws-sdk/client-s3\");\n\nconst awsS3Client = new S3Client({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS S3: List buckets",
+      "code": "const { ListBucketsCommand } = require(\"@aws-sdk/client-s3\");\n\nconst listBucketsCommand = new ListBucketsCommand({})\n\nconst listBucketsResult = await awsS3Client.send(listBucketsCommand);\nlistBucketsResult.Buckets.forEach(console.log)"
+    },
+    {
+      "label": "YepCode AWS S3: Create a bucket",
+      "code": "const { CreateBucketCommand } = require(\"@aws-sdk/client-s3\");\n\nconst createBucketCommand = new CreateBucketCommand({ Bucket: \"bucket-name\" });\n\nawsS3Client.send(createBucketCommand).then(console.log).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS S3: Delete a bucket",
+      "code": "const { DeleteBucketCommand } = require(\"@aws-sdk/client-s3\");\n\nconst deleteBucketCommand = new DeleteBucketCommand({ Bucket: \"bucket-name\" });\n\nawsS3Client.send(deleteBucketCommand).then(console.log).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS S3: Get file content",
+      "code": "const { GetObjectCommand } = require(\"@aws-sdk/client-s3\");\n\nconst getObjectCommand = new GetObjectCommand({\n  Bucket: \"bucket-name\",\n  Key: \"object-name\",\n});\n\nconst getObjectResult = await awsS3Client.send(getObjectCommand);\n\n// Result.Body is a stream of object content\ngetObjectResult.Body.on(\"data\", (data) => console.log(data.toString(\"utf8\")));"
+    },
+    {
+      "label": "YepCode AWS S3: Upload file",
+      "code": "const { PutObjectCommand } = require(\"@aws-sdk/client-s3\");\n\nconst putObjectCommand = new PutObjectCommand({\n  Body: \"Some string body, or stream with defined length\",\n  Bucket: \"bucket-name\",\n  Key: \"object-name\",\n});\n\nawsS3Client.send(putObjectCommand).then(console.log).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS S3: Upload file with stream",
+      "code": "const { Upload } = require(\"@aws-sdk/lib-storage\");\n\nconst upload = new Upload({\n  client: awsS3Client,\n  params: {\n    Bucket: \"bucket-name\",\n    Key: \"object-name\",\n    Body: readableStream,\n  },\n});\n\nupload.done().then(console.log).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: New integration from credential",
+      "code": "const awsSecretsManagerClient = yepcode.integration.awsSecretsManager(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: New integration from plain authentication data",
+      "code": "const { SecretsManagerClient } = require(\"@aws-sdk/client-secrets-manager\");\n\nconst awsSecretsManagerClient = new SecretsManagerClient({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: Create secret",
+      "code": "const { CreateSecretCommand } = require(\"@aws-sdk/client-secrets-manager\");\n\nconst createSecretCommand = new CreateSecretCommand({\n  Name: \"secret-name\",\n  SecretString: \"secret-to-store\",\n});\n\nawsSecretsManagerClient.send(createSecretCommand).then((response) => {\n  console.log(`Created secret with name ${response.Name}`);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: List secrets",
+      "code": "const { ListSecretsCommand } = require(\"@aws-sdk/client-secrets-manager\");\n\nconst listSecretsCommand = new ListSecretsCommand({});\n\nawsSecretsManagerClient.send(listSecretsCommand).then((response) => {\n  const secrets = response.SecretList;\n  secrets.forEach((secret) => console.log(`Found secret with name ${secret.Name}`));\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: Get secret value",
+      "code": "const { GetSecretValueCommand } = require(\"@aws-sdk/client-secrets-manager\");\n\nconst getSecretValueCommand = new GetSecretValueCommand({\n  SecretId: \"secret-name-or-ARN\"\n});\n\nawsSecretsManagerClient.send(getSecretValueCommand).then((response) => {\n  // Secret value comes in response.SecretString or response.SecretBinary\n  // If you store other types of secrets different than key value pairs,\n  // then it will come as a JSON string\n\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS Secrets Manager: Delete secret",
+      "code": "const { DeleteSecretCommand } = require(\"@aws-sdk/client-secrets-manager\");\n\nconst deleteSecretCommand = new DeleteSecretCommand({\n  SecretId: \"secret-name-or-ARN\"\n});\n\nawsSecretsManagerClient.send(deleteSecretCommand).then((response) => {\n  console.log(`Deleted secret with name ${response.Name}`);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode AWS SQS: New integration from credential",
+      "code": "const awsSqsClient = yepcode.integration.awsSqs(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode AWS SQS: New integration from plain authentication data",
+      "code": "const { SQSClient } = require(\"@aws-sdk/client-sqs\");\n\nconst awsSqsClient = new SQSClient({\n  credentials: {\n    accessKeyId: \"accessKeyId\",\n    secretAccessKey: \"secretAccessKey\",\n  },\n});"
+    },
+    {
+      "label": "YepCode AWS SQS: List queues",
+      "code": "const { ListQueuesCommand } = require(\"@aws-sdk/client-sqs\");\n\nconst listQueuesCommand = new ListQueuesCommand({});\n\nconst listQueuesResponse = await awsSqsClient.send(listQueuesCommand);\nconsole.log(listQueuesResponse.QueueUrls);"
+    },
+    {
+      "label": "YepCode AWS SQS: Send message",
+      "code": "const { SendMessageCommand } = require(\"@aws-sdk/client-sqs\");\n\nconst sendMessageCommand = new SendMessageCommand({\n  QueueUrl: \"the-queue-url\",\n  MessageBody: \"the-message-body\"\n});\n\nconst sendMessageResponse = await awsSqsClient.send(sendMessageCommand);\nconsole.log(sendMessageResponse);"
+    },
+    {
+      "label": "YepCode AWS SQS: Receive messages",
+      "code": "const { ReceiveMessageCommand } = require(\"@aws-sdk/client-sqs\");\n\nconst receiveMessageCommand = new ReceiveMessageCommand({\n  QueueUrl: \"the-queue-url\"\n});\n\nconst receiveMessageResponse = await awsSqsClient.send(receiveMessageCommand);\nconsole.log(receiveMessageResponse.Messages);"
+    },
+    {
+      "label": "YepCode HTTP: New integration from credential",
+      "code": "const axiosClient = yepcode.integration.http('credential-slug')"
+    },
+    {
+      "label": "YepCode HTTP: New integration from plain authentication data",
+      "code": "const axios = require('axios');\n\nconst axiosClient = axios.create({\n  baseURL: 'https://some-domain.com/api/',\n  timeout: 1000,\n  auth: {\n    username: 'user',\n    password: 'password',\n  },\n  headers: {'X-Custom-Header': 'foobar'}\n});"
+    },
+    {
+      "label": "YepCode HTTP: GET (async/await)",
+      "code": "try {\n  const response = await axiosClient.get('/users/12345')\n\n  console.log('Response status: ', response.status);\n  console.log('User: ', response.data);\n  console.log(response.statusText);\n  console.log(response.headers);\n  console.log(response.config);\n\n} catch (error) {\n  if (error.response) {\n    // The request was made and the server responded with a status code\n    // that falls out of the range of 2xx\n    console.error(error.response);\n  } else if (error.request) {\n    // The request was made but no response was received\n    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n    // http.ClientRequest in node.js\n    console.error(error.request);\n  } else {\n    // Something happened in setting up the request that triggered an Error\n    console.log('Error', error.message);\n  }\n  console.error(error.config);\n  throw error\n};"
+    },
+    {
+      "label": "YepCode HTTP: GET (promise)",
+      "code": "axiosClient.get('/users/12345')\n  .then((response) => {\n    console.log('Response status: ', response.status);\n    console.log('User: ', response.data);\n    console.log(response.statusText);\n    console.log(response.headers);\n    console.log(response.config);\n  }).catch((error) => {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n    throw error\n  });"
+    },
+    {
+      "label": "YepCode HTTP: GET (callback)",
+      "code": "axiosClient.get('/users/12345', (error, response) => {\n  if (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n  } else {\n    console.log('Response status: ', response.status);\n    console.log('User: ', response.data);\n    console.log(response.statusText);\n    console.log(response.headers);\n    console.log(response.config);\n  }\n})"
+    },
+    {
+      "label": "YepCode HTTP: POST (async/await)",
+      "code": "try {\n  const response = await axiosClient.post('/users/12345', {\n    firstName: 'New first name',\n    lastName: 'New last name'\n  })\n  console.log('Response status: ', response.status);\n  console.log('User was updated successfully: ', JSON.stringify(response.data.user, null, 2));\n\n} catch (error) {\n  if (error.response) {\n    // The request was made and the server responded with a status code\n    // that falls out of the range of 2xx\n    console.error(error.response);\n  } else if (error.request) {\n    // The request was made but no response was received\n    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n    // http.ClientRequest in node.js\n    console.error(error.request);\n  } else {\n    // Something happened in setting up the request that triggered an Error\n    console.log('Error', error.message);\n  }\n  console.error(error.config);\n  throw error\n}"
+    },
+    {
+      "label": "YepCode HTTP: POST (Promise)",
+      "code": "axiosClient.post('/users/12345', {\n  firstName: 'New first name',\n  lastName: 'New last name'\n})\n  .then(function (response) {\n    console.log('Response status: ', response.status);\n    console.log('User was updated successfully: ', JSON.stringify(response.data.user, null, 2));\n  })\n  .catch(function (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n  })"
+    },
+    {
+      "label": "YepCode HTTP: POST (callback)",
+      "code": "axiosClient.post('/users/12345', {\n  firstName: 'New first name',\n  lastName: 'New last name'\n}, (error, response) => {\n  if (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n  } else {\n    console.log('Response status: ', response.status);\n    console.log('User was updated successfully: ', JSON.stringify(response.data.user, null, 2));\n  }\n})"
+    },
+    {
+      "label": "YepCode HTTP: PUT (async/await)",
+      "code": "try {\n  const response = await axiosClient.put('/users/12345', {\n    firstName: 'New first name',\n    lastName: 'New last name'\n  })\n  console.log('Response status: ', response.status);\n  console.log('User was updated successfully: ', JSON.stringify(response.data.user, null, 2));\n\n} catch (error) {\n  if (error.response) {\n    // The request was made and the server responded with a status code\n    // that falls out of the range of 2xx\n    console.error(error.response);\n  } else if (error.request) {\n    // The request was made but no response was received\n    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n    // http.ClientRequest in node.js\n    console.error(error.request);\n  } else {\n    // Something happened in setting up the request that triggered an Error\n    console.log('Error', error.message);\n  }\n  console.error(error.config);\n  throw error\n}"
+    },
+    {
+      "label": "YepCode HTTP: PUT (Promise)",
+      "code": "axiosClient.put('/users/12345', {\n  firstName: 'New first name',\n  lastName: 'New last name'\n})\n  .then(function (response) {\n    console.log('Response status: ', response.status);\n    console.log('User was updated successfully: ', JSON.stringify(response.data.user, null, 2));\n  })\n  .catch(function (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n  })"
+    },
+    {
+      "label": "YepCode HTTP: PUT (callback)",
+      "code": "axiosClient.put('/users/12345', {\n  firstName: 'New first name',\n  lastName: 'New last name'\n}, (error, response) => {\n  if (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n  } else {\n    console.log('Response status: ', response.status);\n    console.log('User was updated successfully: ', JSON.stringify(response.data.user, null, 2));\n  }\n})"
+    },
+    {
+      "label": "YepCode HTTP: DELETE (async/await)",
+      "code": "try {\n  const response = await axiosClient.delete('/users/12345')\n\n  console.log('Response status: ', response.status);\n  console.log('User: ', response.data);\n  console.log(response.statusText);\n  console.log(response.headers);\n  console.log(response.config);\n\n} catch (error) {\n  if (error.response) {\n    // The request was made and the server responded with a status code\n    // that falls out of the range of 2xx\n    console.error(error.response);\n  } else if (error.request) {\n    // The request was made but no response was received\n    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n    // http.ClientRequest in node.js\n    console.error(error.request);\n  } else {\n    // Something happened in setting up the request that triggered an Error\n    console.log('Error', error.message);\n  }\n  console.error(error.config);\n  throw error\n};"
+    },
+    {
+      "label": "YepCode HTTP: DELETE (promise)",
+      "code": "axiosClient.delete('/users/12345')\n  .then((response) => {\n    console.log('Response status: ', response.status);\n    console.log('User: ', response.data);\n    console.log(response.statusText);\n    console.log(response.headers);\n    console.log(response.config);\n  }).catch((error) => {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n    throw error\n  });"
+    },
+    {
+      "label": "YepCode HTTP: DELETE (callback)",
+      "code": "axiosClient.delete('/users/12345', (error, response) => {\n  if (error) {\n    if (error.response) {\n      // The request was made and the server responded with a status code\n      // that falls out of the range of 2xx\n      console.error(error.response);\n    } else if (error.request) {\n      // The request was made but no response was received\n      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n      // http.ClientRequest in node.js\n      console.error(error.request);\n    } else {\n      // Something happened in setting up the request that triggered an Error\n      console.log('Error', error.message);\n    }\n    console.error(error.config);\n  } else {\n    console.log('Response status: ', response.status);\n    console.log('User: ', response.data);\n    console.log(response.statusText);\n    console.log(response.headers);\n    console.log(response.config);\n  }\n})"
+    },
+    {
+      "label": "YepCode HTTP: Cancellation",
+      "code": "\nconst axios, { CancelToken } = require('axios');\n\nconst source = CancelToken.source();\n\naxiosClient.get('/user/12345', {\n  cancelToken: source.token\n}).catch((thrown) => {\n  if (axios.isCancel(thrown)) {\n    console.log('Request canceled', thrown.message);\n  } else if (error.response) {\n    // The request was made and the server responded with a status code\n    // that falls out of the range of 2xx\n    console.error(error.response);\n  } else if (error.request) {\n    // The request was made but no response was received\n    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of\n    // http.ClientRequest in node.js\n    console.error(error.request);\n  } else {\n    // Something happened in setting up the request that triggered an Error\n    console.log('Error', error.message);\n  }\n});\n\nsource.cancel('Operation canceled by the user.');"
+    },
+    {
+      "label": "YepCode Axios Oauth 1.0a: New integration from credential",
+      "code": "const axiosClient = yepcode.integration.axiosOauth10a('credential-slug')"
+    },
+    {
+      "label": "YepCode Axios Oauth 1.0a: New integration from plain authentication data",
+      "code": "const axios = require(\"axios\");\nconst { default: addOAuthInterceptor } = require(\"axios-oauth-1.0a\");\n\nconst axiosClient = axios.create({\n  baseURL: 'https://some-domain.com/api/',\n  headers: {'X-Custom-Header': 'foobar'}\n});\n\nconst options = {\n  key: \"your-oauth-consumer-key\",\n  secret: \"your-oauth-consumer-secret\",\n  token: \"your-oauth-token\",\n  tokenSecret: \"your-oauth-token-secret\",\n  verifier: \"your-oauth-verifier\"\n};\naddOAuthInterceptor(axiosClient, options);"
+    },
+    {
+      "label": "YepCode Azure Blob: New integration from credential",
+      "code": "const azureBlobClient = yepcode.integration.azureBlob(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Azure Blob: New integration from plain authentication data",
+      "code": "const { BlobServiceClient } = require(\"@azure/storage-blob\");\n\nconst azureBlobClient = BlobServiceClient.fromConnectionString(\"your_connection_string\");"
+    },
+    {
+      "label": "YepCode Azure Blob: Create container",
+      "code": "const containerClient = azureBlobClient.getContainerClient(\"container-name\");\n\nconst createContainerResponse = await containerClient.create();\nconsole.log(\n  `Create container successfully`,\n  createContainerResponse.requestId\n);"
+    },
+    {
+      "label": "YepCode Azure Blob: List containers",
+      "code": "let containers = azureBlobClient.listContainers();\nfor await (const container of containers) {\n  console.log(`Found container: ${container.name}`);\n}"
+    },
+    {
+      "label": "YepCode Azure Blob: Delete container",
+      "code": "const containerClient = azureBlobClient.getContainerClient(\"container-name\");\n\nawait containerClient.delete();\nconsole.log(`Deleted container!`);"
+    },
+    {
+      "label": "YepCode Azure Blob: List blobs",
+      "code": "const containerClient = azureBlobClient.getContainerClient(\"container-name\");\n\nlet blobs = containerClient.listBlobsFlat();\nfor await (const blob of blobs) {\n  console.log(`Found blob: ${blob.name}`);\n}"
+    },
+    {
+      "label": "YepCode Azure Blob: Create blob from string",
+      "code": "const containerClient = azureBlobClient.getContainerClient(\"container-name\");\nconst blockBlobClient = containerClient.getBlockBlobClient(\"blob-name\");\n\nconst content = \"content\";\nconst uploadBlobResponse = await blockBlobClient.upload(\n  content,\n  content.length\n);\nconsole.log(\n  `Created block blob successfully`,\n  uploadBlobResponse.requestId\n);"
+    },
+    {
+      "label": "YepCode Azure Blob: Create blob from stream",
+      "code": "const containerClient = azureBlobClient.getContainerClient(\"container-name\");\nconst blockBlobClient = containerClient.getBlockBlobClient(\"blob-name\");\n\nawait blockBlobClient.uploadStream(stream);\nconsole.log(`Created block blob successfully`);"
+    },
+    {
+      "label": "YepCode Azure Blob: Read blob content",
+      "code": "const containerClient = azureBlobClient.getContainerClient(\"container-name\");\nconst blobClient = containerClient.getBlobClient(\"blob-name\");\n\nconst downloadBlockBlobResponse = await blobClient.download();\nconst blobStream = downloadBlockBlobResponse.readableStreamBody;\n\nblobStream.on(\"data\", (data) => {\n  console.log(Buffer.from(data).toString(\"utf8\"));\n});\nblobStream.on(\"end\", () => {\n  console.log(\"All blob content shown\");\n});\nblobStream.on(\"error\", (error) => {\n  console.log(error);\n});"
+    },
+    {
+      "label": "YepCode Cassandra: New integration from credential",
+      "code": "const cassandraClient = yepcode.integration.cassandra(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Cassandra: New integration from plain authentication data",
+      "code": "const cassandra = require('cassandra-driver');\n\nconst cassandraClient = new cassandra.Client({\n  contactPoints: ['h1', 'h2'],\n  localDataCenter: 'datacenter1',\n  keyspace: 'ks1'\n});\n"
+    },
+    {
+      "label": "YepCode Cassandra: New integration with authentication data",
+      "code": "const cassandra = require('cassandra-driver');\n\nconst authProvider = new cassandra.auth.PlainTextAuthProvider(\n  \"username\",\n  \"password\"\n);\nconst cassandraClient = new cassandra.Client({\n  contactPoints,\n  authProvider,\n  localDataCenter,\n  keyspace\n});\n"
+    },
+    {
+      "label": "YepCode Cassandra: Executes a query",
+      "code": "const query = 'SELECT name, email FROM users WHERE key = ?';\n\ncassandraClient.execute(query, [ 'someone' ])\n  .then(result => console.log('User with email %s', result.rows[0].email));\n"
+    },
+    {
+      "label": "YepCode Cassandra: Prepared statements",
+      "code": "// Use query markers (?) and parameters\nconst query = 'UPDATE users SET birth = ? WHERE key=?';\nconst params = [ new Date(1942, 10, 1), 'jimi-hendrix' ];\n\n// Set the prepare flag in the query options\nawait cassandraClient.execute(query, params, { prepare: true });"
+    },
+    {
+      "label": "YepCode Cassandra: Execute concurrent executions",
+      "code": "await cassandraClient.execute(`CREATE KEYSPACE IF NOT EXISTS examples\n                        WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1' }`);\nawait cassandraClient.execute(`USE examples`);\nawait cassandraClient.execute(`CREATE TABLE IF NOT EXISTS tbl_sample_kv (id uuid, value text, PRIMARY KEY (id))`);\n\n// The maximum amount of async executions that are going to be launched in parallel\n// at any given time\nconst concurrencyLevel = 32;\n\n// Use an Array with 10000 different values\nconst values = Array.from(new Array(10000).keys()).map(x => [ Uuid.random(), x.toString() ]);\n\nconst query = 'INSERT INTO tbl_sample_kv (id, value) VALUES (?, ?)';\nawait executeConcurrent(client, query, values);\n"
+    },
+    {
+      "label": "YepCode Cassandra: Paging",
+      "code": "const queries = [\n  {\n    query: 'UPDATE user_profiles SET email=? WHERE key=?',\n    params: [ emailAddress, 'hendrix' ]\n  }, {\n    query: 'INSERT INTO user_track (key, text, date) VALUES (?, ?, ?)',\n    params: [ 'hendrix', 'Changed email', new Date() ]\n  }\n];\n\nawait cassandraClient.batch(queries, { prepare: true });"
+    },
+    {
+      "label": "YepCode Cassandra: Mapper",
+      "code": "const cassandra = require('cassandra-driver');\n\nconst Mapper = cassandra.mapping.Mapper;\n\nconst mapper = new Mapper(cassandraClient, {\n  models: { 'Video': { tables: ['videos'] } }\n});\n// Contains all the logic to retrieve and save objects from and to the database\nconst videoMapper = mapper.forModel('Video');"
+    },
+    {
+      "label": "YepCode ClickHouse: New integration from credential",
+      "code": "const clickhouse = yepcode.integration.clickhouse('credential-slug')"
+    },
+    {
+      "label": "YepCode ClickHouse: New integration from plain authentication data",
+      "code": "const { createClient } = require('@clickhouse/client')\n\nconst clickhouse = createClient({\n  host: 'https://play-api.clickhouse.com:8123',\n  username: 'playground',\n  password: 'clickhouse',\n  database: 'my_database_name'\n})"
+    },
+    {
+      "label": "YepCode ClickHouse: Execute query (promise)",
+      "code": "const resultSet = await clickhouse.query({\n  query: 'SELECT * FROM my_table',\n  format: 'JSONEachRow',\n})\nconst dataset = await resultSet.json()\nconsole.log(dataset);"
+    },
+    {
+      "label": "YepCode ClickHouse: Execute query (stream)",
+      "code": "const resultSet = await clickhouse.query({\n  query: 'SELECT number FROM system.numbers_mt LIMIT 5',\n  format: 'CSV',\n})\nconst stream = resultSet.stream()\nstream.on('data', (rows) => {\n  rows.forEach((row) => {\n    console.log(row.text)\n  })\n})\nawait new Promise((resolve) => {\n  stream.on('end', () => {\n    console.log('Completed!')\n    resolve(0)\n  })\n})"
+    },
+    {
+      "label": "YepCode ClickHouse: Insert",
+      "code": "await clickhouse.insert({\n  table: 'my_table',\n  // structure should match the desired format, JSONEachRow in this example\n  values: [\n    { id: 42, name: 'foo' },\n    { id: 42, name: 'bar' },\n  ],\n  format: 'JSONEachRow',\n})"
+    },
+    {
+      "label": "YepCode Couchbase: New integration from credential",
+      "code": "const couchbaseCluster = await yepcode.integration.couchbase('credential-slug')"
+    },
+    {
+      "label": "YepCode Couchbase: New integration from plain authentication data",
+      "code": "const couchbase = require(\"couchbase\");\n\nconst couchbaseCluster = await couchbase.connect(\"connection-string\", {\n  username: \"username\"\",\n  password: \"password\"\n  // You should use a yepcode env variable to don't store plain password\n  // See: https://docs.yepcode.io/docs/processes/team-variables\n});"
+    },
+    {
+      "label": "YepCode Couchbase: Create a bucket",
+      "code": "await couchbaseCluster.cluster\n    .buckets()\n    .createBucket({\n      name: \"bucket_name\",\n      flushEnabled: true,\n      ramQuotaMB: 100,\n    })\n    .then(() => console.log(\"Bucket Created!\"))\n    .catch(console.error);"
+    },
+    {
+      "label": "YepCode Couchbase: Get a bucket",
+      "code": "const bucket = couchbaseCluster.bucket(\"bucket_name\");"
+    },
+    {
+      "label": "YepCode Couchbase: Create a scope",
+      "code": "await bucket\n  .collections()\n  .createScope(\"scope_name\")\n  .then(() => console.log(\"Scope Created!\"))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Couchbase: Create a collection",
+      "code": "await bucket\n  .collections()\n  .createCollection({\n    name: \"collection_name\",\n    scopeName: \"scope_name\",\n  })\n  .then(() => console.log(\"Collection Created!\"))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Couchbase: Get a collection",
+      "code": "const collection = bucket.scope(\"scope_name\").collection(\"collection_name\")"
+    },
+    {
+      "label": "YepCode Couchbase: Insert a document",
+      "code": "const sampleItem = {\n  foo: \"bar\"\n}\n\nawait collection.upsert(item_id\", sampleItem)"
+    },
+    {
+      "label": "YepCode Couchbase: Get a document",
+      "code": "\nlet result = await collection.get(\"item_id\")\nconsole.log('Result: ', result)"
+    },
+    {
+      "label": "YepCode Couchbase: Query a collection",
+      "code": "// If your collection does not have any index,\n// you'll need to create a primary index to be able to query it\nawait collection.queryIndexes().createPrimaryIndex({\n  ignoreIfExists: true,\n});\n\nconst queryResult =\n  await bucket\n    .scope(\"scope_name\")\n    .query('SELECT name FROM `collection_name` WHERE some_item_key=\\$1 LIMIT 10', {\n      parameters: ['param1'],\n    })\n\nconsole.log('Query Results:')\nqueryResult.rows.forEach((row) => console.log(row))"
+    },
+    {
+      "label": "YepCode Couchbase: Query a collection (Stream)",
+      "code": "// If your collection does not have any index,\n// you'll need to create a primary index to be able to query it\nawait collection.queryIndexes().createPrimaryIndex({\n  ignoreIfExists: true,\n});\n\nconst queryStream = bucket.scope(\"scope_name\")\n    .query('SELECT name FROM `collection_name` WHERE some_item_key=\\$1 LIMIT 10', {\n      parameters: ['param1'],\n    })\n\nqueryStream.on(\"row\", console.log);\nqueryStream.on(\"end\", () => console.log(\"Query stream end\"));"
+    },
+    {
+      "label": "YepCode Couchbase: Delete a document",
+      "code": "await collection.remove(\"item_id\")"
+    },
+    {
+      "label": "YepCode Couchbase: Delete a scope",
+      "code": "await bucket\n  .collections()\n  .dropScope(\"scope_name\")\n  .then(() => console.log(\"Scope Dropped!\"))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Couchbase: Delete a bucket",
+      "code": "await couchbaseCluster\n  .buckets()\n  .dropBucket(\"bucket_name\")\n  .then(() => console.log(\"Bucket Dropped!\"))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: New integration from credential",
+      "code": "const couchdb = await yepcode.integration.couchdb('credential-slug')"
+    },
+    {
+      "label": "YepCode CouchDB: New integration from plain authentication data",
+      "code": "const couchdb = require(\"nano\")({\n  url: \"url\"\n});\nawait couchdb.auth(\"username\", \"password\");\n// You should use a yepcode env variable to don't store plain password\n// See: https://docs.yepcode.io/docs/processes/team-variables"
+    },
+    {
+      "label": "YepCode CouchDB: Create a database",
+      "code": "await couchdb.db.create(\"database-name\")\n  .then(() => console.log(`Database created!`))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: Insert a document",
+      "code": "const sampleDocument = { foo: 'bar' };\n\nawait couchdb.use(\"database-name\").insert(sampleDocument)\n  .then((result) => console.log(`Document inserted! ID: ${result.id}`))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: Get a document",
+      "code": "await couchdb.use(\"database-name\").get(\"document-id\")\n  .then((result) => console.log(result))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: Find documents",
+      "code": "// See available options at: https://docs.couchdb.org/en/latest/api/database/find.html#db-find\nconst query = {\n  selector: {\n    name: \"John Doe\",\n    age: { $gte: 18 },\n  },\n};\n\nawait couchdb.use(\"database-name\").find(query);\n  .then((result) => {\n    result.docs.forEach((doc) => {\n      console.log(doc);\n    });\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: List all documents",
+      "code": "await couchdb.use(\"database-name\").list()\n  .then((result) => {\n    console.log(`Showing ${result.total_rows} documents`)\n    result.rows.forEach((row) => {\n      console.log(row);\n    });\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: Delete a document",
+      "code": "await couchdb.use(\"database-name\").destroy(\"document-id\", \"document-rev\")\n  .then(() => console.log(`Document deleted!`))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode CouchDB: Delete a database",
+      "code": "await couchdb.db.destroy(\"database-name\")\n  .then(() => console.log(`Database deleted!`))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Databricks: New integration from credential",
+      "code": "const databricksClient = yepcode.integration.databricks(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Databricks: New integration from plain authentication data",
+      "code": "const { DBSQLClient } = require('@databricks/sql');\n\nconst databricksClient = new DBSQLClient();\n\nawait databricksClient\n  .connect({\n    host: 'host',\n    path: 'path',\n    token: 'token',\n  })"
+    },
+    {
+      "label": "YepCode Databricks: Execute query",
+      "code": "const session = await databricksClient.openSession();\n\nconst queryOperation = await session.executeStatement(\n  'SELECT \"Hello, World!\"',\n  { runAsync: true }\n);\nconst result = await queryOperation.fetchAll();\nawait queryOperation.close();\n\nconsole.table(result);\n\nawait session.close();\nawait databricksClient.close();"
+    },
+    {
+      "label": "YepCode Databricks: Execute insert",
+      "code": "const session = await databricksClient.openSession();\n\nconst createTableOperation = await session.executeStatement(\n  'CREATE TABLE IF NOT EXISTS pokes (foo INT, bar STRING)',\n);\nawait createTableOperation.fetchAll();\nawait createTableOperation.close();\n\nawait session.close();\nawait databricksClient.close();"
+    },
+    {
+      "label": "YepCode Discord: New integration from credential",
+      "code": "const discordClient = yepcode.integration.discord(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Discord: New integration from plain authentication data",
+      "code": "const { Client, Intents } = require(\"discord.js\");\n\n// You can use the intents you want, or an empty list\nconst discordClient = new Client({ intents: [Intents.FLAGS.GUILDS] });\n\ndiscordClient.login(\"token\")"
+    },
+    {
+      "label": "YepCode Discord: Close connection",
+      "code": "discordClient.destroy()"
+    },
+    {
+      "label": "YepCode Discord: Get servers which bot is in",
+      "code": "discordClient.guilds.fetch({ limit: 10 }).then(servers => {\n  servers.forEach(server => console.log(`Found server with id: ${server.id}`))\n})"
+    },
+    {
+      "label": "YepCode Discord: Get server",
+      "code": "const server = await discordClient.guilds.fetch(\"guildId\");\n\nconsole.log(server)"
+    },
+    {
+      "label": "YepCode Discord: Get server channels",
+      "code": "const server = await discordClient.guilds.fetch(\"guildId\");\n\nconst channels = await server.channels.fetch();\n\nchannels.forEach((channel) => {\n    console.log(`Found channel: id: ${channel.id} - name: ${channel.name} - type: ${channel.type}`);\n});"
+    },
+    {
+      "label": "YepCode Discord: Get channel messages",
+      "code": "const channel = await discordClient.channels.fetch(\"channelId\");\n\nchannel.messages.fetch({ limit: 10 }).then((messages) => {\n    messages.forEach((message) => {\n        console.log(`Found message with content: ${message.content}`);\n    });\n});"
+    },
+    {
+      "label": "YepCode Discord: Create a command",
+      "code": "const command = await discordClient.application.commands\n    .create({\n    name: \"command name\",\n    description: \"command description\",\n    });\n\nconsole.log(`Created command with id ${command.id}`)"
+    },
+    {
+      "label": "YepCode Discord: Delete a command",
+      "code": "discordClient.application.commands.delete(command-id)\n  .then(() => console.log(\"Deleted command\"))\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Elasticsearch: New integration from credential",
+      "code": "const elasticsearch = yepcode.integration.elasticsearch('credential-slug')"
+    },
+    {
+      "label": "YepCode Elasticsearch: New integration from plain authentication data",
+      "code": "const { Client } = require('@elastic/elasticsearch')\n\nconst elasticsearch = new Client({\n  cloud: { id: '<cloud-id>' },\n  auth: { apiKey: 'base64EncodedKey' }\n})"
+    },
+    {
+      "label": "YepCode Elasticsearch: Add data to an index",
+      "code": "cosnt document = {\n  character: 'Ned Stark',\n  quote: 'Winter is coming.'\n}\n\nawait elasticsearch.index({\n  index: 'game-of-thrones',\n  body: document\n});"
+    },
+    {
+      "label": "YepCode Elasticsearch: Execute query",
+      "code": "  const result = await elasticsearch.sql.query({\n    query: \"SELECT * FROM \\\"game-of-thrones\\\" WHERE house='stark'\"\n  })\n\n  console.log(result)\n\n  const data = result.rows.map(row => {\n    const obj = {}\n    for (let i = 0; i < row.length; i++) {\n      obj[result.columns[i].name] = row[i]\n    }\n    return obj\n  })\n\n  console.log(data)"
+    },
+    {
+      "label": "YepCode Elasticsearch: Execute get",
+      "code": "  const document = await elasticsearch.get({\n    index: 'game-of-thrones',\n    id: '1'\n  })\n\n  console.log(document)"
+    },
+    {
+      "label": "YepCode Elasticsearch: Execute query (stream)",
+      "code": "  const result = await elasticsearch.search({\n    index: 'game-of-thrones',\n    query: {\n      match: {\n        quote: 'winter'\n      }\n    }\n  }, {\n    asStream: true\n  })\n\n  // stream async iteration, available in Node.js ≥ 10\n  let payload = ''\n  body.setEncoding('utf8')\n  for await (const chunk of result) {\n    payload += chunk\n  }\n  console.log(JSON.parse(payload))"
+    },
+    {
+      "label": "YepCode Firebase: New integration from credential",
+      "code": "const firebase = yepcode.integration.firebase(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Firebase: New integration from plain authentication data",
+      "code": "const { initializeApp } = require(\"firebase/app\");\n\nconst firebaseConfig = {\n  apiKey: \"firebase-app-apiKey\",\n  authDomain: \"firebase-app-authDomain\",\n  projectId: \"firebase-app-projectId\",\n  storageBucket: \"firebase-app-storageBucket\",\n  messagingSenderId: \"firebase-app-messagingSenderId\",\n  appId: \"firebase-app-appId\"\n};\n\nconst firebase = initializeApp(firebaseConfig);"
+    },
+    {
+      "label": "YepCode Firebase: Insert item into Realtime database",
+      "code": "const { getDatabase, ref, set } = require(\"firebase/database\");\n\nconst db = getDatabase(firebase);\n\nawait set(ref(db, `path-to-the-object`), {\n  // Object content\n});"
+    },
+    {
+      "label": "YepCode Firebase: Get item from Realtime database",
+      "code": "const { getDatabase, ref, get, child } = require(\"firebase/database\");\n\nconst db = getDatabase(firebase);\nconst dbRef = ref(db);\n\nget(child(dbRef, `path-to-the-object`)).then((snapshot) => {\n  if (snapshot.exists()) {\n    console.log(snapshot.val());\n  } else {\n    console.log(\"No data available\");\n  }\n}).catch((error) => {\n  console.error(error);\n});"
+    },
+    {
+      "label": "YepCode Firebase: Insert item into firestore",
+      "code": "const { getFirestore, collection, addDoc } = require(\"firebase/firestore\");\n\nconst db = getFirestore(firebase);\n\nawait addDoc(collection(db, \"collection-name\"), {\n  // The object data\n}).then(console.log).catch(console.error);"
+    },
+    {
+      "label": "YepCode Firebase: List items from firestore",
+      "code": "const { getFirestore, collection, getDocs } = require(\"firebase/firestore\");\n\nconst db = getFirestore(firebase);\n\nconst querySnapshot = await getDocs(collection(db, \"collection-name\"));\nquerySnapshot.forEach((doc) => {\n  console.log(doc.id);\n  console.log(doc.data());\n});"
+    },
+    {
+      "label": "YepCode Firebase: Delete item from firestore",
+      "code": "const { getFirestore, deleteDoc, doc } = require(\"firebase/firestore\");\n\nconst db = getFirestore(firebase);\n\nawait deleteDoc(doc(db, \"collection-name\", \"document-id\"));"
+    },
+    {
+      "label": "YepCode FTP: New integration from credential",
+      "code": "const ftpClient = yepcode.integration.ftp('credential-slug');"
+    },
+    {
+      "label": "YepCode FTP: New integration from plain authentication data (username and password)",
+      "code": "const Client = require('ftp');\nconst  ftpClient = new Client();\nftpClient.connect({\n  host: 'hostname',\n  user: 'user',\n  password: 'password'\n})"
+    },
+    {
+      "label": "YepCode FTP: Directory listing",
+      "code": "\nftpClient.on('ready', function() {\n  ftpClient.list(function(err, list) {\n    if (err) throw err;\n    console.dir(list);\n    ftpClient.end();\n  });\n});"
+    },
+    {
+      "label": "YepCode FTP: Retrieve a file",
+      "code": "\nftpClient.on('ready', function() {\n  ftpClient.get('readme.txt', function(err, stream) {\n    if (err) throw err;\n    stream.once('close', function() { ftpClient.end(); });\n    stream.pipe(fs.createWriteStream('foo.local-copy.txt'));\n  });\n});"
+    },
+    {
+      "label": "YepCode FTP: Upload data from stream to remote server",
+      "code": "const Stream = require('stream');\nconst readableStream = new Stream.Readable({\n  // Create your readable stream\n  read() {}\n});\n\nftpClient.on('ready', function() {\n  ftpClient.put(readableStream, 'remoteDirPath', function(err) {\n    if (err) throw err;\n    ftpClient.end();\n  });\n});"
+    },
+    {
+      "label": "YepCode FTP: Delete a file on the remote server",
+      "code": "ftpClient.on('ready', function() {\n  ftpClient.delete('remoteDirPath', function(err) {\n    if (err) throw err;\n    ftpClient.end();\n  });\n});"
+    },
+    {
+      "label": "YepCode Github: New integration from credential",
+      "code": "const githubClient = yepcode.integration.github('credential-slug')"
+    },
+    {
+      "label": "YepCode Github: New integration from plain authentication data",
+      "code": "const { Octokit } = require(\"octokit\");\n\nconst githubClient = new Octokit({ auth: 'your-personal-token' });"
+    },
+    {
+      "label": "YepCode Github: Create repository",
+      "code": "const response = await githubClient.rest.repos\n  .createForAuthenticatedUser({\n    name: 'your-new-repository-name',\n    description: `Some description`,\n    private: true,\n    auto_init: true\n    // other props\n  })\nconsole.log(`Created repository ${response.data.full_name}`);"
+    },
+    {
+      "label": "YepCode Github: Delete repository",
+      "code": "const response = await githubClient.rest.repos\n  .delete({\n    owner: 'repository-owner',\n    repo: 'repository-name',\n  })\nconsole.log(\"Deleted repository\");"
+    },
+    {
+      "label": "YepCode Github: Get file from repository",
+      "code": "const response = await githubClient.rest.repos\n  .getContent({\n    mediaType: {\n      format: \"raw\",\n    },\n    owner: 'repository-owner',\n    repo: 'repository-name',\n    path: 'path-to-file',\n  })\nconsole.log(response.data);"
+    },
+    {
+      "label": "YepCode Github: Get commits from repository",
+      "code": "const response = await githubClient.rest.repos\n  .listCommits({\n    owner: 'repository-owner',\n    repo: 'repository-name',\n    per_page: page-size,\n    page: page-number,\n  })\nconst commits = response.data;\ncommits.forEach((commit) => console.log(`Found commit! ${commit.commit.message}`));"
+    },
+    {
+      "label": "YepCode Github: Get issues from repository",
+      "code": "const response = await githubClient.rest.issues\n  .listForRepo({\n    owner: 'repository-owner',\n    repo: 'repository-name',\n    per_page: page-size,\n    page: page-number,\n    state: \"open\",\n  })\nconst issues = response.data;\nissues.forEach((issue) => console.log(`Found issue! ${issue.title}`));"
+    },
+    {
+      "label": "YepCode Github: Create issue in a repository",
+      "code": "const response = await githubClient.rest.issues\n  .create({\n    owner: 'repository-owner',\n    repo: 'repository-name',\n    title: 'issue-title',\n    body: 'issue-body',\n  })\nconsole.log(`Created issue! See it here: ${response.data.html_url}`);"
+    },
+    {
+      "label": "YepCode Github: Use GraphQL",
+      "code": "const response = await githubClient\n  .graphql(\n    `\n      query theQuery($owner: String!, $repo: String!) {\n        theQuery(owner: $owner, name: $repo) {\n          // the query content\n        }\n      }\n    `,\n    {\n      owner: 'repository-owner',\n      repo: 'repository-name',\n    }\n  )"
+    },
+    {
+      "label": "YepCode GraphQL: New integration from credential",
+      "code": "const { gql } = require('graphql-request');\nconst graphQLClient = yepcode.integration.graphql('credential-slug')"
+    },
+    {
+      "label": "YepCode GraphQL: New integration from plain authentication data",
+      "code": "const { GraphQLClient, gql } = require('graphql-request');\nconst graphQLClient = new GraphQLClient('https://api.spacex.land/graphql/', {\n  headers: {}\n});"
+    },
+    {
+      "label": "YepCode GraphQL: Query (async/await)",
+      "code": "const { gql } = require('graphql-request');\ntry {\n  const data = await graphQLClient.request(\n    gql`\n      query launchesPast($limit: 10) {\n        launchesPast(limit: $limit) {\n          mission_name\n        }\n      }\n    `,\n    { limit: 10 }\n  )\n  console.log(JSON.stringify(data, undefined, 2))\n} catch (error) {\n  console.error(JSON.stringify(error, undefined, 2));\n  throw error;\n};"
+    },
+    {
+      "label": "YepCode GraphQL: Query (Promise)",
+      "code": "const { gql } = require('graphql-request');\ngraphQLClient.request(\n    gql`\n      query launchesPast($limit: 10) {\n        launchesPast(limit: $limit) {\n          mission_name\n        }\n      }\n    `,\n    { limit: 10 }\n  ).then((data) => {\n    console.log(JSON.stringify(data, undefined, 2));\n  })\n  .catch((error) => {\n    console.error(JSON.stringify(error, undefined, 2));\n    throw error;\n  });"
+    },
+    {
+      "label": "YepCode GraphQL: Query with headers (async/await)",
+      "code": "const { gql } = require('graphql-request');\ntry {\n  const data = await graphQLClient.request(\n    gql`\n      query launchesPast($limit: 10) {\n        launchesPast(limit: $limit) {\n          mission_name\n        }\n      }\n    `,\n    { limit: 10 }\n  );\n  console.log(JSON.stringify(data, undefined, 2))\n} catch (error) {\n  console.error(JSON.stringify(error, undefined, 2));\n  throw error\n};"
+    },
+    {
+      "label": "YepCode GraphQL: Query with headers (Promise)",
+      "code": "const { gql } = require('graphql-request');\ngraphQLClient.request(\n  gql`\n    query launchesPast($limit: 10) {\n      launchesPast(limit: $limit) {\n        mission_name\n      }\n    }\n  `,\n  { limit: 10 },\n  { CustomHeader: \"value\" }\n).then((data) => {\n  console.log(JSON.stringify(data, undefined, 2));\n}).catch((error) => {\n  console.error(JSON.stringify(error, undefined, 2));\n  throw error;\n});"
+    },
+    {
+      "label": "YepCode GraphQL: Mutation (async/await)",
+      "code": "const { gql } = require('graphql-request');\ntry {\n  const data = await graphQLClient.request(\n    gql`\n      mutation insert_users($objects: [users_insert_input!]!) {\n        insert_users(objects: $objects) {\n          returning {\n            name\n          }\n        }\n      }\n    `,\n    {\n      objects: [\n        {\n          name: 'JohnLocke',\n          rocket: 'JohnLocke',\n          timestamp: '1990-12-31T23:59:59.999Z',\n          twitter: 'JohnLocke'\n        }\n      ]\n    }\n  )\n  console.log(JSON.stringify(data, undefined, 2))\n} catch (error) {\n  console.error(JSON.stringify(error, undefined, 2));\n  throw error\n};"
+    },
+    {
+      "label": "YepCode GraphQL: Mutation (Promise)",
+      "code": "const { gql } = require('graphql-request');\ngraphQLClient.request(\n    gql`\n      mutation insert_users($objects: [users_insert_input!]!) {\n        insert_users(objects: $objects) {\n          returning {\n            name\n          }\n        }\n      }\n    `,\n    {\n      objects: [\n        {\n          name: 'JohnLocke',\n          rocket: 'JohnLocke',\n          timestamp: '1990-12-31T23:59:59.999Z',\n          twitter: 'JohnLocke'\n        }\n      ]\n    }\n  ).then((data) => {\n    console.log(JSON.stringify(data, undefined, 2));\n  }).catch((error) => {\n    console.error(JSON.stringify(error, undefined, 2));\n    throw error;\n  });"
+    },
+    {
+      "label": "YepCode GoogleAds: New integration from credential",
+      "code": "const ${1:googleAdsClient} = await yepcode.integration.googleAds(\"${2:credential-slug}\");"
+    },
+    {
+      "label": "YepCode GoogleAds: New integration from plain authentication data",
+      "code": "const { GoogleAdsApi } = require(\"google-ads-api\");\n\nconst ${1:googleAdsClient} = new GoogleAdsApi({\n  client_id: \"<CLIENT-ID>\",\n  client_secret: \"<CLIENT-SECRET>\",\n  developer_token: \"<DEVELOPER-TOKEN>\",\n});"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: New integration from credential",
+      "code": "const googleBigQueryClient = yepcode.integration.googleBigQuery(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: New integration from plain authentication data",
+      "code": "const { BigQuery } = require(\"@google-cloud/bigquery\");\n\nconst googleBigQueryCredentials = {\n  projectId: \"YepCode\",\n  credentials: {\n    type: \"service_account\",\n    project_id: \"yepcode\",\n    private_key_id: \"XXXXX\",\n    private_key: \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    client_email: \"yepcode@example.org\",\n    client_id: \"1234567890\",\n    auth_uri: \"https://example.org\",\n    token_uri: \"https://example.org\",\n    auth_provider_x509_cert_url: \"https://example.org\",\n    client_x509_cert_url: \"https://example.org\",\n  }\n};\n\nconst googleBigQueryClient = new BigQuery(googleBigQueryCredentials);"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Create a dataset",
+      "code": "// Specify the geographic location where the dataset should reside\nconst options = {\n  location: \"dataset-location\",\n};\n\nconst [dataset] = await googleBigQueryClient.createDataset(\"dataset-id\", options);\nconsole.log(`Dataset ${dataset.id} created.`);"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: List datasets",
+      "code": "// Lists all datasets in current project\nconst [datasets] = await googleBigQueryClient.getDatasets();\nconsole.log('Datasets:');\ndatasets.forEach(dataset => console.log(dataset.id));"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Delete a dataset",
+      "code": "// Create a reference to the existing dataset\nconst dataset = googleBigQueryClient.dataset(\"dataset-id\");\n\nawait dataset.delete({force: true});\nconsole.log(`Dataset ${dataset.id} deleted.`);"
+    },
+    {
+      "label": "YepCode GoogleBigQuery: Query to a dataset",
+      "code": "const query = \"your-SQL-query\";\n\n// For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query\nconst options = {\n  query: query,\n  // Location must match that of the dataset(s) referenced in the query.\n  location: \"dataset-location\",\n};\n\n// Run the query as a job\nconst [job] = await googleBigQueryClient.createQueryJob(options);\nconsole.log(`Job ${job.id} started.`);\n\n// Wait for the query to finish\nconst [rows] = await job.getQueryResults();\n\n// Use the result"
+    },
+    {
+      "label": "YepCode GoogleBigTable: New integration from credential",
+      "code": "const googleBigTableClient = yepcode.integration.googleBigTable(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode GoogleBigTable: New integration from plain authentication data",
+      "code": "const { Bigtable } = require(\"@google-cloud/bigtable\");\n\nconst googleBigTableCredentials = {\n  projectId: \"YepCode\",\n  credentials: {\n    type: \"service_account\",\n    project_id: \"yepcode\",\n    private_key_id: \"XXXXX\",\n    private_key: \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    client_email: \"yepcode@example.org\",\n    client_id: \"1234567890\",\n    auth_uri: \"https://example.org\",\n    token_uri: \"https://example.org\",\n    auth_provider_x509_cert_url: \"https://example.org\",\n    client_x509_cert_url: \"https://example.org\",\n  }\n};\n\nconst googleBigTableClient = new Bigtable(googleBigTableCredentials);"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Simple",
+      "code": "try {\n  const instance = bigtable.instance(\"instance-id\");\n  const table = instance.table(\"table-id\");\n\n  const rowToInsert = {\n    key: \"id#4c410523#20190501\",\n    data: {\n      stats_summary: {\n        kind: \"human\",\n        nature: \"agressive\",\n        constitution: \"strong\",\n      },\n    },\n  };\n\n  await table.insert(rowToInsert);\n  console.log(`Successfully wrote row ${rowToInsert.key}`);\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Multiple",
+      "code": "try {\n  const instance = bigtable.instance(\"instance-id\");\n  const table = instance.table(\"table-id\");\n\n  const rowsToInsert = [\n    {\n      key: \"id#7x410521#90190501\",\n      data: {\n        stats_summary: {\n          kind: \"fremen\",\n          nature: \"peaceful\",\n          constitution: \"strong\",\n        },\n      },\n    },\n    {\n      key: \"id#4c410523#20190501\",\n      data: {\n        stats_summary: {\n          kind: \"human\",\n          nature: \"agressive\",\n          constitution: \"strong\",\n        },\n      },\n    },\n  ];\n\n  await table.insert(rowsToInsert);\n  console.log(\n    `Successfully wrote 2 rows: ${rowsToInsert[0].key} and ${rowsToInsert[1].key}`\n  );\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Conditional",
+      "code": "try {\n  const instance = bigtable.instance(\"instance-id\");\n  const table = instance.table(\"table-id\");\n  const row = table.row(\"row-id\");\n\n  const filter = [{ column: \"stats_summary\", value: { nature: \"agressive\" } }];\n\n  const config = {\n    onMatch: [\n      { method: \"insert\", data: { stats_summary: { dangerous: true } } },\n    ],\n  };\n\n  await row.filter(filter, config);\n\n  console.log(\"Successfully updated row\");\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Simple",
+      "code": "try {\n  const instance = bigtable.instance(\"instance-id\");\n  const table = instance.table(\"table-id\");\n\n  const [row] = await table.row(\"row-id\").get();\n  console.log(row);\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Multiple",
+      "code": "try {\n  const instance = bigtable.instance(\"instance-id\");\n  const table = instance.table(\"table-id\");\n\n  const [rows] = await table.getRows({ keys: [\"row-id\"] });\n  rows.forEach((row) => console.log(row.id, row.data));\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode GoogleBigTable: Conditional",
+      "code": "try {\n  const instance = bigtable.instance(\"instance-id\");\n  const table = instance.table(\"table-id\");\n\n  const filter = [{ column: \"stats_summary\", value: { nature: \"agressive\" } }];\n\n  const readStream = await table.createReadStream({ filter });\n  readStream.on(\"error\", (err) => {\n    console.log(err);\n  });\n  readStream.on(\"data\", (row) => {\n    console.log(row.id, row.data);\n  });\n  readStream.on(\"end\", () => {});\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode GoogleDrive: New integration from credential",
+      "code": "const googleDriveClient = await yepcode.integration.googleDrive(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode GoogleDrive: New integration from plain authentication data",
+      "code": "const { google } = require(\"googleapis\");\n\nconst googleDriveCredentials = {\n  \"type\": \"service_account\",\n  \"project_id\": \"PROJECT_ID\",\n  \"private_key_id\": \"KEY_ID\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nPRIVATE_KEY\\n-----END PRIVATE KEY-----\\n\",\n  \"client_email\": \"SERVICE_ACCOUNT_EMAIL\",\n  \"client_id\": \"CLIENT_ID\",\n  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n  \"token_uri\": \"https://oauth2.googleapis.com/token\",\n  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/SERVICE_ACCOUNT_EMAIL\",\n  \"universe_domain\": \"googleapis.com\",\n};\n\nconst auth = new google.auth.GoogleAuth({\n  credentials: googleDriveCredentials,\n  scopes: ['https://www.googleapis.com/auth/drive']\n});\n\nconst googleDriveClient = google.drive({ version: 'v3', auth });"
+    },
+    {
+      "label": "YepCode GoogleDrive: Find a folder in 'My Drive' by name",
+      "code": "const { data: folder } = await googleDriveClient.files.list({\n  q: `name='folderName' and mimeType='application/vnd.google-apps.folder'`,\n});\nconsole.log(folder.files[0]);"
+    },
+    {
+      "label": "YepCode GoogleDrive: Find a folder in 'Shared Drives' by name",
+      "code": "const { data: folder } = await googleDriveClient.files.list({\n  q: `name='folderName' and mimeType='application/vnd.google-apps.folder'`,\n  corpora: \"drive\",\n  driveId: sharedDrivesRootFolderId, // The sharedDrivesRootFolderId can be obtained in the root folder URL \"https://drive.google.com/drive/u/2/folders/---sharedDrivesRootFolderId---\"\n  includeItemsFromAllDrives: true,\n  supportsAllDrives: true,\n});\nconsole.log(folder.files[0]);"
+    },
+    {
+      "label": "YepCode GoogleDrive: Create a subfolder",
+      "code": "const { data: subfolder } = await googleDriveClient.files.create({\n  resource: {\n    name: \"folderName\",\n    mimeType: \"application/vnd.google-apps.folder\",\n    parents: [\"folderId1\", \"folderId2\"], // You can obtain folderId finding the folder first (seen in the previous examples) and getting the property id (folder.files[0].id)\n  }\n});\nconsole.log(subfolder);"
+    },
+    {
+      "label": "YepCode GoogleDrive: Upload a file to a folder",
+      "code": "//First we need to create a Readable stream from a Base 64 file content\nconst { Readable } = require('stream');\nconst readableStreamFile = Readable.from(Buffer.from(base64FileContent, 'base64'));\n\nconst { data: file } = await googleDriveClient.files.create({\n  media: {\n    mimeType: \"application/octet-stream\",\n    body: readableStreamFile,\n  },\n  resource: {\n    name: \"fileName\",\n    parents: [\"folderId1\", \"folderId2\"], // You can obtain folderId finding the folder first (seen in the previous examples) and getting the property id (folder.files[0].id)\n  },\n});\nconsole.log(file);"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: New integration from credential",
+      "code": "const googleSpreadsheetClient = await yepcode.integration.googleSpreadsheet(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: New integration from plain authentication data",
+      "code": "const { GoogleSpreadsheet } = require(\"google-spreadsheet\");\n\nconst googleSpreadsheetServiceAccountJson = {\n  type: \"service_account\",\n  project_id: \"yepcode\",\n  private_key_id: \"XXXXX\",\n  private_key: \\`-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\\`,\n  client_email: \"yepcode@example.org\",\n  client_id: \"1234567890\",\n  auth_uri: \"https://example.org\",\n  token_uri: \"https://example.org\",\n  auth_provider_x509_cert_url: \"https://example.org\",\n  client_x509_cert_url: \"https://example.org\",\n};\n\nconst googleSpreadsheetClient = new GoogleSpreadsheet(\"spreadsheet-id\");\n\nawait googleSpreadsheetClient.useServiceAccountAuth(googleSpreadsheetServiceAccountJson);"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Load document",
+      "code": "await googleSpreadsheetClient.loadInfo();\nconsole.log(googleSpreadsheetClient.title);\nconst sheet = googleSpreadsheetClient.sheetsByTitle[\"sheetTitle\"];\nconsole.log(sheet.title);\nconsole.log(sheet.rowCount);"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Create new sheet and add rows",
+      "code": "await googleSpreadsheetClient.loadInfo();\nconst sheet = await googleSpreadsheetClient.addSheet({ title: \"sheetTitle\", headerValues: [\"columnName\", \"columnName\"] });\n\nawait sheet.addRow({ \"columnName\": \"value\", \"columnName\": \"value\" });"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Update and remove rows",
+      "code": "await googleSpreadsheetClient.loadInfo();\nconst sheet = googleSpreadsheetClient.sheetsByTitle[\"sheetTitle\"];\nconst rows = await sheet.getRows();\n\nrows[1].columnName = newValue;\nawait rows[1].save();\nawait rows[2].delete();"
+    },
+    {
+      "label": "YepCode GoogleSpreadsheet: Work with cells",
+      "code": "await googleSpreadsheetClient.loadInfo();\nconst sheet = googleSpreadsheetClient.sheetsByTitle[\"sheetTitle\"];\nawait sheet.loadCells(\"A1:E10\");\nconsole.log(sheet.cellStats); // total cells, loaded, how many non-empty\nconst a2 = sheet.getCell(1, 0);\nconst a3 = sheet.getCellByA1(\"A3\");\n\na2.value = newValue\na3.value = newValue\nawait sheet.saveUpdatedCells();"
+    },
+    {
+      "label": "YepCode GoogleStorage: New integration from credential",
+      "code": "const googleStorageClient = yepcode.integration.googleStorage(\"credentialSlug\");"
+    },
+    {
+      "label": "YepCode GoogleStorage: New integration from plain authentication data",
+      "code": "const { Storage } = require(\"@google-cloud/storage\");\n\nconst googleStorageCredentials = {\n  projectId: \"YepCode\",\n  credentials: {\n    type: \"service_account\",\n    project_id: \"yepcode\",\n    private_key_id: \"XXXXX\",\n    private_key: \"-----BEGIN PRIVATE KEY-----\\nx\\n-----END PRIVATE KEY-----\",\n    client_email: \"yepcode@example.org\",\n    client_id: \"1234567890\",\n    auth_uri: \"https://example.org\",\n    token_uri: \"https://example.org\",\n    auth_provider_x509_cert_url: \"https://example.org\",\n    client_x509_cert_url: \"https://example.org\",\n  },\n};\n\nconst googleStorage = new Storage(googleStorageCredentials);"
+    },
+    {
+      "label": "YepCode GoogleStorage: Create a new bucket",
+      "code": "  await googleStorageClient.createBucket(bucketName);"
+    },
+    {
+      "label": "YepCode GoogleStorage: Create a notification",
+      "code": "await googleStorageClient.bucket(bucketName).createNotification(notificationTopic);\n"
+    },
+    {
+      "label": "YepCode GoogleStorage: Delete a bucket",
+      "code": "await googleStorageClient.bucket(bucketName).delete();"
+    },
+    {
+      "label": "YepCode GoogleStorage: Delete a notification",
+      "code": "await googleStorageClient.bucket(bucketName).notification(notificationId).delete();"
+    },
+    {
+      "label": "YepCode GoogleStorage: List buckets",
+      "code": "const [buckets] = await googleStorageClient.getBuckets();\n\nbuckets.forEach(bucket => {\n  console.log(bucket.name);\n});"
+    },
+    {
+      "label": "YepCode GoogleStorage: List notifications",
+      "code": "const [notifications] = await googleStorageClient.bucket(bucketName).getNotifications();\n\nnotifications.forEach(notification => {\n  console.log(notification.id);\n});"
+    },
+    {
+      "label": "YepCode GoogleStorage: Upload a file",
+      "code": "await googleStorageClient.bucket(bucketName).upload(filePath, {\n  destination: destinationFileName,\n});"
+    },
+    {
+      "label": "YepCode GoogleStorage: Download a file",
+      "code": "const options = {\n  destination: destinationFileName,\n};\nawait googleStorageClient.bucket(bucketName).file(fileName).download(options);"
+    },
+    {
+      "label": "YepCode GoogleStorage: Delete a file",
+      "code": "await storage.bucket(bucketName).file(fileName).delete();"
+    },
+    {
+      "label": "YepCode Kafka: New integration from credential",
+      "code": "const kafka = yepcode.integration.kafka('credential-slug')"
+    },
+    {
+      "label": "YepCode Kafka: New integration from plain authentication data",
+      "code": "const { Kafka } = require('kafkajs')\n\nconst kafka = new Kafka({\n  clientId: 'my-app',\n  brokers: ['kafka1:9092', 'kafka2:9092'],\n  ssl: true,\n  sasl: {\n    mechanism: 'plain',\n    username: 'my-username',\n    password: 'my-password'\n  }\n})"
+    },
+    {
+      "label": "YepCode Kafka: Producer",
+      "code": "const producer = kafka.producer()\n\nawait producer.connect()\nawait producer.send({\n  topic: 'test-topic',\n  messages: [\n    { value: 'Hello Kafka user!' },\n  ],\n})\n\nawait producer.disconnect()"
+    },
+    {
+      "label": "YepCode Kafka: Consumer",
+      "code": "const consumer = kafka.consumer({ groupId: 'test-group' })\n\nawait consumer.connect()\nawait consumer.subscribe({ topic: 'test-topic', fromBeginning: true })\n\nawait consumer.run({\n  eachMessage: async ({ topic, partition, message }) => {\n    console.log({\n      value: message.value.toString(),\n    })\n  },\n})"
+    },
+    {
+      "label": "YepCode Keycloak: New integration from credential",
+      "code": "const keycloakAdminClient = await yepcode.integration.keycloak(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Keycloak: New integration from plain authentication data (username and password)",
+      "code": "const KeycloakAdminClient = require(\"@keycloak/keycloak-admin-client\").default;\n\nconst keycloakAdminClient = new KeycloakAdminClient({\n  baseUrl: \"baseUrl\",\n  realmName: \"realm-name\"\n});\n\nawait keycloakAdminClient.auth({\n  grantType: \"password\",\n  clientId: \"keycloak-client-id\",\n  username: \"username\",\n  password: \"password\"\n});"
+    },
+    {
+      "label": "YepCode Keycloak: New integration from plain authentication data (client secret)",
+      "code": "const KeycloakAdminClient = require(\"@keycloak/keycloak-admin-client\").default;\n\nconst keycloakAdminClient = new KeycloakAdminClient({\n  baseUrl: \"baseUrl\",\n  realmName: \"realm-name\"\n});\n\nawait keycloakAdminClient.auth({\n  grantType: \"client_credentials\",\n  clientId: \"keycloak-client-id\",\n  clientSecret: \"your-client-secret\"\n});"
+    },
+    {
+      "label": "YepCode Keycloak: Change realm",
+      "code": "keycloakAdminClient.setConfig({\n  realmName: \"realm-name\"\n});"
+    },
+    {
+      "label": "YepCode Keycloak: Find all realm users",
+      "code": "const users = await keycloakAdminClient.users.find();"
+    },
+    {
+      "label": "YepCode Keycloak: Find a single user by id",
+      "code": "const user = await keycloakAdminClient.users.findOne({ id: \"user-id\" });"
+    },
+    {
+      "label": "YepCode Keycloak: Find a single user by email",
+      "code": "const user = await keycloakAdminClient.users.findOne({ email: \"user-email\" });"
+    },
+    {
+      "label": "YepCode Keycloak: Get user roles",
+      "code": "const roles = await keycloakAdminClient.users.listRoleMappings({ id: \"user-id\" });"
+    },
+    {
+      "label": "YepCode Keycloak: Get user groups",
+      "code": "const groups = await keycloakAdminClient.users.listGroups({ id: \"user-id\" });"
+    },
+    {
+      "label": "YepCode Keycloak: Find all realm groups",
+      "code": "const groups = await keycloakAdminClient.groups.find();"
+    },
+    {
+      "label": "YepCode Keycloak: Find a single group",
+      "code": "const group = await keycloakAdminClient.groups.findOne({ id: \"group-id\" });"
+    },
+    {
+      "label": "YepCode LDAP: New integration from credential",
+      "code": "const ldapClient = await yepcode.integration.ldap('credential-slug')"
+    },
+    {
+      "label": "YepCode LDAP: New integration from plain authentication data",
+      "code": "const ldapClient = require(\"ldapjs\").createClient({\n  url: [\"url\"]\n});\nldapClient.on(\"error\", (err) => {\n  console.log(\"error\", err)\n});\nldapClient.on(\"connect\", () => {\n  console.log(\"connected\")\n});"
+    },
+    {
+      "label": "YepCode LDAP: Add entry",
+      "code": "const entry = {\n  // Attributes\n};\nldapClient.add(\"dn\", entry, (err) => {\n  if (err) {\n    throw err;\n  }\n  // Completed\n});"
+    },
+    {
+      "label": "YepCode LDAP: Bind",
+      "code": "ldapClient.bind(\"dn\", \"secret\", (err) => {\n  if (err) {\n    throw err;\n  }\n  // Completed\n});"
+    },
+    {
+      "label": "YepCode LDAP: Search",
+      "code": "const options = {\n  filter: \"filter\",\n};\n\nldapClient.search(\"dn\", options, (err, res) => {\n  res.on(\"searchEntry\", (entry) => {\n    console.log(\"entry: \" + JSON.stringify(entry.object));\n  });\n  res.on(\"error\", (err) => {\n    console.error(\"error: \" + err.message);\n  });\n});"
+    },
+    {
+      "label": "YepCode MongoDB: New integration from credential",
+      "code": "const mongodbClient = yepcode.integration.mongodb('credential-slug')"
+    },
+    {
+      "label": "YepCode MongoDB: New integration from plain authentication data",
+      "code": "const { MongoClient } = require('mongodb')\n\nconst url = \"mongodb+srv://<user>:<password>@<cluster-url>?retryWrites=true&writeConcern=majority\";\n\nconst mongodbClient = new MongoClient(url, {\n  tls: true,\n  auth: {\n      username: 'username',\n      password: 'password'\n  }\n});"
+    },
+    {
+      "label": "YepCode MongoDB: Connect (async/await)",
+      "code": "try {\n    await mongodbClient.connect()\n\n    // Your code here\n} catch (error)  {\n    console.error('Error connecting to MongoDB')\n    console.error(error)\n} finally {\n    await mongodbClient.close();\n}"
+    },
+    {
+      "label": "YepCode MongoDB: Connect (Promise)",
+      "code": "mongodbClient.connect().then(() => {\n    // Your code here\n}).catch((error) => {\n    console.error('Error connecting to MongoDB')\n    console.error(error)\n    throw error\n}).finally(() => {\n    mongodbClient.close();\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Connect (callback)",
+      "code": "mongodbClient.connect((error, client) => {\n    if (error) {\n        console.error(error)\n    } else {\n        // Your code here\n    }\n    mongodbClient.close()\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Close client",
+      "code": "await mongodbClient.close()"
+    },
+    {
+      "label": "YepCode MongoDB: Insert a document (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\ntry {\n    const results = await userCollection.insertOne({\n        id: '1235',\n        name: 'John',\n        email: 'john@foo.bar',\n    }, {\n        forceServerObjectId: true\n    })\n    console.log(results.insertedCount);\n    console.log(results.insertedId);\n    console.log(results.ops[0]);\n} catch (error) {\n    console.error(error)\n    throw error\n};"
+    },
+    {
+      "label": "YepCode MongoDB: Insert a document (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.insertOne({\n    id: '1235',\n    name: 'John',\n    email: 'john@foo.bar',\n}, {\n    forceServerObjectId: true\n}).then((result) => {\n    console.log(result.insertedCount);\n    console.log(result.insertedId);\n    console.log(result.ops[0]);\n}).catch((error) => {\n    console.error(error)\n    throw error\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Insert a document (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.insertOne({\n    id: '1235',\n    name: 'John',\n    email: 'john@foo.bar',\n}, {\n    forceServerObjectId: true\n}, (error, result) => {\n    if (error)  {\n        console.error(error)\n        throw error\n    } else {\n        console.log(result.insertedCount);\n        console.log(result.insertedId);\n        console.log(result.ops[0]);\n    }\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Insert multiple documents (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\ntry {\n    const results = await userCollection.insertMany([{\n        id: '1236',\n        name: 'John',\n        email: 'john@foo.bar',\n    }, {\n        id: '1237',\n        name: 'Andy',\n        email: 'andy@foo.bar',\n    }], {\n        forceServerObjectId: true\n    })\n    console.log(results.insertedCount);\n    console.log(results.insertedIds);\n    console.log(results.ops[0]);\n} catch (error) {\n    console.error(error)\n    throw error\n};"
+    },
+    {
+      "label": "YepCode MongoDB: Insert multiple documents (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.insertMany([{\n        id: '1236',\n        name: 'John',\n        email: 'john@foo.bar',\n    }, {\n        id: '1237',\n        name: 'Andy',\n        email: 'andy@foo.bar',\n}], {\n    forceServerObjectId: true\n}).then((result) => {\n    console.log(result.insertedCount);\n    console.log(result.insertedId);\n    console.log(result.ops[0]);\n}).catch((error) => {\n    console.error(error)\n    throw error\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Insert multiple documents (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.insertMany([{\n    id: '1236',\n    name: 'John',\n    email: 'john@foo.bar',\n}, {\n    id: '1237',\n    name: 'Andy',\n    email: 'andy@foo.bar',\n}], {\n    forceServerObjectId: true\n}, (error, result) => {\n    if (error)  {\n        console.error(error)\n        throw error\n    } else {\n        console.log(result.insertedCount);\n        console.log(result.insertedId);\n        console.log(result.ops[0]);\n    }\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Find a document (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\ntry {\n    const results = await userCollection.findOne({\n        id: '1234'\n    }, {\n        projection: {\n            name: 1,\n            id: 1\n        }\n    })\n    console.log(results);\n} catch (error) {\n    console.error(error)\n    throw error\n};\n"
+    },
+    {
+      "label": "YepCode MongoDB: Find a document (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.findOne({\n    id: '1234'\n}, {\n    projection: {\n        name: 1,\n        id: 1\n    }\n}).then((results) => {\n    console.log(results);\n    return results\n}).catch((error) => {\n    console.error(error)\n    throw error\n});\n"
+    },
+    {
+      "label": "YepCode MongoDB: Find a document (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.findOne({\n    id: '1234'\n}, {\n    projection: {\n        name: 1,\n        id: 1\n    }\n}, (error, results) => {\n    if (error) {\n        console.error(error)\n    } else {\n        console.log(results)\n    }\n});"
+    },
+    {
+      "label": "YepCode MongoDB: Find multiple documents (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nconst cursor = userCollection.find({\n    id: '1234'\n}, {\n    projection: {\n        name: 1,\n        id: 1\n    }\n});\n\ntry {\n    const rowsCount = await cursor.count();\n    if (rowsCount === 0) {\n        console.log(\"No documents found!\");\n    }\n\n    await cursor.forEach(console.log);\n} catch (error) {\n    console.error(error)\n    throw error\n}"
+    },
+    {
+      "label": "YepCode MongoDB: Find multiple documents (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\ntry {\n    const cursor = userCollection.find({\n        id: '1234'\n    }, {\n        projection: {\n            name: 1,\n            id: 1\n        }\n    });\n\n    const rowsCount = await cursor.count();\n    if (rowsCount === 0) {\n        console.log(\"No documents found!\");\n    }\n    await cursor.forEach(console.log);\n} catch (error) {\n    console.error(error)\n    throw error\n}"
+    },
+    {
+      "label": "YepCode MongoDB: Find multiple documents (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nconst cursor = userCollection.find({\n    id: '1234'\n}, {\n    projection: {\n        name: 1,\n        id: 1\n    }\n});\n\ncursor.count((error, count) => {\n    if (count === 0 ) {\n        console.log(\"No documents found!\");\n    } else {\n        cursor.forEach(console.log, (error) => {\n            console.error('An error instance during the execution.')\n            console.error(error)\n        });\n    }\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Update a single document (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\ntry {\n    const results = await userCollection.updateOne({\n        id: '1234'\n    }, {\n        name: 'New name'\n    }, {\n        upsert: true\n    });\n    console.log(results)\n} catch (error) {\n    console.error(error)\n    throw error\n}"
+    },
+    {
+      "label": "YepCode MongoDB: Update a single document (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.updateOne({\n    id: '1234'\n}, {\n    name: 'New name'\n}, {\n    upsert: true\n}).then((results) => {\n    console.log(results)\n}).catch((error) => {\n    console.error(error)\n    throw error\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Update a single document (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.updateOne({\n    id: '1234'\n}, {\n    name: 'New name'\n}, {\n    upsert: true\n}, (error, results) => {\n    if (error) {\n        console.error(error)\n    } else {\n        console.log(results)\n    }\n});"
+    },
+    {
+      "label": "YepCode MongoDB: Update multiple documents (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst productCollection = databaseDB.collection('product');\n\ntry {\n    const results = await productCollection.updateMany({\n        stock: { $eq: 0 }\n    }, {\n        soldOut: true\n    });\n    console.log(results)\n} catch (error) {\n    console.error(error)\n    throw error\n}"
+    },
+    {
+      "label": "YepCode MongoDB: Update multiple documents (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst productCollection = databaseDB.collection('product');\n\nproductCollection.updateMany({\n    stock: { $eq: 0 }\n}, {\n    soldOut: true\n}).then((results) => {\n    console.log(results)\n}).catch((error) => {\n    console.error(error)\n    throw error\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Update multiple documents (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst productCollection = databaseDB.collection('product');\n\nproductCollection.updateMany({\n    stock: { $eq: 0 }\n}, {\n    soldOut: true\n}, {\n    upsert: true\n}, (error, results) => {\n    if (error) {\n        console.error(error)\n    } else {\n        console.log(results)\n    }\n});"
+    },
+    {
+      "label": "YepCode MongoDB: Delete one document (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\ntry {\n    const result = await userCollection.deleteOne({\n        id: '1234'\n    })\n    console.log(result.result)\n    console.log(`Deleted ${result.deletedCount} documents`)\n} catch (error) {\n    console.error(error)\n    throw error\n}\n"
+    },
+    {
+      "label": "YepCode MongoDB: Delete one document (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.deleteOne({\n    id: '1234'\n}).then((result) => {\n    console.log(result.result)\n    console.log(`Deleted ${result.deletedCount} documents`)\n}).catch((error) => {\n    console.error(error)\n    throw error\n});"
+    },
+    {
+      "label": "YepCode MongoDB: Delete one document (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst userCollection = databaseDB.collection('user');\n\nuserCollection.deleteOne({\n    id: '1234'\n}, (error, result) => {\n    if (error) {\n        console.error(error)\n    } else {\n        console.log(result.result)\n        console.log(`Deleted ${result.deletedCount} documents`)\n    }\n});"
+    },
+    {
+      "label": "YepCode MongoDB: Delete multiple documents (async/await)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst productCollection = databaseDB.collection('product');\n\ntry {\n    const results = await productCollection.deleteMany({\n        soldOut: true\n    });\n    console.log(results)\n} catch (error) {\n    console.error(error)\n    throw error\n}"
+    },
+    {
+      "label": "YepCode MongoDB: Delete multiple documents (Promise)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst productCollection = databaseDB.collection('product');\n\nproductCollection.deleteMany({\n    soldOut: true\n}).then((results) => {\n    console.log(results)\n}).catch((error) => {\n    console.error(error)\n    throw error\n})"
+    },
+    {
+      "label": "YepCode MongoDB: Delete multiple documents (callback)",
+      "code": "const databaseDB = mongodbClient.db('database');\nconst productCollection = databaseDB.collection('product');\n\nproductCollection.deleteMany({\n    soldOut: true\n}, (error, results) => {\n    if (error) {\n        console.error(error)\n    } else {\n        console.log(results)\n    }\n});"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: New integration from credential",
+      "code": "const mssqlConnectionPool = yepcode.integration.mssql('credential-slug')"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: New integration from plain authentication data",
+      "code": "const mssql = require('mssql');\n\nconst mssqlConnectionPool = new mssql.ConnectionPool({\n  user: 'sa',\n  password: 'Pass@word',\n  database: 'master',\n  server: 'localhost',\n  pool: {\n    max: 10,\n    min: 0,\n    idleTimeoutMillis: 30000\n  },\n  options: {\n    encrypt: true, // for azure\n    trustServerCertificate: false // change to true for local dev / self-signed certs\n  }\n});"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: Connect",
+      "code": "let pool;\ntry {\n    pool = await mssqlConnectionPool.connect();\n    await pool.query('SELECT GETDATE();');\n} catch (err) {\n    console.error(err);\n} finally {\n    pool && pool.close();\n}"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: SELECT Text only",
+      "code": "try {\n    const result = await mssqlPool.query(\n      'SELECT name, price FROM products'\n    );\n    result.recordset.forEach((row) => console.log(row));\n} catch (err) {\n    console.error(err);\n}"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: SELECT Parameterized",
+      "code": "try {\n    const { recordset, rowsAffected } = await mssqlPool\n      .request()\n      .input('name_filter', mssql.VarChar(50), 'awesome-product-name')\n      .query('SELECT * FROM products WHERE name = @name_filter');\n    console.log('Count:', rowsAffected[0]);\n    recordset.forEach(({ name, price, stock, created_at: createdAt }) =>\n      console.log(name, price, stock, createdAt)\n    );\n} catch (err) {\n    console.error(err);\n}"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: INSERT Text only",
+      "code": "try {\n    const { rowsAffected } = await mssqlPool.query(\n      \"INSERT INTO products(name, price, stock, created_at) VALUES('awesome-product-name', 14, 99, CURRENT_TIMESTAMP)\"\n    );\n    console.log('Inserted rows:', rowsAffected[0]); // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Microsoft SQL Server: INSERT Parameterized",
+      "code": "const mssql = require('mssql');\n\ntry {\n    const { rowsAffected } = await mssqlPool\n        .request()\n        .input('name', mssql.VarChar(50), 'awesome-product-name')\n        .input('price', mssql.Int, 14)\n        .input('stock', mssql.Int, 99)\n        .query(\n        'INSERT INTO products(name, price, stock, created_at) VALUES(@name, @price, @stock, CURRENT_TIMESTAMP)'\n        );\n    console.log('Inserted rows:', rowsAffected[0]); // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode MySQL: New integration from credential",
+      "code": "const mysqlClient = yepcode.integration.mysql('credential-slug')"
+    },
+    {
+      "label": "YepCode MySQL: New integration from plain authentication data",
+      "code": "const mysql = require('mysql2');\n\nconst mysqlClient = mysql.createConnection({\n    user: 'mysql',\n    password: '1234abcd',\n    host: 'localhost',\n    database: 'testdb',\n    port: 3306,\n    connectTimeout: 2000\n});"
+    },
+    {
+      "label": "YepCode MySQL: Connect (callback)",
+      "code": "mysqlClient.connect((err) => {\n    if(err){\n        throw err\n    }\n    // Your query here\n})"
+    },
+    {
+      "label": "YepCode MySQL: Disconnect (callback)",
+      "code": "mysqlClient.end(function(err) {\n    if(err){\n        throw err\n    }\n    console.log('Connection closed!')\n});"
+    },
+    {
+      "label": "YepCode MySQL: SELECT Text only with callback",
+      "code": "mysqlClient.query('SELECT id, name, price FROM products', function (error, rows, fields) {\n  if(error){\n      console.error(error.stack)\n      throw error\n  }\n  console.log(rows.forEach((row) => console.log(row.name)));\n});"
+    },
+    {
+      "label": "YepCode MySQL: SELECT Parameterized (callback)",
+      "code": "mysqlClient.query(\n  `SELECT id, name, price\n    FROM products\n    WHERE price > ? AND stock > ?`,\n  [100, 200],\n  function (error, rows, fields) {\n    if (error) {\n      console.error(error.stack);\n      throw error;\n    }\n    console.log(rows.forEach((row) => console.log(row.name)));\n  }\n);"
+    },
+    {
+      "label": "YepCode MySQL: SELECT Query object (callback)",
+      "code": "const query = {\n  sql: `SELECT id, name, price\n        FROM products\n        WHERE price > ? AND stock > ?`,\n  timeout: 40000,\n  values: [100, 200],\n};\nmysqlClient.query(query, function (error, rows, fields) {\n    if (error) {\n      console.error(error.stack);\n      throw error;\n    }\n    console.log(rows.forEach((row) => console.log(row.name)));\n});"
+    },
+    {
+      "label": "YepCode MySQL: INSERT (callback)",
+      "code": "mysqlClient.query(\n    \"INSERT INTO products(id, name, price, stock) VALUES('12345', 'FOO', 12, 50)\",\n    function (error, results, fields) {\n    if (error) {\n        console.error(error.stack);\n        throw error;\n    }\n});"
+    },
+    {
+      "label": "YepCode MySQL: INSERT (callback)",
+      "code": "mysqlClient.query(\n    'INSERT INTO products(id, name, price, stock) VALUES(?, ?, ?, ?)',\n    ['12345', 'FOO', 12, 50],\n    function (error, results, fields) {\n        if (error) {\n        console.error(error.stack);\n        throw error;\n    }\n});"
+    },
+    {
+      "label": "YepCode MySQL: INSERT Query object (callback)",
+      "code": "const query = {\n  sql: 'INSERT INTO products(id, name, price, stock) VALUES(?, ?, ?, ?)',\n  timeout: 40000,\n  values: ['12345', 'FOO', 12, 50]\n};\nmysqlClient.query(query, function (error, results, fields) {\n  if (error) {\n    console.error(error.stack);\n    throw error;\n  }\n});"
+    },
+    {
+      "label": "YepCode SMTP: New integration from credential",
+      "code": "const nodemailerTransport = yepcode.integration.smtp('credential-slug')"
+    },
+    {
+      "label": "YepCode SMTP: New integration from plain authentication data",
+      "code": "const nodemailer = require('nodemailer');\n\n// create reusable transporter object using the default SMTP transport\nconst nodemailerTransport = nodemailer.createTransport({\n  host: \"smtp.ethereal.email\",\n  port: 587,\n  secure: false,\n  connectionTimeout: 100,\n  auth: {\n    user: \"user\",\n    pass: \"password\",\n  },\n});"
+    },
+    {
+      "label": "YepCode SMTP: Verify SMTP connection configuration (async/await)",
+      "code": "// verify connection configuration\ntry {\n    const verified = await nodemailerTransport.verify()\n    console.log(\"Server is ready to take our messages\");\n} catch (error) {\n    console.error(error);\n    throw error;\n}"
+    },
+    {
+      "label": "YepCode SMTP: Verify SMTP connection configuration (Promise)",
+      "code": "// verify connection configuration\nnodemailerTransport.verify().then(() => {\n    console.log(\"Server is ready to take our messages\");\n}).catch((error) => {\n    console.error(error);\n    throw error;\n});"
+    },
+    {
+      "label": "YepCode SMTP: Verify SMTP connection configuration (callback)",
+      "code": "// verify connection configuration\nnodemailerTransport.verify(function(error, success) {\n  if (error) {\n    console.error(error);\n  } else {\n    console.log(\"Server is ready to take our messages\");\n  }\n});"
+    },
+    {
+      "label": "YepCode SMTP: Send mail (async/await)",
+      "code": "\ntry {\n    const info = await nodemailerTransport.sendMail({\n        from: '\"Fred Foo 👻\" <foo@example.com>', // sender address\n        to: \"bar@example.com, baz@example.com\", // list of receivers\n        subject: \"Hello ✔\", // Subject line\n        text: \"Hello world?\", // plain text body\n        html: \"<b>Hello world?</b>\", // html body\n    })\n    console.log(\"Message sent: \" + info.messageId);\n    console.log(\"Preview URL: \" + nodemailerTransport.getTestMessageUrl(info));\n} catch (error) {\n    console.error(error);\n    throw error;\n}"
+    },
+    {
+      "label": "YepCode SMTP: Send mail (Promise)",
+      "code": "nodemailerTransport.sendMail({\n    from: '\"Fred Foo 👻\" <foo@example.com>', // sender address\n    to: \"bar@example.com, baz@example.com\", // list of receivers\n    subject: \"Hello ✔\", // Subject line\n    text: \"Hello world?\", // plain text body\n    html: \"<b>Hello world?</b>\", // html body\n}).then((info) => {\n    console.log(\"Message sent: \" + info.messageId);\n    console.log(\"Preview URL: \" + nodemailerTransport.getTestMessageUrl(info));\n}).catch((error) => {\n    console.error(error);\n    throw error;\n});"
+    },
+    {
+      "label": "YepCode SMTP: Send mail (callback)",
+      "code": "nodemailerTransport.sendMail({\n    from: '\"Fred Foo 👻\" <foo@example.com>', // sender address\n    to: \"bar@example.com, baz@example.com\", // list of receivers\n    subject: \"Hello ✔\", // Subject line\n    text: \"Hello world?\", // plain text body\n    html: \"<b>Hello world?</b>\", // html body\n}, (error, info) => {\n  if (error) {\n    console.error(error);\n  } else {\n    console.log(\"Message sent: \" + info.messageId);\n    console.log(\"Preview URL: \"  nodemailerTransport.getTestMessageUrl(info));\n  }\n});"
+    },
+    {
+      "label": "YepCode Notion: New integration from credential",
+      "code": "const notion = yepcode.integration.notion('yepcode-notion')"
+    },
+    {
+      "label": "YepCode Notion: New integration from plain authentication data",
+      "code": "const { Client } = require('@notionhq/client')\nconst notion = new Client({\n  auth: 'NOTION_TOKEN'\n})"
+    },
+    {
+      "label": "YepCode Notion: Get users",
+      "code": "await notion.users.list({}).then(({ results }) => {\n  console.log(results)\n})"
+    },
+    {
+      "label": "YepCode Notion: Get a list of pages",
+      "code": "await notion.databases\n  .query({\n    database_id: '9bc30ad4-9373-46a5-84ab-0a7845ee52e6',\n    filter: {\n      or: [\n        {\n          property: 'In stock',\n          checkbox: {\n            equals: false\n          }\n        }\n      ]\n    },\n    sorts: [\n      {\n        property: 'Last ordered',\n        direction: 'ascending'\n      }\n    ]\n  })\n  .then(console.log)"
+    },
+    {
+      "label": "YepCode Notion: Create a database",
+      "code": "const database = await notion.databases.create({\n  parent: {\n    type: 'page_id',\n    page_id: '98ad959b-2b6a-4774-80ee-00246fb0ea9b'\n  },\n  icon: {\n    type: 'emoji',\n    emoji: '🎉'\n  },\n  cover: {\n    type: 'external',\n    external: {\n      url: 'https://website.domain/images/image.png'\n    }\n  },\n  title: [\n    {\n      type: 'text',\n      text: {\n        content: 'Grocery List',\n        link: null\n      }\n    }\n  ],\n  properties: {\n    Name: {\n      title: {}\n    },\n    Description: {\n      rich_text: {}\n    },\n    'In stock': {\n      checkbox: {}\n    },\n    'Food group': {\n      select: {\n        options: [\n          {\n            name: '🥦Vegetable',\n            color: 'green'\n          },\n          {\n            name: '🍎Fruit',\n            color: 'red'\n          },\n          {\n            name: '💪Protein',\n            color: 'yellow'\n          }\n        ]\n      }\n    },\n    Price: {\n      number: {\n        format: 'dollar'\n      }\n    },\n    'Last ordered': {\n      date: {}\n    },\n    'Store availability': {\n      type: 'multi_select',\n      multi_select: {\n        options: [\n          {\n            name: 'Duc Loi Market',\n            color: 'blue'\n          },\n          {\n            name: 'Rainbow Grocery',\n            color: 'gray'\n          },\n          {\n            name: 'Nijiya Market',\n            color: 'purple'\n          },\n          {\n            name: \"Gus'''s Community Market\",\n            color: 'yellow'\n          }\n        ]\n      }\n    },\n    '+1': {\n      people: {}\n    },\n    Photo: {\n      files: {}\n    }\n  }\n})"
+    },
+    {
+      "label": "YepCode Notion: Create a page",
+      "code": "const response = await notion.pages.create({\n  parent: {\n    database_id: 'd9824bdc84454327be8b5b47500af6ce'\n  },\n  icon: {\n    type: 'emoji',\n    emoji: '🥬'\n  },\n  cover: {\n    type: 'external',\n    external: {\n      url: 'https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg'\n    }\n  },\n  properties: {\n    Name: {\n      title: [\n        {\n          text: {\n            content: 'Tuscan Kale'\n          }\n        }\n      ]\n    },\n    Description: {\n      rich_text: [\n        {\n          text: {\n            content: 'A dark green leafy vegetable'\n          }\n        }\n      ]\n    },\n    'Food group': {\n      select: {\n        name: '🥦 Vegetable'\n      }\n    },\n    Price: {\n      number: 2.5\n    }\n  },\n  children: [\n    {\n      object: 'block',\n      type: 'heading_2',\n      heading_2: {\n        rich_text: [\n          {\n            type: 'text',\n            text: {\n              content: 'Lacinato kale'\n            }\n          }\n        ]\n      }\n    },\n    {\n      object: 'block',\n      type: 'paragraph',\n      paragraph: {\n        rich_text: [\n          {\n            type: 'text',\n            text: {\n              content:\n                'Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.',\n              link: {\n                url: 'https://en.wikipedia.org/wiki/Lacinato_kale'\n              }\n            }\n          }\n        ]\n      }\n    }\n  ]\n})\nconsole.log(response)"
+    },
+    {
+      "label": "YepCode Notion: Delete a block (including page blocks)",
+      "code": "const response = await notion.blocks.delete({\n  block_id: '9bc30ad4-9373-46a5-84ab-0a7845ee52e6'\n})\nconsole.log(response)"
+    },
+    {
+      "label": "YepCode OpenAI: New integration from credential",
+      "code": "const openai = yepcode.integration.openai('credential-slug');"
+    },
+    {
+      "label": "YepCode OpenAI: New integration from plain authentication data",
+      "code": "const OpenAI = require('openai');\n\nconst openai = new OpenAI({\n  apiKey: \"OPENAI_API_KEY\"\n});"
+    },
+    {
+      "label": "YepCode OpenAI: Create completion",
+      "code": "const completion = await openai.completions.create({\n  model: 'gpt-3.5-turbo',\n  prompt: 'Say this is a test',\n  max_tokens: 7,\n  temperature: 0,\n});\nconsole.log(completion.choices[0].text);"
+    },
+    {
+      "label": "YepCode OpenAI: Create chat completion",
+      "code": "const completion = await openai.chat.completions.create({\n  model: 'gpt-3.5-turbo',\n  messages: [{role: \"user\", content: 'Hello World'}],\n});\nconsole.log(completion.choices[0].message);"
+    },
+    {
+      "label": "YepCode OpenAI: List models",
+      "code": "const models = await openai.models.list();\nconsole.log(models)"
+    },
+    {
+      "label": "YepCode OpenAI: Create image",
+      "code": "const response = await openai.images.generate({\n  prompt: 'A cute baby sea otter',\n  n: 2,\n  size: '1024x1024',\n});\nconsole.log(response.data)"
+    },
+    {
+      "label": "YepCode Oracle: New integration from credential",
+      "code": "const oraclePool = await yepcode.integration.oracle('credential-slug')"
+    },
+    {
+      "label": "YepCode Oracle: New integration from plain authentication data",
+      "code": "const oracledb = require(\"oracledb\");\n\nconst oraclePool = await oracledb.createPool({\n  username: \"username\",\n  password: \"password\",\n  connectionString: \"connectionString\",\n  ...extendedOptions,\n});"
+    },
+    {
+      "label": "YepCode Oracle: Close pool",
+      "code": "await oraclePool.close().catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: Get connection from pool",
+      "code": "const connection = await oraclePool.getConnection();"
+    },
+    {
+      "label": "YepCode Oracle: Close connection",
+      "code": "await connection.close().catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: SELECT text only (async/await)",
+      "code": "try {\n  const result = await connection.execute(\n    `SELECT id, name, email FROM Persons`\n  );\n  result.rows.forEach(console.log);\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode Oracle: SELECT text only (promise)",
+      "code": "connection\n  .execute(`SELECT id, name, email FROM Persons`)\n  .then((result) => {\n    result.rows.forEach(console.log);\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: SELECT parametrized with array (async/await)",
+      "code": "try {\n  const result = await connection.execute(\n    `SELECT * FROM Persons where firstName = :0 and lastName = :1`,\n    [\"firstName\", \"lastName\"]\n  );\n  result.rows.forEach(console.log);\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode Oracle: SELECT parametrized with array (promise)",
+      "code": "connection\n  .execute(`SELECT * FROM Persons where firstName = :0 and lastName = :1`, [\n    \"firstName\",\n    \"lastName\",\n  ])\n  .then((result) => {\n    result.rows.forEach(console.log);\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: SELECT parametrized with object (async/await)",
+      "code": "try {\n  const result = await connection.execute(\n    `SELECT * FROM Persons where firstName = :firstName and lastName = :lastName`,\n    {\n      firstName: \"firstName\",\n      lastName: \"lastName\",\n    }\n  );\n  result.rows.forEach(console.log);\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode Oracle: SELECT parametrized with object (promise)",
+      "code": "connection\n  .execute(\n    `SELECT * FROM Persons where firstName = :firstName and lastName = :lastName`,\n    {\n      firstName: \"firstName\",\n      lastName: \"lastName\",\n    }\n  )\n  .then((result) => {\n    result.rows.forEach(console.log);\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: INSERT text only (async/await)",
+      "code": "try {\n  await connection.execute(\n    `INSERT INTO Persons values (id, 'theName', 'theEmail')`\n  );\n  await connection.commit();\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode Oracle: INSERT text only (promise)",
+      "code": "connection\n  .execute(`INSERT INTO Persons values (id, 'theName', 'theEmail')`)\n  .then((result) => {\n    return connection.commit();\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: INSERT parametrized with array (async/await)",
+      "code": "try {\n  await connection.execute(`INSERT INTO Persons values (:0, :1, :2)`, [\n    \"1\",\n    \"name\",\n    \"email\",\n  ]);\n  await connection.commit();\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode Oracle: INSERT parametrized with array (promise)",
+      "code": "connection\n  .execute(`INSERT INTO Persons values (:0, :1, :2)`, [\"1\", \"name\", \"email\"])\n  .then((result) => {\n    return connection.commit();\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Oracle: INSERT parametrized with object (async/await)",
+      "code": "try {\n  await connection.execute(`INSERT INTO Persons values (:id, :name, :email)`, {\n    id: 1,\n    name: \"name\",\n    email: \"email\",\n  });\n  await connection.commit();\n} catch (error) {\n  console.error(error);\n}"
+    },
+    {
+      "label": "YepCode Oracle: INSERT parametrized with object (promise)",
+      "code": "connection\n  .execute(`INSERT INTO Persons values (:id, :name, :email)`, {\n    id: 1,\n    name: \"name\",\n    email: \"email\",\n  })\n  .then((result) => {\n    return connection.commit();\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: New integration from credential",
+      "code": "const pipedrive = yepcode.integration.pipedrive(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode Pipedrive: New integration from plain authentication data",
+      "code": "const pipedrive = require(\"pipedrive\");\n\nconst client = pipedrive.ApiClient.instance;\nclient.authentications.api_key.apiKey = \"your-api-token\";"
+    },
+    {
+      "label": "YepCode Pipedrive: Create lead",
+      "code": "const leadsApi = new pipedrive.LeadsApi();\n\nleadsApi\n  .addLead({\n    title: \"lead-title\",\n    person_id: person-id,\n    organization_id: organization-id\n  })\n  .then((response) => {\n    console.log(`Created lead with id ${response.data.id}`)\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: List leads",
+      "code": "const leadsApi = new pipedrive.LeadsApi();\n\nleadsApi.getLeads().then((response) => {\n  const leads = response.data\n  leads.forEach((lead) => {\n    console.log(`Found lead with id ${lead.id} and title ${lead.title}`)\n  })\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: Delete lead",
+      "code": "const leadsApi = new pipedrive.LeadsApi();\n\nleadsApi.deleteLead(\"lead-id\").then((response) => {\n  console.log(`Deleted lead widh id: ${response.data.id}`)\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: Create contact",
+      "code": "const personsApi = new pipedrive.PersonsApi();\n\npersonsApi\n  .addPerson({\n    name: \"contact-name\",\n    email: [\"contact-email\"],\n    org_id: organization-id,\n  })\n  .then((response) => {\n    console.log(\n      `Created person widh id: ${response.data.id} and name ${response.data.name}`\n    );\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: List contacts",
+      "code": "const personsApi = new pipedrive.PersonsApi();\n\npersonsApi.getPersons().then((response) => {\n  const persons = response.data;\n  persons.forEach((person) => {\n    console.log(`Found person with id ${person.id} and name ${person.name}`)\n  })\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: Delete contact",
+      "code": "const personsApi = new pipedrive.PersonsApi();\n\npersonsApi.deletePerson(person-id).then((response) => {\n  console.log(`Deleted person widh id: ${response.data.id}`)\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: Create organization",
+      "code": "const organizationsApi = new pipedrive.OrganizationsApi();\n\norganizationsApi\n  .addOrganization({ name: \"organization-name\" })\n  .then((response) => {\n    console.log(\n      `Created organization widh id: ${response.data.id} and name ${response.data.name}`\n    );\n  })\n  .catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: List organizations",
+      "code": "const organizationsApi = new pipedrive.OrganizationsApi();\n\norganizationsApi.getOrganizations().then((response) => {\n  response.data.forEach((organization) => {\n    console.log(`Found organization with id ${organization.id} and name ${organization.name}`)\n  })\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Pipedrive: Delete organization",
+      "code": "const organizationsApi = new pipedrive.OrganizationsApi();\n\norganizationsApi.deleteOrganization(organization-id).then((response) => {\n  console.log(`Deleted organization widh id: ${response.data.id}`)\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Pinecone: New integration from credential",
+      "code": "const pineconeClient = yepcode.integration.pinecone('credential-slug')"
+    },
+    {
+      "label": "YepCode Pinecone: New integration from plain authentication data",
+      "code": "const { Pinecone } = require('@pinecone-database/pinecone');\n\nconst pineconeClient = new Pinecone({\n  apiKey: 'YOUR_API_KEY',\n});"
+    },
+    {
+      "label": "YepCode Pinecone: Creates an index",
+      "code": "await pineconeClient.createIndex({\n  name: \"example-index\",\n  dimension: 1024,\n});"
+    },
+    {
+      "label": "YepCode Pinecone: Lists all indexes in your project",
+      "code": "const indexesList = await pineconeClient.listIndexes();"
+    },
+    {
+      "label": "YepCode Pinecone: Construct an index objet with an existing index name",
+      "code": "const index = pineconeClient.index('example-index');\n// Now perform index operations\nawait index.fetch(['1']);"
+    },
+    {
+      "label": "YepCode Pinecone: Logs information about an index in your project",
+      "code": "const indexDescription = await pineconeClient.describeIndex({\n  indexName: \"example-index\",\n});"
+    },
+    {
+      "label": "YepCode Pinecone: Deletes an index",
+      "code": "await pineconeClient.deleteIndex({\n  indexName: \"example-index\",\n});"
+    },
+    {
+      "label": "YepCode Pinecone: Upserts vector to an index",
+      "code": "const index = pineconeClient.index(\"example-index\");\nawait index.upsert([\n    {\n      id: \"vec1\",\n      values: [0.1, 0.2, 0.3, 0.4],\n      metadata: {\n        genre: \"drama\",\n      },\n    },\n    {\n      id: \"vec2\",\n      values: [0.2, 0.3, 0.4, 0.5],\n      metadata: {\n        genre: \"action\",\n      },\n    },\n  ]);"
+    },
+    {
+      "label": "YepCode Pinecone: Queries an index filtering",
+      "code": "await pineconeClient.configureIndex({\n  indexName: \"example-index\",\n  patchRequest: {\n    replicas: 2,\n    podType: \"p2\",\n  },\n});"
+    },
+    {
+      "label": "YepCode Pinecone: Updates a vector",
+      "code": "const index = pineconeClient.index(\"example-index\");\nconst updateResponse = await index.update({\n  id: \"vec1\",\n  values: [0.1, 0.2, 0.3, 0.4],\n  setMetadata: { genre: \"drama\" },\n  namespace: \"example-namespace\",\n});"
+    },
+    {
+      "label": "YepCode Pinecone: Deletes a vector",
+      "code": "const index = pineconeClient.index(\"example-index\");\nawait index.deleteOne(\"vec1\")\nawait index.deleteMany([\"vec1\", \"vec2\"]);\nawait index.deleteAll()"
+    },
+    {
+      "label": "YepCode Pinecone: Creates a collection from an index",
+      "code": "const createCollectionRequest = {\n  name: \"example-collection\",\n  source: \"example-index\",\n};\n\nawait pineconeClient.createCollection({\n  createCollectionRequest,\n});"
+    },
+    {
+      "label": "YepCode Pinecone: List the collections in your current project",
+      "code": "const collectionsList = await pineconeClient.listCollections();"
+    },
+    {
+      "label": "YepCode Pinecone: Returns a description of one collection",
+      "code": "const collectionDescription = await pineconeClient.describeCollection(\"example-collection\");"
+    },
+    {
+      "label": "YepCode Pinecone: Deletes a collection",
+      "code": "await pineconeClient.deleteCollection(\"example-collection\");"
+    },
+    {
+      "label": "YepCode Postgres: New integration from credential",
+      "code": "const postgresPool = yepcode.integration.postgres('credential-slug')"
+    },
+    {
+      "label": "YepCode Postgres: New integration from plain authentication data",
+      "code": "const { Pool } = require('pg')\n\nconst postgresPool = new Pool({\n    user: 'postgres',\n    password: '1234abcd',\n    host: 'localhost',\n    database: 'testdb',\n    port: 5432,\n    ssl: true,\n    query_timeout: 5000,\n    connectionTimeoutMillis: 2000,\n    max: 20,\n    idleTimeoutMillis: 30000,\n    idle_in_transaction_session_timeout: 10000,\n    statement_timeout: 5000,\n});"
+    },
+    {
+      "label": "YepCode Postgres: New integration from plain authentication data (connectionString)",
+      "code": "const { Pool } = require('pg')\n\nconst postgresPool = new Pool({\n    ssl: true,\n    connectionString: 'postgres://user:password@host:5432/database',\n    statement_timeout: 5000,\n    query_timeout: 5000,\n    connectionTimeoutMillis: 3000,\n    max: 20,\n    idleTimeoutMillis: 30000,\n    idle_in_transaction_session_timeout: 10000,\n});"
+    },
+    {
+      "label": "YepCode Postgres: Connect (async/await)",
+      "code": "try {\n    const client = await postgresPool.connect()\n    await client.query('SELECT NOW()')\n    client.release()\n} catch (error) {\n    console.log(error)\n} finally {\n    postgresPool.end(() => { console.log('pool has ended') })\n}"
+    },
+    {
+      "label": "YepCode Postgres: Connect (callback)",
+      "code": "postgresPool.connect((error, client, release) => {\n    if (error) {\n        return console.error(error)\n    }\n    client.query('SELECT NOW()', (error, result) => {\n        release()\n        if (error) {\n            return console.error(error)\n        }\n    postgresPool.end(() => { console.log('pool has ended') })\n\n  })\n})"
+    },
+    {
+      "label": "YepCode Postgres: Disconnect (async/await)",
+      "code": "try {\n    await postgresPool.end()\n\n    console.log('Connection closed!')\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: Disconnect (Promise)",
+      "code": "postgresPool.end().then(() => {\n    console.log('Connection closed!')\n}).catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: Disconnect (callback)",
+      "code": "postgresPool.end((error) => {\n    if (error) {\n        console.error(error)\n    } else {\n        console.log('Connection closed!')\n    }\n})"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Text only (async/await)",
+      "code": "try {\n    const result = await postgresPool.query('SELECT id, name, price FROM products')\n    result.rows.forEach(console.log);\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Text only (Promise)",
+      "code": "postgresPool.query('SELECT id, name, price FROM products')\n.then((result) => {\n    result.rows.forEach(console.log);\n}).catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Text only (callback)",
+      "code": "\npostgresPool.query(\n    'SELECT id, name, price FROM products',\n    (error, result) => {\n        if (error) {\n            console.error(error)\n        } else {\n            console.log(result.rows[0])\n        }\n    }\n)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Parameterized (async/await)",
+      "code": "try {\n    const result = await postgresPool.query(\n        `SELECT id, name, price\n        FROM products\n        WHERE price > \\$1 AND stock > \\$2`,\n        [100, 200]\n    )\n    console.log(result.fields[0].name) // id\n    console.log(result.fields[1].name) // name\n    console.log(result.fields[2].name) // price\n    console.log(result.rows) // [{ id, name, price }, ...]\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Parameterized (Promise)",
+      "code": "postgresPool.query(`\n    SELECT id, name, price\n    FROM products\n    WHERE price > \\$1 AND stock > \\$2`,\n    [100, 200]\n).then((result) => {\n    console.log(result.fields[0].name) // id\n    console.log(result.fields[1].name) // name\n    console.log(result.fields[2].name) // price\n    console.log(result.rows) // [{ id, name, price }, ...]\n}).catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Parameterized (callback)",
+      "code": "\npostgresPool.query(`\n    SELECT id, name, price\n    FROM products\n    WHERE price > \\$1 AND stock > \\$2`,\n    [100, 200],\n    (error, result) => {\n        if (error) {\n            console.error(error)\n        } else {\n            console.log(result.fields[0].name) // id\n            console.log(result.fields[1].name) // name\n            console.log(result.fields[2].name) // price\n            console.log(result.rows) // [{ id, name, price }, ...]\n        }\n    }\n)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Query object (async/await)",
+      "code": "try {\n    const query = {\n        text: `\n            SELECT id, name, price\n            FROM products\n            WHERE price > \\$1 AND stock > \\$2`,\n        values: ['100', '200'],\n    }\n    const result = await postgresPool.query(query)\n    console.log(result.fields[0].name) // id\n    console.log(result.fields[1].name) // name\n    console.log(result.fields[2].name) // price\n    console.log(result.rows) // [{ id, name, price }, ...]\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Query object (Promise)",
+      "code": "\nconst query = {\n    text: `\n        SELECT id, name, price\n        FROM products\n        WHERE price > \\$1 AND stock > \\$2`,\n    values: ['100', '200'],\n}\npostgresPool.query(query)\n.then((result) => {\n    console.log(result.fields[0].name) // id\n    console.log(result.fields[1].name) // name\n    console.log(result.fields[2].name) // price\n    console.log(result.rows) // [{ id, name, price }, ...]\n}).catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: SELECT Query object (callback)",
+      "code": "const query = {\n    text: `\n        SELECT id, name, price\n        FROM products\n        WHERE price > \\$1 AND stock > \\$2`,\n    values: ['100', '200'],\n}\n\npostgresPool.query(\n    query,\n    (error, result) => {\n        if (error) {\n            console.error(error)\n        } else {\n            console.log(result.fields[0].name) // id\n            console.log(result.fields[1].name) // name\n            console.log(result.fields[2].name) // price\n            console.log(result.rows) // [{ id, name, price }, ...]\n        }\n    }\n)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Text only (async/await)",
+      "code": "try {\n    const result = await postgresPool.query(\n        \"INSERT INTO products(id, name, price, stock) VALUES('12345', 'FOO', 12, 50)\"\n    )\n    console.log(result.rowCount) // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Text only (Promise)",
+      "code": "postgresPool.query(\n    \"INSERT INTO products(id, name, price, stock) VALUES('12345', 'FOO', 12, 50)\"\n).then(result => console.log(result.rowCount)) // 1\n.catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Text only (callback)",
+      "code": "\npostgresPool.query(\n    \"INSERT INTO products(id, name, price, stock) VALUES('12345', 'FOO', 12, 50)\",\n    (error, result) => {\n        if (error) {\n            console.error(error)\n        } else{\n            console.log(result.rowCount) // 1\n        }\n    }\n)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Parameterized (async/await)",
+      "code": "try {\n    const result = await postgresPool.query(\n        'INSERT INTO products(id, name, price, stock) VALUES(\\$1, \\$2, \\$3, \\$4)',\n        ['12345', 'FOO', 12, 50]\n    )\n    console.log(result.rowCount) // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Parameterized (Promise)",
+      "code": "postgresPool.query(\n    'INSERT INTO products(id, name, price, stock) VALUES(\\$1, \\$2, \\$3, \\$4)',\n    ['12345', 'FOO', 12, 50]\n).then(result => console.log(result.rowCount)) // 1\n.catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Parameterized (callback)",
+      "code": "\npostgresPool.query(\n    'INSERT INTO products(id, name, price, stock) VALUES(\\$1, \\$2, \\$3, \\$4)',\n    ['12345', 'FOO', 12, 50],\n    (error, result) => {\n        if (error) {\n            console.error(error)\n        } else {\n            console.log(result.rowCount) // 1\n        }\n)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Query object (async/await)",
+      "code": "try {\n    const query = {\n        text: 'INSERT INTO products(id, name, price, stock) VALUES(\\$1, \\$2, \\$3, \\$4)',\n        values: ['12345', 'FOO', 12, 50]\n    }\n    const result = await postgresPool.query(query)\n    console.log(result.rowCount) // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Query object (Promise)",
+      "code": "const query = {\n    text: 'INSERT INTO products(id, name, price, stock) VALUES(\\$1, \\$2, \\$3, \\$4)',\n    values: ['12345', 'FOO', 12, 50]\n}\npostgresPool.query(query)\n.then(result => console.log(result.rowCount)) // 1\n.catch(console.error)"
+    },
+    {
+      "label": "YepCode Postgres: INSERT Query object (callback)",
+      "code": "const query = {\n    text: 'INSERT INTO products(id, name, price, stock) VALUES(\\$1, \\$2, \\$3, \\$4)',\n    values: ['12345', 'FOO', 12, 50]\n}\n\npostgresPool.query(\n    query,\n    (error, result) => {\n        if (error) {\n            console.error(error)\n        } else {\n            console.log(result.rowCount) // 1\n        }\n    }\n)"
+    },
+    {
+      "label": "YepCode Redis: New integration from credential",
+      "code": "const redis = await yepcode.integration.redis('credential-slug')"
+    },
+    {
+      "label": "YepCode Redis: New integration from plain authentication data",
+      "code": "const { createClient } = require(\"redis\");\n\nconst redis = createClient({\n  url: \"the-url\", /* protocol://host:port */\n  username: \"the-username\",\n  password: \"the-password\",\n  database: theDatabaseNumber\n});\n\nredis.on(\"error\", console.error);\nawait redis.connect();"
+    },
+    {
+      "label": "YepCode Redis: Set a new entry",
+      "code": "await redis.set(\"the-key\", \"the-value\")"
+    },
+    {
+      "label": "YepCode Redis: Get entry",
+      "code": "await redis.get(\"the-key\")"
+    },
+    {
+      "label": "YepCode Redis: Delete entry",
+      "code": "await redis.del(\"the-key\")"
+    },
+    {
+      "label": "YepCode SAP HANA: New integration from credential",
+      "code": "const connection = yepcode.integration.sapHana('credential-slug');"
+    },
+    {
+      "label": "YepCode SAP HANA: New integration from plain authentication data",
+      "code": "const hana = require('@sap/hana-client');\n\nconst connection = hana.createConnection();\nconnection.connect({\n  serverNode: 'your-host-and-port',\n  uid: 'your-user',\n  pwd: 'your-password',\n  sslValidateCertificate: 'false'\n});"
+    },
+    {
+      "label": "YepCode SAP HANA: Disconnect (callback)",
+      "code": "connection.disconnect(function(err) {\n  if (err) throw err;\n  console.log('Disconnected');\n});"
+    },
+    {
+      "label": "YepCode SAP HANA: DDL Statement",
+      "code": "connection.exec('CREATE TABLE Test (ID INTEGER PRIMARY KEY, msg VARCHAR(128))',\n  function (err, result) {\n  if (err) throw err;\n  console.log('Table Test created!', result);\n});"
+    },
+    {
+      "label": "YepCode SAP HANA: DML Statement",
+      "code": "connection.exec(\"INSERT INTO Test VALUES(1, 'Hello')\", function (err, affectedRows) {\n  if (err) throw err;\n  console.log('Number of affected rows:', affectedRows);\n});"
+    },
+    {
+      "label": "YepCode SAP HANA: Query",
+      "code": "connection.exec(\"SELECT * FROM Test WHERE ID < 5\", function (err, rows) {\n  if (err) throw err;\n  console.log('Rows:', rows);\n});"
+    },
+    {
+      "label": "YepCode SAP HANA: Query Parametrized",
+      "code": "connection.exec(\"SELECT * FROM Test WHERE ID BETWEEN ? AND ?\", [5, 8],\n  function (err, rows) {\n  if (err) throw err;\n  console.log('Rows:', rows);\n});"
+    },
+    {
+      "label": "YepCode Segment: New integration from credential",
+      "code": "const segment = yepcode.integration.segment('credential-slug')"
+    },
+    {
+      "label": "YepCode Segment: New integration from plain authentication data",
+      "code": "const Analytics = require('analytics-node');\nconst segmentAnalytics = new Analytics('SEGMENT_YOUR_WRITE_KEY', {\n  flushAt: 20,\n  flushInterval: 10000,\n  enable: false\n});"
+    },
+    {
+      "label": "YepCode Segment: Anonymous identify",
+      "code": "segmentAnalytics.identify({\n  anonymousId: '48d213bb-95c3-4f8d-af97-86b2b404dcfe',\n  traits: {\n    friends: 42\n  }\n});"
+    },
+    {
+      "label": "YepCode Segment: Identify for an identified user",
+      "code": "segmentAnalytics.identify({\n  userId: '019mr8mf4r',\n  traits: {\n    name: 'Michael Bolton',\n    email: 'mbolton@example.com',\n    plan: 'Enterprise',\n    friends: 42\n  }\n});"
+    },
+    {
+      "label": "YepCode Segment: Anonymous track",
+      "code": "segmentAnalytics.track({\n  anonymousId: '48d213bb-95c3-4f8d-af97-86b2b404dcfe',\n  event: 'Item Purchased',\n  properties: {\n    revenue: 39.95,\n    shippingMethod: '2-day'\n  }\n});"
+    },
+    {
+      "label": "YepCode Segment: Track for an identified user",
+      "code": "segmentAnalytics.track({\n  userId: '019mr8mf4r',\n  event: 'Item Purchased',\n  properties: {\n    revenue: 39.95,\n    shippingMethod: '2-day'\n  }\n});"
+    },
+    {
+      "label": "YepCode Segment: Page call",
+      "code": "segmentAnalytics.page({\n  userId: '019mr8mf4r',\n  category: 'Docs',\n  name: 'Node.js Library',\n  properties: {\n    url: 'https://segment.com/docs/connections/sources/catalog/librariesnode',\n    path: '/docs/connections/sources/catalog/librariesnode/',\n    title: 'Node.js Library - Segment',\n    referrer: 'https://github.com/segmentio/analytics-node'\n  }\n});"
+    },
+    {
+      "label": "YepCode Segment: Group call",
+      "code": "segmentAnalytics.group({\n  userId: '019mr8mf4r',\n  groupId: '56',\n  traits: {\n    name: 'Initech',\n    description: 'Accounting Software'\n  }\n});"
+    },
+    {
+      "label": "YepCode Segment: Alias call",
+      "code": "segmentAnalytics.alias({\n  previousId: 'old_id',\n  userId: 'new_id'\n});"
+    },
+    {
+      "label": "YepCode SFTP: New integration from credential",
+      "code": "const sftpClient = await yepcode.integration.sftp('credential-slug');"
+    },
+    {
+      "label": "YepCode SFTP: New integration from plain authentication data (username and password)",
+      "code": "const Client = require('ssh2-sftp-client');\n\nconst options = {\n  host: 'hostname',\n  port: portNumber,\n  username: 'username',\n  password: 'password',\n};\n\nconst sftpClient = new Client();\nawait sftpClient.connect(options);"
+    },
+    {
+      "label": "YepCode SFTP: New integration from plain authentication data (private key)",
+      "code": "const Client = require('ssh2-sftp-client');\n\nconst options = {\n  host: 'hostname',\n  port: portNumber,\n  username: 'username',\n  privateKey: 'privateKey',\n};\n\nconst sftpClient = new Client();\nawait sftpClient.connect(options);"
+    },
+    {
+      "label": "YepCode SFTP: Directory listing",
+      "code": "\nsftpClient.list('remoteDirPath')\n  .then((data) => {\n    console.log(data);\n  })\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Test if remote file or directory exists",
+      "code": "sftpClient.exists('remoteDirPath')\n  .then((exists) => {\n    console.log(exists);\n  })\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Return the attributes associated with the object pointed to by path",
+      "code": "sftpClient.stat('remoteDirPath')\n  .then((data) => {\n    console.log(data);\n  })\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Retrieve a file from a remote server",
+      "code": "const Stream = require('stream');\nconst echoStream = new Stream.Writable({\n  write: function (chunk, encoding, next) {\n    console.debug('echoStream:', chunk.toString());\n    next();\n  }\n});\n\nsftpClient.get('remoteDirPath', echoStream)\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Upload data from stream to remote server",
+      "code": "const Stream = require('stream');\nconst readableStream = new Stream.Readable({\n  read() {\n    // Create your readable stream\n  }\n});\n\nsftpClient.put(readableStream, 'remoteDirPath')\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Append the input data to an existing remote file",
+      "code": "sftpClient.append(Buffer.from('Hello world'), 'remoteFilePath')\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Delete a file on the remote server",
+      "code": "sftpClient.delete('remoteFilePath')\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Create a new directory on remote server",
+      "code": "sftpClient.mkdir('remoteFilePath', true)\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Rename a file or directory from fromPath to toPath",
+      "code": "const from = '/remote/path/to/old.txt';\nconst to = '/remote/path/to/new.txt';\n\nsftpClient.rename(from, to)\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: POSIX rename",
+      "code": "const from = '/remote/path/to/old.txt';\nconst to = '/remote/path/to/new.txt';\n\nsftpClient.posixRename(from, to)\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode SFTP: Current remote working directory",
+      "code": "sftpClient.cwd()\n  .then((directory) => {\n    console.log(`Remote working directory is ${directory}`);\n  })\n  .catch(console.error)\n  .finally(() => sftpClient.end());"
+    },
+    {
+      "label": "YepCode Slack: New integration from credential",
+      "code": "const app = await yepcode.integration.slack(\"credential-slug\")"
+    },
+    {
+      "label": "YepCode Slack: New integration from plain authentication data",
+      "code": "const { App } = require(\"@slack/bolt\")\n\nconst app = new App({\n  token: \"my-token\"\n  signingSecret: \"my-signing-secret\"\n})"
+    },
+    {
+      "label": "YepCode Slack: Lists channels",
+      "code": "const listChannels = async () => {\n  try {\n    const { channels } = await app.client.conversations.list();\n    console.log(result);\n  } catch (error) {\n    console.error(error);\n  }\n};\nlistChannels();"
+    },
+    {
+      "label": "YepCode Slack: Retrieve messages",
+      "code": "const retrieveChannelMessages = async () => {\n  try {\n    const result = await app.client.conversations.history({\n      channel: \"channel\",\n    });\n\n    const { messages } = result.messages;\n\n    console.log(messages);\n  } catch (error) {\n    console.error(error);\n  }\n};\nretrieveChannelMessages();"
+    },
+    {
+      "label": "YepCode Slack: Post a message",
+      "code": "const postMessage = async () => {\n  try {\n    const result = await app.client.chat.postMessage({\n      channel: \"channel\",\n      text: \"He who controls the Spice, controls the universe!\",\n    });\n    console.log(result);\n  } catch (error) {\n    console.error(error);\n  }\n};\npostMessage();"
+    },
+    {
+      "label": "YepCode Slack: Upload a file",
+      "code": "const { Readable } = require(\"stream\");\n\n// You can use any read stream to upload a file\nconst readStream = new Readable({\n  read() {\n    this.push(\"Sample stream data\");\n    this.push(null);\n  },\n});\n\nconst uploadAFile = async () => {\n  try {\n    const result = await app.client.files.uploadV2({\n      channels: \"channel\",\n      initial_comment: \"Here's my file :smile:\",\n      filename: \"filename.txt\",\n      file: readStream,\n    });\n\n    console.log(result);\n  } catch (error) {\n    console.error(error);\n  }\n};\nuploadAFile();"
+    },
+    {
+      "label": "YepCode Snowflake: New integration from credential",
+      "code": "const snowflakeClient = yepcode.integration.snowflake('credential-slug')"
+    },
+    {
+      "label": "YepCode Snowflake: New integration from plain authentication data",
+      "code": "const snowflake = require('snowflake-sdk')\n\nconst snowflakeClient = snowflake.createConnection({\n  account: account,\n  username: username,\n  password: password\n});"
+    },
+    {
+      "label": "YepCode Snowflake: Establish connection",
+      "code": "snowflakeClient.connect(\n    function(err, conn) {\n        if (err) {\n            console.error('Unable to connect: ' + err.message);\n        } else {\n            console.log('Successfully connected to Snowflake.');\n        }\n    }\n);"
+    },
+    {
+      "label": "YepCode Snowflake: Execute statement",
+      "code": "const statement = snowflakeClient.execute({\n  sqlText: \"create database testdb\",\n  complete: function (err, stmt, rows) {\n    if (err) {\n      console.error(\n        \"Failed to execute statement due to the following error: \" + err.message\n      );\n    } else {\n      console.log(\"Successfully executed statement: \" + statement.getSqlText());\n    }\n  },\n});"
+    },
+    {
+      "label": "YepCode Snowflake: Execute statement with binding statement parameters",
+      "code": "const statement = snowflakeClient.execute({\n  sqlText:\n    \"select c1 from (select :1 as c1 union all select :2 as c1) where c1 = :1;\",\n  binds: [1, 2],\n  complete: function (err, stmt, rows) {\n    if (err) {\n      console.error(\n        \"Failed to execute statement due to the following error: \" + err.message\n      );\n    } else {\n      console.log(\"Successfully executed statement: \" + statement.getSqlText());\n    }\n  },\n});"
+    },
+    {
+      "label": "YepCode Snowflake: Select returning results inline",
+      "code": "snowflakeClient.execute({\n  sqlText: \"select PRODUCT_ID from PRODUCTS\",\n  complete: function (err, stmt, rows) {\n    if (err) {\n      console.error(\n        \"Failed to execute statement due to the following error: \" + err.message\n      );\n    } else {\n      console.log(\"Number of rows produced: \" + rows.length);\n    }\n    rows.forEach((row) => {\n        console.log(\"Product id \", row.PRODUCT_ID)\n    })\n  },\n});"
+    },
+    {
+      "label": "YepCode Snowflake: Select streaming results",
+      "code": "const statement = snowflakeClient.execute({\n  sqlText: \"select PRODUCT_ID from PRODUCTS\",\n});\n\nconst stream = statement.streamRows();\n\nstream.on('error', function(err) {\n  console.error('Unable to consume all rows');\n});\n\nstream.on('data', function(row) {\n  console.log(\"Product id \", row.PRODUCT_ID)\n});\n\nstream.on('end', function() {\n  console.log('All rows consumed');\n});"
+    },
+    {
+      "label": "YepCode Snowflake: Terminating a connection",
+      "code": "snowflakeClient.destroy(function (err, conn) {\n  if (err) {\n    console.error(\"Unable to disconnect: \" + err.message);\n  } else {\n    console.log(\"Disconnected connection with id: \" + snowflakeClient.getId());\n  }\n});"
+    },
+    {
+      "label": "YepCode SOAP: New integration from credential",
+      "code": "const soapClient = await yepcode.integration.soap(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode SOAP: New integration from plain data",
+      "code": "const soap = require('soap');\nconst soapClient = await soap.createClientAsync(\"http://example.com/wsdl?wsdl\", {});"
+    },
+    {
+      "label": "YepCode SOAP: New integration from credential with authentication data (username and password)",
+      "code": "const soapClient = await yepcode.integration.soap(\"credential-slug\");\n\nsoapClient.setSecurity(new soap.BasicAuthSecurity(\"username\", \"password\"));"
+    },
+    {
+      "label": "YepCode SOAP: Call a method on the SOAP service",
+      "code": "soapClient.MyFunctionNameAsync({ name: 'value' }).then((result) => {\n  // result is a javascript array containing result, rawResponse, soapheader, and rawRequest\n  // result is a javascript object\n  // rawResponse is the raw xml response string\n  // soapHeader is the response soap header as a javascript object\n  // rawRequest is the raw xml request string\n})"
+    },
+    {
+      "label": "YepCode SOAP: Call a method using a specific service and port",
+      "code": "soapClient.MyService.MyPort.MyFunctionName({name: 'value'}, function(err, result) {\n  // result is a javascript object\n})"
+    },
+    {
+      "label": "YepCode SQLServer: New integration from credential",
+      "code": "const mssqlConnectionPool = yepcode.integration.mssql('credential-slug')"
+    },
+    {
+      "label": "YepCode SQLServer: New integration from plain authentication data",
+      "code": "const mssql = require('mssql');\n\nconst mssqlConnectionPool = new mssql.ConnectionPool({\n  user: 'sa',\n  password: 'Pass@word',\n  database: 'master',\n  server: 'localhost',\n  pool: {\n    max: 10,\n    min: 0,\n    idleTimeoutMillis: 30000\n  },\n  options: {\n    encrypt: true, // for azure\n    trustServerCertificate: false // change to true for local dev / self-signed certs\n  }\n});"
+    },
+    {
+      "label": "YepCode SQLServer: Connect",
+      "code": "let pool;\ntry {\n    pool = await mssqlConnectionPool.connect();\n    await pool.query('SELECT GETDATE();');\n} catch (err) {\n    console.error(err);\n} finally {\n    pool && pool.close();\n}"
+    },
+    {
+      "label": "YepCode SQLServer: SELECT Text only",
+      "code": "try {\n    const result = await mssqlPool.query(\n      'SELECT name, price FROM products'\n    );\n    result.recordset.forEach((row) => console.log(row));\n} catch (err) {\n    console.error(err);\n}"
+    },
+    {
+      "label": "YepCode SQLServer: SELECT Parameterized",
+      "code": "try {\n    const { recordset, rowsAffected } = await mssqlPool\n      .request()\n      .input('name_filter', mssql.VarChar(50), 'awesome-product-name')\n      .query('SELECT * FROM products WHERE name = @name_filter');\n    console.log('Count:', rowsAffected[0]);\n    recordset.forEach(({ name, price, stock, created_at: createdAt }) =>\n      console.log(name, price, stock, createdAt)\n    );\n} catch (err) {\n    console.error(err);\n}"
+    },
+    {
+      "label": "YepCode SQLServer: INSERT Text only",
+      "code": "try {\n    const { rowsAffected } = await mssqlPool.query(\n      \"INSERT INTO products(name, price, stock, created_at) VALUES('awesome-product-name', 14, 99, CURRENT_TIMESTAMP)\"\n    );\n    console.log('Inserted rows:', rowsAffected[0]); // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode SQLServer: INSERT Parameterized",
+      "code": "const mssql = require('mssql');\n\ntry {\n    const { rowsAffected } = await mssqlPool\n        .request()\n        .input('name', mssql.VarChar(50), 'awesome-product-name')\n        .input('price', mssql.Int, 14)\n        .input('stock', mssql.Int, 99)\n        .query(\n        'INSERT INTO products(name, price, stock, created_at) VALUES(@name, @price, @stock, CURRENT_TIMESTAMP)'\n        );\n    console.log('Inserted rows:', rowsAffected[0]); // 1\n} catch (error) {\n    console.error(error)\n}"
+    },
+    {
+      "label": "YepCode SSH2: New integration from credential",
+      "code": "const sshConnection = yepcode.integration.ssh2(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode SSH2: New integration from plain authentication data (username and password)",
+      "code": "const { Client } = require(\"ssh2\");\n\nconst options = {\n  host: \"hostname\",\n  port: portNumber,\n  username: \"username\",\n  password: \"password\",\n};\n\nconst sshConnection = new Client().connect(options);"
+    },
+    {
+      "label": "YepCode SSH2: New integration from plain authentication data (private key)",
+      "code": "const { Client } = require(\"ssh2\");\n\nconst options = {\n  host: \"hostname\",\n  port: portNumber,\n  username: \"username\",\n  privateKey: \"privateKey\",\n};\n\nconst sshConnection = new Client().connect(options);"
+    },
+    {
+      "label": "YepCode SSH2: Shell session",
+      "code": "sshConnection.on('ready', () => {\n  console.log('Client :: ready');\n  sshConnection.shell((err, stream) => {\n    if (err) {\n      throw err;\n    }\n    stream.on('close', () => {\n      console.log('Stream :: close');\n      sshConnection.end();\n    }).on('data', (data) => {\n      console.log('OUTPUT: ' + data);\n    });\n\n    stream.end(\"your-command-here\\nexit\\n\");\n  });\n})"
+    },
+    {
+      "label": "YepCode SSH2Promise: New integration from credential",
+      "code": "const sshConnection = yepcode.integration.ssh2Promise(\"credential-slug\");"
+    },
+    {
+      "label": "YepCode SSH2Promise: New integration from plain authentication data (username and password)",
+      "code": "const SSH2Promise = require(\"ssh2-promise\");\n\nconst options = {\n  host: \"hostname\",\n  port: portNumber,\n  username: \"username\",\n  password: \"password\",\n};\n\nconst sshConnection = await new SSH2Promise(options).connect();"
+    },
+    {
+      "label": "YepCode SSH2Promise: New integration from plain authentication data (private key)",
+      "code": "const SSH2Promise = require(\"ssh2-promise\");\n\nconst options = {\n  host: \"hostname\",\n  port: portNumber,\n  username: \"username\",\n  privateKey: \"privateKey\",\n};\n\nconst sshConnection = await new SSH2Promise(options).connect();"
+    },
+    {
+      "label": "YepCode SSH2Promise: Exec shell command (promise)",
+      "code": "sshConnection.exec(\"your-command\").then((data) => {\n  // Use the received data\n  console.log(data);\n\n  sshConnection.close();\n});"
+    },
+    {
+      "label": "YepCode SSH2Promise: Exec shell command (async/await)",
+      "code": "const data = await sshConnection.exec(\"your-command\");\n\n// Use the received data\nconsole.log(data);\n\nsshConnection.close();"
+    },
+    {
+      "label": "YepCode Stripe: New integration from credential",
+      "code": "const stripe = yepcode.integration.stripe('credential-slug')"
+    },
+    {
+      "label": "YepCode Stripe: New integration from plain authentication data",
+      "code": "const stripe = require('stripe')('my-apy-key', {\n  apiVersion: '2020-08-27',\n  maxNetworkRetries: 1,\n  timeout: 1000\n});"
+    },
+    {
+      "label": "YepCode Stripe: Create a customer",
+      "code": "stripe.customers.create({\n  name: 'customer-name',\n  email: 'customer-email'\n}).then((data) => {\n  console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: Create a product",
+      "code": "stripe.products.create({\n  name: 'product-name'\n}).then((data) => {\n  console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: Retrieve a product",
+      "code": "stripe.products.retrieve(\n  'product-id'\n).then((data) => {\n  console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: List products",
+      "code": "stripe.products.list().then((data) => {\n    console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: Create payment method",
+      "code": "stripe.paymentMethods.create({\n  type: 'card',\n  card: {\n    number: 'card-number',\n    exp_month: exp-month,\n    exp_year: exp-year,\n    cvc: 'cvc',\n  },\n}).then((data) => {\n  console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: Attach payment method to customer",
+      "code": "stripe.paymentMethods.attach(\n  'paymentMethod-id',\n  {customer: 'customer-id'}\n).then((data) => {\n  console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: Create payment intent",
+      "code": "stripe.paymentIntents.create({\n  amount: amount,\n  currency: 'currency',\n  customer: 'customer-id'\n}).then((data) => {\n    console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Stripe: Confirm payment intent",
+      "code": "stripe.paymentIntents.confirm(\n  'paymentIntent-id',\n  { payment_method: 'paymentMethod-id' }\n).then((data) => {\n    console.log(data);\n}).catch(console.error);"
+    },
+    {
+      "label": "YepCode Supabase: New integration from credential",
+      "code": "const supabase = yepcode.integration.supabase('credential-slug')"
+    },
+    {
+      "label": "YepCode Supabase: New integration from plain authentication data",
+      "code": "const { createClient } = require('@supabase/supabase-js')\n\nconst supabase = createClient('your-project-url', 'your-api-token')"
+    },
+    {
+      "label": "YepCode Supabase: Fetch data",
+      "code": "const { data, error } = await supabase\n  .from('countries')\n  .select('name, country_id')\n  .eq('name', 'The Shire')"
+    },
+    {
+      "label": "YepCode Supabase: Insert data",
+      "code": "const { error } = await supabase\n  .from('countries')\n  .insert({ id: 1, name: 'Denmark' })"
+    },
+    {
+      "label": "YepCode Supabase: Update data",
+      "code": "const { error } = await supabase\n  .from('countries')\n  .update({ name: 'Australia' })\n  .eq('id', 1)"
+    },
+    {
+      "label": "YepCode Supabase: Upsert data",
+      "code": "const { error } = await supabase\n  .from('countries')\n  .upsert({ id: 1, name: 'Albania' })\n  .eq('id', 1)"
+    },
+    {
+      "label": "YepCode Supabase: Delete data",
+      "code": "const { error } = await supabase\n  .from('countries')\n  .delete()\n  .eq('id', 1)"
+    },
+    {
+      "label": "YepCode Supabase: Call a Postgres function",
+      "code": "const { data, error } = await supabase.rpc('hello_world')"
+    },
+    {
+      "label": "YepCode Supabase: List all files in a bucket",
+      "code": "const { data, error } = await supabase\n  .storage\n  .from('my-files')\n  .list('public', {\n    limit: 100,\n    offset: 0,\n    sortBy: { column: 'name', order: 'asc' },\n  })"
+    },
+    {
+      "label": "YepCode Supabase: Upload a file",
+      "code": "const textFileContent = 'the-content'\n\nconst { data, error } = await supabase\n  .storage\n  .from('my-files')\n  .upload('public/textFile.txt', textFileContent, {\n    cacheControl: '3600',\n    upsert: false\n  })"
+    },
+    {
+      "label": "YepCode Supabase: Download a file",
+      "code": "const { data, error } = await supabase.storage\n  .from(\"my-files\")\n  .download(\"public/textFile.txt\");"
+    },
+    {
+      "label": "YepCode Telegram: New integration from credential",
+      "code": "const telegram = yepcode.integration.telegram('credential-slug');"
+    },
+    {
+      "label": "YepCode Telegram: New integration from plain authentication data",
+      "code": "const { Bot } = require('grammy');\n\nconst telegram = new Bot(\"your-bot-token\");"
+    },
+    {
+      "label": "YepCode Telegram: Set webhook",
+      "code": "await telegram.api.setWebhook(\"webhook-url\");"
+    },
+    {
+      "label": "YepCode Telegram: Set bot commands",
+      "code": "await telegram.api.setMyCommands([\n  { command: \"commandName\", description: \"Command description\" },\n  { command: \"commandName\", description: \"Command description\" },\n]);"
+    },
+    {
+      "label": "YepCode Telegram: Send message",
+      "code": "await telegram.api.sendMessage(chatId, \"message-content\");"
+    },
+    {
+      "label": "YepCode Telegram: Send HTML message",
+      "code": "await telegram.api.sendMessage(\n  chatId,\n  \"<b>Hi</b> from <a href=\"https://yepcode.io\">YepCode</a>!\",\n  { parse_mode: \"HTML\" }\n);"
+    },
+    {
+      "label": "YepCode Telegram: Send Markdown message",
+      "code": "await telegram.api.sendMessage(\n  chatId,\n  \"*Hi* from [YepCode](https://yepcode.io)\\\\!\",\n  { parse_mode: \"MarkdownV2\" }\n);"
+    },
+    {
+      "label": "YepCode Twilio: New integration from credential",
+      "code": "const twilio = yepcode.integration.twilio('credential-slug');"
+    },
+    {
+      "label": "YepCode Twilio: New integration from plain authentication data",
+      "code": "const twilio = require('twilio')('your-account-SID', 'your-auth-token');"
+    },
+    {
+      "label": "YepCode Twilio: Send SMS message",
+      "code": "twilio.messages\n  .create({\n    body: \"SMS content\",\n    messagingServiceSid: \"messagingServiceSid\",\n    to: \"Phone number in international format\",\n  })\n  .then((message) => console.log(message))\n  .done();"
+    },
+    {
+      "label": "YepCode Twilio: Send Whatsapp message",
+      "code": "twilio.messages\n  .create({\n    body: \"Whatsapp content\",\n    from: \"whatsapp:Your twilio phone number in international format\",\n    to: \"whatsapp:Destination phone number in international format\",\n  })\n  .then((message) => console.log(message))\n  .done();"
+    },
+    {
+      "label": "YepCode Webflow: New integration from credential",
+      "code": "const webflow = yepcode.integration.webflow('credential-slug');"
+    },
+    {
+      "label": "YepCode Webflow: New integration from plain authentication data",
+      "code": "const webflow = new (require(\"webflow-api\"))({ token: \"your-api-token\" });"
+    },
+    {
+      "label": "YepCode Webflow: Create CMS item",
+      "code": "  webflow.createItem(\n    {\n      collectionId: \"your-collection-id\",\n      fields: {\n        slug: \"a-cms-item-slug\",\n        name: \"a-cms-item-name\",\n        content: \"the-content\",\n        _archived: false,\n        _draft: false,\n      },\n    },\n    { live: \"true\" }\n  )\n  .then((item) => console.log(item))"
+    },
+    {
+      "label": "YepCode Webflow: Find CMS items",
+      "code": "  webflow.items({\n    collectionId: \"your-collection-id\"\n  })\n  .then((items) => console.log(items))"
+    },
+    {
+      "label": "YepCode Webflow: Remove CMS item",
+      "code": "  webflow.removeItem({\n    collectionId: \"your-collection-id\",\n    itemId: \"your-item-id\"\n  })"
+    },
+    {
+      "label": "YepCode AMQP Listener: New listener",
+      "code": "const listener = await yepcode.listener.amqp(\"playground-yepcode-amqp-listener\");\n\nlistener.start((message) => {\n  console.log(`New message received`, message.content.toString());\n});"
+    },
+    {
+      "label": "YepCode IMAP Listener: New listener",
+      "code": "const mailListener = await yepcode.listener.imap(\"your-mailbox\");\n\nmailListener.start((mail) => {\n  console.log(`New mail message received`, mail);\n  const { messageId, from, to, date, subject, body } = mail;\n  const { text, html } = body;\n});"
+    }
+  ]
+}

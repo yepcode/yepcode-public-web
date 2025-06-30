@@ -1,0 +1,266 @@
+---
+title: Plans and Limits
+description: Explore the details about YepCode pricing plans, usage limits, and available features.
+---
+
+# Plans and Limits
+
+YepCode offers a variety of [pricing plans](https://yepcode.io/pricing) tailored to your needs.
+
+We provide a **generous free tier** for individual developers to explore the platform at no cost. This is an ideal option for solo users.
+
+For users requiring more executions, extended execution time, or collaborative features within a team, upgrading to a higher plan is available.
+
+YepCode is an _enterprise-ready_ platform, and we can discuss and provide a personalized **ENTERPRISE** plan for clients with specific needs.
+
+## What are Yeps?
+
+In the YepCode Universe, a Yep represents one [process execution](/docs/executions).
+
+Each time you run a process using any method ([on-demand](/docs/executions/on-demand), [webhook](/docs/executions/webhooks), or [scheduled](/docs/executions/scheduled)), one Yep is consumed.
+
+Each plan includes a monthly allocation of Yeps, and the consumption counter resets at the end of each month. Paid plans allow you to continue using your account beyond the included Yeps, with additional Yeps billed on a pay-as-you-go basis.
+
+Check our [pricing page](https://yepcode.io/pricing) for details on each plan's Yeps allocation and the price of additional Yeps.
+
+## On-Premise Deployments
+
+Visit our [on-premise](/docs/on-premise) docs page to learn more about how YepCode can be used in your system infrastructure.
+
+On-premise versions are available on _GROWTH_ and _ENTERPRISE_ plans:
+
+- GROWTH: Only the [executors on-premise](on-premise/executors) flavor is available.
+- ENTERPRISE: Executors on-premise or [full stack on-premise](on-premise/full-stack) options are available.
+
+In the following sections, the GROWTH plan limits differ depending on whether YepCode Cloud or executors on-premise installation is used.
+
+## Daily Limits
+
+These limits reset every night at 00:00 CET and include two conditions:
+
+| Plan       | Max Yeps per day | Max execution time per day |
+| :--------- | :--------------- | :------------------------- |
+| DEVELOPER  | 300              | 30 minutes                 |
+| BASIC      | 1000             | 120 minutes                |
+| STARTER    | -                | -                          |
+| GROWTH     | -                | -                          |
+| ENTERPRISE | -                | -                          |
+
+## Max Processes
+
+[Processes](/docs/processes) are the core of YepCode, each plan has a limit on the number of processes that can be created.
+
+| Plan       | Max processes |
+| :--------- | :------------ |
+| DEVELOPER  | 10            |
+| BASIC      | 50            |
+| STARTER    | Unlimited     |
+| GROWTH     | Unlimited     |
+| ENTERPRISE | Unlimited     |
+
+## HTTP Queries Per Second Limits
+
+Each plan has a limited number of requests per second, affecting both webhooks and YepCode Form submissions. Exceeding the limit results in a 429 HTTP error code (Too Many Requests).
+
+| Plan       | Max Requests per second | Max Requests per minute |
+| :--------- | :---------------------- | :---------------------- |
+| DEVELOPER  | 1                       | 5                       |
+| BASIC      | 3                       | 20                      |
+| STARTER    | 10                      | Unlimited               |
+| GROWTH     | 50                      | Unlimited               |
+| ENTERPRISE | Unlimited               | Unlimited               |
+
+## Max Time per Execution
+
+Each plan has a maximum execution time. If an execution exceeds this limit, it will be terminated by the system.
+
+| Plan                          | Max time per execution |
+| :---------------------------- | :--------------------- |
+| DEVELOPER                     | 30 seconds             |
+| BASIC                         | 2 minutes              |
+| STARTER                       | 5 minutes              |
+| GROWTH - YepCode Cloud        | 10 minutes             |
+| GROWTH - Executors on-premise | TBD                    |
+| ENTERPRISE                    | TBD                    |
+
+For clients needing to surpass these limits, a custom _ENTERPRISE_ plan can be discussed, allowing for services to run for as long as needed.
+
+## Max Team Members
+
+Collaboration is a key feature of YepCode, allowing multiple developers to share a common workspace for processes and executions with an [audit module](/docs/audit-events) for monitoring.
+
+_DEVELOPER_ plan is designed for solo use, while paid plans support collaboration.
+
+| Plan       | Max team members |
+| :--------- | :--------------- |
+| DEVELOPER  | 1 member         |
+| BASIC      | 3 members        |
+| STARTER    | 10 members       |
+| GROWTH     | Unlimited        |
+| ENTERPRISE | Unlimited        |
+
+## Max Concurrent and Queued Executions
+
+The platform limits the number of concurrent executions a team may run at the same time. We also allow to queue executions when this limit is reached, and process them one by one as soon as a previous execution finishes.
+
+For example, in the STARTER plan, if you send 50 executions at the same time, ten will be executed concurrently, and the rest will be queued. As soon as a previous execution finishes, the next one in the queue will be executed.
+
+| Plan                          | Max concurrent executions | Max queued executions |
+| :---------------------------- | :------------------------ | :-------------------- |
+| DEVELOPER                     | 1                         | ❌                    |
+| BASIC                         | 3                         | 10                    |
+| STARTER                       | 10                        | 100                   |
+| GROWTH - YepCode Cloud        | 50                        | 1000                  |
+| GROWTH - Executors on-premise | TBD                       | TBD                   |
+| ENTERPRISE                    | TBD                       | TBD                   |
+
+## Executions History
+
+The execution logs and results are available for a certain amount of time, and after that, they are removed.
+
+| Plan       | Executions history |
+| :--------- | :----------------- |
+| DEVELOPER  | 3 days             |
+| BASIC      | 7 days             |
+| STARTER    | 7 days             |
+| GROWTH     | 30 days            |
+| ENTERPRISE | TBD                |
+
+## YepCode Forms
+
+YepCode Forms allow you to enable forms for your processes. The number of forms is limited based on your plan.
+
+Forms in DEVELOPER and STARTER plans include a YepCode branding asset that shouldn't be hidden in webpages where the form is embedded.
+
+| Plan       | Allowed YepCode Forms | YepCode Branding                                                     |
+| :--------- | :-------------------- | -------------------------------------------------------------------- |
+| DEVELOPER  | 1                     | ![Powered by YepCode](https://yepcode.io/sdk/powered-by-yepcode.svg) |
+| BASIC      | 10                    | ![Powered by YepCode](https://yepcode.io/sdk/powered-by-yepcode.svg) |
+| STARTER    | 10                    | ❌                                                                   |
+| GROWTH     | Unlimited             | ❌                                                                   |
+| ENTERPRISE | Unlimited             | ❌                                                                   |
+
+## YepCode Landings
+
+YepCode Landings allows to manage countless variations of landing pages effortlessly. The number of landing pages is limited based on your plan.
+
+| Plan       | Allowed YepCode Landing Pages |
+| :--------- | :---------------------------- |
+| DEVELOPER  | ❌                            |
+| BASIC      | ❌                            |
+| STARTER    | 10                            |
+| GROWTH     | 1000                          |
+| ENTERPRISE | Unlimited                     |
+
+## Execution Input Parameters Max Size
+
+Each execution may have its own [input parameters](/docs/docs/processes/input-params) object. This payload has size limits, and if exceeded, the execution will be discarded, returning a 413 HTTP error code (Content Too Large).
+
+Two types of limits exist: the maximum payload size for all plain text parameters and the max payload size for all files parameters (each file is available through a URL at execution time).
+
+| Plan       | Max size for text parameters | Max size for files |
+| :--------- | :--------------------------- | :----------------- |
+| DEVELOPER  | 50Kb                         | ❌                 |
+| BASIC      | 50Kb                         | ❌                 |
+| STARTER    | 100Kb                        | 1Mb                |
+| GROWTH     | 500Kb                        | 5Mb                |
+| ENTERPRISE | TBD                          | TBD                |
+
+## Execution Result Max Size
+
+Each execution may have its own result object, which is stored and returned to webhook invocations.
+
+| Plan       | Max result size |
+| :--------- | :-------------- |
+| DEVELOPER  | 50Kb            |
+| BASIC      | 50Kb            |
+| STARTER    | 100Kb           |
+| GROWTH     | 500Kb           |
+| ENTERPRISE | TBD             |
+
+## Executions Log Max Lines & Size
+
+Each execution has its own log, available during the execution history period. The log has a max size and a max number of lines. If the process execution output exceeds these limits, no more log entries will be saved.
+
+| Plan       | Executions log max size | Executions log max lines |
+| :--------- | :---------------------- | :----------------------- |
+| DEVELOPER  | 100Kb                   | 100                      |
+| BASIC      | 100Kb                   | 100                      |
+| STARTER    | 250Kb                   | 250                      |
+| GROWTH     | 500Kb                   | 500                      |
+| ENTERPRISE | TBD                     | TBD                      |
+
+## Package Dependencies
+
+YepCode allows you to choose and use any external package from `npm` or `pypi` repositories. The number of package dependencies is limited based on your plan. We also limit the number of dependency sets that can be installed by day.
+
+| Plan       | Max dependencies | Max installations by day |
+| :--------- | :--------------- | :----------------------- |
+| DEVELOPER  | 10               | 10                       |
+| BASIC      | 10               | 50                       |
+| STARTER    | 25               | 100                      |
+| GROWTH     | Unlimited        | Unlimited                |
+| ENTERPRISE | Unlimited        | Unlimited                |
+
+Furthermore, YepCode allows to define the packages at team or process level, so you can use different packages for different processes. But this process level dependency definition is limited to GROWTH and ENTERPRISE plans.
+
+## File system limits
+
+YepCode allows to store files in the file system used during the execution of a process. The number and size of files is limited based on your plan.
+
+| Plan       | Max files | Current Max file size | Expected Max file size |
+| :--------- | :-------- | :-------------------- | :--------------------- |
+| DEVELOPER  | Unlimited | 50Mb                  | 50Mb                   |
+| BASIC      | Unlimited | 50Mb                  | 100Mb                  |
+| STARTER    | Unlimited | 50Mb                  | 1Gb                    |
+| GROWTH     | Unlimited | 50Mb                  | 5Gb                    |
+| ENTERPRISE | Unlimited | Unlimited             | Unlimited              |
+
+## Storage limits
+
+YepCode allows to store files in the cloud storage. The number and size of files is limited based on your plan.
+
+| Plan       | Max files | Max file size |
+| :--------- | :-------- | :------------ |
+| DEVELOPER  | 5         | 5Mb           |
+| BASIC      | 10        | 10Mb          |
+| STARTER    | 100       | 25Mb          |
+| GROWTH     | 1000      | 50Mb          |
+| ENTERPRISE | Unlimited | Unlimited     |
+
+## Audit Events History
+
+The audit module keeps track of everything happening in the team, including executions, code changes, and webhook invocations.
+
+| Plan       | Audit events history |
+| :--------- | :------------------- |
+| DEVELOPER  | ❌                   |
+| BASIC      | ❌                   |
+| STARTER    | ❌                   |
+| GROWTH     | 3 months             |
+| ENTERPRISE | TBD                  |
+
+## Command Line Interface
+
+Explore our [command line interface](/docs/cli) docs to learn how YepCode can be used from local workstations. The CLI is available on every YepCode pricing plans.
+
+## Datastore
+
+Visit our [datastore](/docs/datastore) docs to understand how to use this simple, fast, and powerful key-value storage system. The Datastore is available on paid plans with specific limits:
+
+| Plan                          | Max entries | Max entry size |
+| :---------------------------- | :---------- | :------------- |
+| DEVELOPER                     | ❌          | ❌             |
+| BASIC                         | ❌          | ❌             |
+| STARTER                       | 1,000       | 5Kb            |
+| GROWTH - YepCode Cloud        | 20,000      | 50Kb           |
+| GROWTH - Executors on-premise | TBD         | TBD            |
+| ENTERPRISE                    | TBD         | TBD            |
+
+## Identity Brokering
+
+For companies wanting to use an external identity provider, YepCode offers integration with [OpenID](https://en.wikipedia.org/wiki/OpenID) or [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language) protocols. These integrations are available on _GROWTH_ or _ENTERPRISE_ plans.
+
+## Users Federation
+
+Another authentication option is users federation with LDAP or Active Directory, available exclusively on _ENTERPRISE_ plans.

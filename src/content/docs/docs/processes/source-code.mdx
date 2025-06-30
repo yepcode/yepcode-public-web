@@ -1,0 +1,335 @@
+---
+title: Source Code
+description: Learn how to write business logic using the YepCode editor.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Icon } from '@astrojs/starlight/components';
+import Screenshot from "@components/Screenshot.astro";
+
+# Understanding Source Code in Processes
+
+In the YepCode editor, users can craft the code to implement their processes.
+
+Depending on the language selected, the script is executed in a specific engine:
+
+- <Icon name="seti:javascript" /> We use the <a href="https://nodejs.org/" target="_blank">
+    NodeJS
+  </a> <b>v22</b> engine. This allows you to utilize nearly all functions supported by NodeJS.
+  The code is wrapped in an `async` function, enabling the use of `await` throughout the function.
+- <Icon name="seti:python" /> We use the <a href="https://www.python.org/" target="_blank">
+    Python
+  </a> <b>v3.13</b> engine. This supports the use of almost all functions provided by Python.
+
+<Screenshot src="processes-source-code.png" />
+
+For those who prefer not to reinvent the wheel, explore the [team dependencies](/docs/dependencies) to take advantage of any NPM or PyPI package.
+
+To combat the challenge of [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code), we've included a module to create and use your own [Modules](/docs/processes/modules).
+
+The source code editor supports **key shortcuts**, **code formatting**, and **autocomplete features**. If you start typing `YepCode...`, you'll see some useful snippets.
+
+<Screenshot src="processes-source-code-suggestion.png" />
+
+The process source code is executed sequentially.
+
+:::tip
+In JavaScript versions, each process execution will wait while any active promise is still running.
+:::
+
+As with any other script, you can define functions and structure your code with good practices. Please follow the principles of [clean code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882).
+
+## Internal Helpers
+
+YepCode allows you to use information from the current execution in your process.
+
+### Access to Execution and Process Info
+
+The basic information available for all executions includes the `id` of the current execution, the comment (if you wrote one), and the `id` and `name` of the process being executed. The code to obtain them would be:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const { id, comment } = yepcode.execution;
+
+const { id: processId, name: processName } = yepcode.execution.process;
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+id, comment = yepcode.execution.id, yepcode.execution.comment
+
+processId, processName = yepcode.execution.process.id, yepcode.execution.process.name
+```
+  </TabItem>
+</Tabs>
+
+### Access to Scheduled Process Info
+
+When you schedule a process, you also have access to the `id` of the schedule and its `comment` (if it exists). The code to obtain them would be:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const { id: scheduleId, comment: scheduleComment } = yepcode.execution.schedule;
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+scheduleId, scheduleComment = yepcode.execution.schedule.id, yepcode.execution.schedule.comment
+```
+  </TabItem>
+</Tabs>
+
+### Build Execution Link
+
+An interestion use case for this information is to build the exact execution link to send it by email:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const executionLink = `https://cloud.yepcode.io/{your-team-slug}/executions/${yepcode.execution.id}`;
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+executionLink = f"https://cloud.yepcode.io/{your-team-slug}/executions/{yepcode.execution.id}"
+```
+  </TabItem>
+</Tabs>
+
+### Access to Team Timezone
+
+You can access the current timezone set in your team. The code to do it would be:
+
+:::note
+The team timezone will also be the timezone used for any date manipulation in the execution.
+:::
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const timezone = yepcode.team.timezone;
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+timezone = yepcode.team.timezone
+```
+  </TabItem>
+</Tabs>
+
+### Run another process asynchronously
+
+Execute a process asynchronously within the same execution.
+
+```
+yepcode.processes.run(process-identifier [, options]);
+```
+
+* `process-identifier`: The process uuid or slug to run.
+* `options`:
+  - `parameters`: An object containing the parameters to pass to the process. _(optional)_
+  - `tag`: Specify a [process version](/docs/processes/process-versioning) tag to run a concrete version of your process. _(optional)_
+  - `comment`: A comment for the new execution. _(optional)_
+  - `settings`: An object containing the settings to pass to the process. _(optional)_
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+yepcode.processes.run("hello-world", {
+  parameters: {
+    name: "Jane Doe",
+  },
+  tag: "latest",
+  comment: "Running hello-world from execution",
+  settings: {
+    agentPoolSlug: "eu-west-1",
+  },
+});
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+yepcode.processes.run("hello-world", {
+    "parameters": {
+        "name": "Jane Doe",
+    },
+    "tag": "latest",
+    "comment": "Running hello-world from execution",
+    "settings": {
+        "agentPoolSlug": "eu-west-1",
+    },
+})
+```
+  </TabItem>
+</Tabs>
+
+## Return Value
+
+YepCode allows your processes to return a value. This is very insteresting, especially when starting executions using webhooks or forms. You could manage this result value in your client. The syntax to return one object would be:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+return { message: "Hello from YepCode!" };
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+return { "message": "Hello from YepCode!" };
+```
+  </TabItem>
+</Tabs>
+
+You can view it on the [execution detail](/docs/executions#execution-detail) page and also utilize it with the [sync webhooks](/docs/executions/webhooks) feature.
+
+### Return Custom Status Codes
+
+Custom status code and a custom message are also supported. This is useful in many cases, but the most common one is probably error handling. For example, if you want to return a 404 error, but don't want the execution to end in an error status.
+
+To do that, you just need to return an object with the following structure:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+try {
+  // simulate an error
+  throw new Error("Oops! Something went wrong.");
+} catch (e) {
+  return {
+    status: 418,
+    body: {
+      error: {
+        message: e.message,
+        stack: e.stack,
+      },
+    },
+    headers: {
+      "X-Custom-Header": "I am a custom header",
+    },
+  };
+}
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+import traceback
+
+try:
+  # simulate an error
+  raise Exception("Oops! Something went wrong.");
+except Exception as e:
+  return {
+    "status": 418,
+    "body": {
+      "error": {
+        "message": e,
+        "stack": traceback.format_exc(),
+      },
+    },
+    "headers": {
+      "X-Custom-Header": "I am a custom header",
+    },
+  };
+```
+  </TabItem>
+</Tabs>
+
+The magic lies in `status`, `body` and `headers` properties.
+
+:::tip
+You can return a JSON or plain string as body. The Content-Type header will be set automatically.
+:::
+
+### Transient Return Values
+
+In some cases, you may want to not store the return value of your process, for example, when sensitive data is returned.
+
+For this cases, YepCode allows you to set a result as [transient](<https://en.wikipedia.org/wiki/Transient_(computer_programming)>), so this result is not stored in the database.
+
+For these cases, the stored result will be the `[transient]` replacement.
+
+:::tip
+If you call your process by a webhook in sync mode, you will be able to get the result in that call.
+:::
+
+To make a result transient, just follow this structure:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+return {
+  isTransient: true,
+  body: { foo: "bar" },
+};
+```
+
+Of course, you can combine this with previously shown properties. For example:
+
+```js
+return {
+  isTransient: true,
+  status: 201,
+  body: { foo: "bar" },
+  headers: {
+    "X-Custom-Header": "I am a custom header",
+  },
+};
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+return {
+  "isTransient": True,
+  "body": { "foo": "bar" },
+};
+```
+
+Of course, you can combine this with previously shown properties. For example:
+
+```py
+return {
+  "isTransient": True,
+  "status": 201,
+  "body": { "foo": "bar" },
+  "headers": {
+    "X-Custom-Header": "I am a custom header",
+  },
+};
+```
+  </TabItem>
+</Tabs>
+
+## Logging
+
+YepCode allows to generate log entries that can be seen then in [execution detail](/docs/executions#execution-detail) view.
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+In JavaScript you may use the `console` logger methods:
+
+```js
+console.log(`This is an INFO message`);
+console.debug(`This is a DEBUG message`);
+console.info(`This is an INFO message`);
+console.warn(`This is a WARNING message`);
+console.error(`This is an ERROR message`);
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+In Python the log level is set to WARNING, but YepCode exposes a `logger` object that has DEBUG level, so you may use it. The `print` method also generates a INFO log message:
+
+```py
+print("This is an INFO message");
+logger.debug("This is a DEBUG message");
+logger.info("This is an INFO message");
+logger.warn("This is a WARNING message");
+logger.error("This is an ERROR message");
+```
+  </TabItem>
+</Tabs>
+
+This is how you'll see the logs in the execution detail:
+
+<Screenshot src="log-output.png" />

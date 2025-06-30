@@ -1,0 +1,141 @@
+---
+title: Input Parameters
+description: Learn how to configure process input parameters to gather information from users.
+---
+
+<script src="https://yepcode.io/sdk/forms.js"></script>
+
+import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
+import Screenshot from "@components/Screenshot.astro";
+import parametersSchemaEditorActions from "@assets/docs/editor-config/parameters-schema-editor/actions.json";
+
+# Input Parameters
+
+When working with YepCode processes, you can configure input parameters to gather information from users before starting an [on-demand](/docs/executions/on-demand) or [scheduled](/docs/executions/scheduled) execution. Input parameters also play a role in defining [webhook](/docs/executions/webhooks) bodies.
+
+The process edition includes a JSON editor which is used to define the process input parameter form.
+
+In your process source code, you can access the provided input parameters using the following helper:
+
+<Tabs syncKey="programming-language">
+  <TabItem label="JavaScript" icon="seti:javascript">
+```js
+const {
+  context: { parameters },
+} = yepcode;
+```
+  </TabItem>
+  <TabItem label="Python" icon="seti:python">
+```py
+parameters = yepcode.context.parameters
+```
+  </TabItem>
+</Tabs>
+
+With parameters defined, you can request any information needed to run your process. Forms can range from simple:
+
+<Screenshot src="processes-input-params-sample.png" width="50%" />
+
+...to more complex configurations:
+
+<Screenshot src="processes-input-params-preview.png" width="60%" />
+
+## Form Builder
+
+YepCode provides a JSON Form Builder that allows you to manage input parameters without any coding.
+
+<Screenshot src="form-builder.png" width="60%" />
+
+You can create new input parameters, modify existing ones, or delete unnecessary ones.
+
+<Screenshot src="form-builder-modify.png" width="60%" />
+
+## Parameters Definition
+
+We use the JSON Schema form specification, and the library we use to render the form is [react-jsonschema-form](https://rjsf-team.github.io/react-jsonschema-form/docs/).
+
+This allows you to use advanced configurations, such as [dependencies](https://rjsf-team.github.io/react-jsonschema-form/docs/usage/dependencies), which enable you to change fields based on entered data.
+
+Additionally, YepCode offers extra attributes to enhance your experience:
+
+### Sensitive Properties
+
+Properties marked as sensitive are treated as passwords. They are stored encrypted in the database and won't be shown in the UI.
+
+Here you have an example of a simple form with a sensitive property:
+
+```json
+{
+  "title": "Input parameters",
+  "type": "object",
+  "properties": {
+    "apiKey": {
+      "title": "The API Key",
+      "type": "string",
+      "isSensitive": true
+    }
+  },
+  "required": ["apiKey"]
+}
+```
+
+### Transient properties
+
+[Transient](<https://en.wikipedia.org/wiki/Transient_(computer_programming)>) properties are only available for the execution and won't be stored in the database. An execution which receives transient parameters cannot be rerun,
+as these type of parameters won't be available. They are shown with `[transient]` in the UI.
+
+Here you have an example of a simple form with a transient property:
+
+```json
+{
+  "title": "Input parameters",
+  "type": "object",
+  "properties": {
+    "fileContent": {
+      "title": "The content of the file",
+      "type": "string",
+      "isTransient": true
+    }
+  },
+  "required": ["fileContent"]
+}
+```
+
+### Validation
+
+Validation is supported by this form specification and is checked upon form submission.
+
+<Screenshot src="processes-input-params-validation.png" width="50%" />
+
+:::info
+By default, validation won't be enforced if the execution starts using non-submit form methods (e.g., [webhooks](/docs/executions/webhooks) or [API](https://cloud.yepcode.io/api/rest/public/swagger-ui/index.html)). If you want to enable this validation for all start methods, just activate the `Validate parameters schema` in the [settings](/docs/settings) page.
+
+If you want to enforce validation, but for some process you want to allow additional properties, there is [a flag for this behaviour](https://json-schema.org/understanding-json-schema/reference/object#additionalproperties).
+:::
+
+### Content Customization
+
+To provide greater flexibility to the forms and the content they display (titles, descriptions, help messages), we have improved and extended the schema to support markdown rendering using [markdown](https://www.markdownguide.org/basic-syntax/).
+
+With this functionality, you can format text in a simple and easy way to make it more readable. Here you have one sample:
+
+```json title="JSON Schema attribute using Markdown"
+  "oneStringField": {
+    "title": "![alt text](https://cloud.yepcode.io/img/YepCode_logo_light.svg)  *[yepcode](https://yepcode.io)* form title",
+    "description": "[yepcode](https://yepcode.io) form description",
+    "type": "string"
+  },
+```
+
+## Full sample
+
+Here's a complete example of a Form and its schema:
+
+<div className="YepCodeForm">
+  <div
+    data-yepcode-form-team="sandbox"
+    data-yepcode-form-process="4d69f1b0-7e58-4d40-9e17-888ec546c66f"
+  ></div>
+</div>
+
+<Code code={JSON.stringify(parametersSchemaEditorActions[0].code, null, 2)} lang="json" frame="none" />

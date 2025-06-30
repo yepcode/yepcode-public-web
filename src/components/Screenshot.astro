@@ -1,0 +1,14 @@
+---
+import { Image } from "astro:assets";
+
+const { src, width, height, alt, title } = Astro.props;
+---
+
+<img
+  src={`/src/assets/docs/img/screenshots/${src}`}
+  width={width}
+  height={height}
+  alt={alt || title || "Screenshot"}
+  title={title}
+  class="Screenshot"
+/>

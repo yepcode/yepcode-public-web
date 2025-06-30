@@ -1,0 +1,113 @@
+---
+title: Network Access
+description: Learn how to enable network access for YepCode integrations to connect with your private services.
+---
+
+# Network Access
+
+## YepCode Tunneling
+
+We provide a tunneling system that exposes your ports for YepCode using [SSH tunnels](https://www.ssh.com/academy/ssh/tunneling). The server side is available at the domain `tunnels.yepcode.io`.
+
+To create a tunnel, open SSH tunnels on a computer with access to the target service and internet connectivity. You have two options: use any SSH client or, if you have [Docker](https://docker.com) installed, run the client with a Docker image (recommended):
+
+```sh
+docker run --rm yepcode/tunnels-client:latest -V
+```
+
+The Docker image has 2 advantages:
+
+- It keeps retrying to reconnect if SSH tunnel connection is lost.
+- It implements a reverse HTTP proxy, rewriting the HTTP 'Host' header for local hostname matching when creating a tunnel to an HTTP service.
+
+### YepCode Tunnels Server Access
+
+Server parameterss:
+
+```
+Server: tunnels.yepcode.io
+Port: 2222
+Recommended ssh params:
+  - ExitOnForwardFailure=yes
+  - ServerAliveInterval=10
+  - ServerAliveCountMax=3
+```
+
+The tunnels server connection is private, and you need us to provide you with a private key. To obtain that private key, please [contact us](https://yepcode.io/contact/).
+
+### HTTP Tunnel Creation Sample
+
+Suposse you want to expose an HTTP service running on `http://192.168.108.10:3000`. You can use the following Docker run commands:
+
+```sh title="SSH client"
+ssh -o "ExitOnForwardFailure=yes"-o "ServerAliveInterval=10" -o "ServerAliveCountMax=3" \
+  -i /path/to/id_rsa_you_have_asked_for \
+  -p 2222 tunnels.yepcode.io \
+  -R my-company-http-service:80:192.168.108.10:3000
+```
+
+```sh title="Docker image, not using reverse proxy"
+docker run --rm -e ID_RSA=$(base64 -w 0 /path/to/id_rsa_you_have_asked_for) yepcode/tunnels-client:latest \
+  -R my-company-http-service:80:192.168.108.10:3000
+```
+
+```sh title="Docker image, using reverse proxy"
+docker run --rm -e ID_RSA=$(base64 -w 0 /path/to/id_rsa_you_have_asked_for) yepcode/tunnels-client:latest \
+  --http my-company-http-service,http://192.168.108.10:3000
+```
+
+With this execution you'll see something like this:
+
+```sh
+Starting SSH Forwarding service for http:80. Forwarded connections can be accessed via the following methods:
+HTTP: http://my-company-http-service.tunnels.yepcode.io
+```
+
+If you open a network connection to `http://my-company-http-service.tunnels.yepcode.io`, it will end up at your private service.
+
+Note that this client process must be running whenever you want to use the integration.
+
+### TCP Tunnel Creation Sample
+
+Suposse you want to expose a MySQL service available at `192.168.108.10:3306`. You can use the following Docker run command:
+
+```sh
+docker run --rm -e ID_RSA=$(base64 -w 0 /path/to/id_rsa_you_have_asked_for) yepcode/tunnels-client:latest \
+  -R 12345:192.168.108.10:3306
+```
+
+With this execution you'll see something like this:
+
+```sh
+Starting SSH Forwarding service for tcp:12345. Forwarded connections can be accessed via the following methods:
+TCP: tunnels.yepcode.io:12345
+```
+
+Configure the YepCode integration with the host and port credentials as `tunnels.yepcode.io:12345`
+
+You can combine multiple tunnels in one execution:
+
+```sh
+docker run --rm -e ID_RSA=$(base64 -w 0 /path/to/id_rsa_you_have_asked_for) yepcode/tunnels-client:latest \
+  --http my-company-http-service,http://api.my-company.com/ \
+  --http my-company-https-service,https://api.my-company.com:4443/ \
+  -R 12345:192.168.108.10:3306 \
+  -R 12346:192.168.108.11:5432
+```
+
+### Docker Compose
+
+Here is an example of `docker-compose.yml` file:
+
+```yaml
+version: "3"
+
+services:
+  yepcode_tunnels:
+    container_name: yepcode-tunnels
+    image: yepcode/tunnels-client:latest
+    restart: always
+    command: -R 12345:internal_server:3306 --http my-company-http-service,http://api.my-company.com/
+    environment:
+      - ID_RSA=... # write here id_rsa private key in base64 format
+```

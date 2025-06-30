@@ -1,0 +1,7 @@
+[
+  {
+    "id": "yepcode-sample-hello-world",
+    "label": "YepCode Sample: Hello world!",
+    "code": "# Like in any other programming tool, we think that a Hello world sample may solve some doubts, so let's test it!\n\n# In order to run this example with the needed input params, you have to set this JSON content into the PARAMETERS SCHEMA tab:\n\n# {\n#     \"description\": \"The hello world input parameters\",\n#     \"type\": \"object\",\n#     \"title\": \"Hello world input parameters\",\n#     \"properties\": {\n#         \"name\": {\n#         \"type\": \"string\",\n#         \"description\": \"Type your name to receive a greeting\"\n#         }\n#     },\n#     \"required\": [\n#         \"name\"\n#     ]\n# }\n\n# After this you'll be ready to run this sample with the flame button on the top of this editor.\n\n# Other interesting thing may be to configure a webhook trigger and start one execution with a simple CURL command.\n\nparameters = yepcode.context.parameters\n\nmessage = f\"Hello {parameters['name']}.\"\n\nprint(message)\n\nreturn {\n    \"theMessage\": message,\n}\n"
+  }
+]
