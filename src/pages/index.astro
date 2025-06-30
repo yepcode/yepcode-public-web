@@ -23,6 +23,7 @@ import ImageSlider from "../components/ImageSlider.astro";
 import mcpImage from "../assets/home/images/mcp.svg";
 import Card from "../components/Card.astro";
 import YouTube from "../components/YouTube.astro";
+import Accordion from "@/components/Accordion.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("../content/index.mdx", {
     eager: true,
@@ -180,6 +181,50 @@ const { frontmatter: content } = Object.values(
             ))
           }
         </div>
+      </section>
+
+      <section class="mt-32">
+        <p
+          class="font-bold text-5xl text-white text-center"
+          set:html={content.sayYep.title}
+        />
+        <div class="mt-8 flex justify-center items-center gap-4">
+          {
+            content.sayYep.buttons.map((btn: any) => (
+              <a
+                href={btn.href}
+                class={
+                  btn.style === "primary"
+                    ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
+                    : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+                }
+              >
+                {btn.label}
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="mt-32">
+        <p
+          class="font-bold text-5xl text-white text-center"
+          set:html={content.faqs.title}
+        />
+        <div class="mt-8 flex flex-col gap-2">
+          {
+            content.faqs.questions.map((faq: any) => (
+              <Accordion
+                title={faq.title.mdToHtml()}
+                details={faq.description.mdToHtml()}
+              />
+            ))
+          }
+        </div>
+        <div
+          class="mt-4 flex justify-center items-center text-secondary hover:text-primary"
+          set:html={content.faqs.moreFaqs.mdToHtml()}
+        />
       </section>
       <Footer />
     </main>
