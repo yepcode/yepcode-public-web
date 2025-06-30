@@ -174,7 +174,7 @@ const { frontmatter: content } = Object.values(
             content.cards?.map((card: any) => (
               <Card
                 title={card.title}
-                description={card.description.mdToHtml()}
+                description={card.description}
                 icon={card.icon}
               />
             ))

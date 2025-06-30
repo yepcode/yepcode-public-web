@@ -1,0 +1,91 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  details: string;
+}
+
+const { title, details } = Astro.props;
+---
+
+<div
+  class="accordion group relative p-6 rounded-xl transition-colors duration-500 ease-in-out"
+>
+  <button
+    class="accordion__button cursor-pointer flex w-full flex-1 items-center justify-between gap-4 text-left border-b border-white/10 text-lg pb-2"
+    type="button"
+    id={`${title}-accordion-menu-button`}
+    aria-expanded="false"
+    aria-controls={`${title}-accordion-menu-content`}
+  >
+    <span set:html={title} />
+    <Icon
+      name="arrow-down"
+      aria-hidden="true"
+      class="accordion__chevron shrink-0 transition-transform duration-500 ease-in-out"
+    />
+  </button>
+
+  <div
+    id={`${title}-accordion-menu-content`}
+    aria-labelledby={`${title}-accordion-menu-button`}
+    class="accordion__content hidden max-h-0 overflow-hidden transition-all duration-500 ease-in-out"
+  >
+    <div
+      class="prose text-white/70 text-base mt-4 max-w-full"
+      set:html={details}
+    />
+  </div>
+</div>
+
+<script>
+  function accordionSetup() {
+    const accordionMenus = document.querySelectorAll(
+      ".accordion"
+    ) as NodeListOf<HTMLElement>;
+    accordionMenus.forEach((accordionMenu) => {
+      const accordionButton = accordionMenu.querySelector(
+        ".accordion__button"
+      ) as HTMLElement;
+      const accordionChevron = accordionMenu.querySelector(
+        ".accordion__chevron"
+      ) as HTMLElement;
+      const accordionContent = accordionMenu.querySelector(
+        ".accordion__content"
+      ) as HTMLElement;
+
+      if (accordionButton && accordionContent && accordionChevron) {
+        accordionButton.addEventListener("click", (event) => {
+          if (!accordionMenu.classList.contains("active")) {
+            accordionMenu.classList.add("active");
+            accordionMenu.classList.add("bg-darker-background");
+            accordionButton.setAttribute("aria-expanded", "true");
+
+            accordionContent.classList.remove("hidden");
+            accordionContent.style.maxHeight =
+              accordionContent.scrollHeight + "px";
+            accordionChevron.classList.add("rotate-180");
+          } else {
+            accordionMenu.classList.remove("active");
+            accordionMenu.classList.remove("bg-darker-background");
+            accordionButton.setAttribute("aria-expanded", "false");
+
+            accordionContent.style.maxHeight = "0px";
+            accordionChevron.classList.remove("rotate-180");
+
+            setTimeout(() => {
+              accordionContent.classList.add("hidden");
+            }, 300);
+          }
+          event.preventDefault();
+          return false;
+        });
+      }
+    });
+  }
+
+  accordionSetup();
+
+  document.addEventListener("astro:after-swap", accordionSetup);
+</script>
