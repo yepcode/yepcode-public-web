@@ -1,0 +1,17 @@
+---
+export interface Props {
+  url: string;
+  title: string;
+  class?: string;
+}
+const { url, title, class: className = "" } = Astro.props;
+---
+
+<iframe
+  class={`rounded-xl aspect-video w-full ${className}`}
+  src={url}
+  title={title}
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen></iframe>
