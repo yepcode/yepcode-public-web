@@ -1,0 +1,64 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { Icon } from "astro-icon/components";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import YouTube from "@/components/YouTube.astro";
+
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>("@/content/book-a-demo/index.mdx", {
+    eager: true,
+  })
+)[0];
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="grid grid-cols-1 xl:grid-cols-2 gap-12">
+        <div class="flex flex-col items-start gap-4 xl:order-last">
+          <h2>{content.ytDemo.title}</h2>
+          <div class="flex items-center gap-2">
+            <Icon name="clock" class="size-4 text-tertiary" />
+            <p class="text-tertiary">{content.ytDemo.video.duration}</p>
+          </div>
+          <p class="text-secondary">{content.ytDemo.description}</p>
+        </div>
+        <YouTube
+          class="xl:order-first"
+          url={content.ytDemo.video.url}
+          title={content.ytDemo.video.title}
+        />
+      </section>
+
+      <section class="mt-24 grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div class="flex flex-col items-start gap-4">
+          <h2>{content.book.title}</h2>
+          <p class="text-secondary">
+            {content.book.description}
+          </p>
+          <ul class="ml-8 list-disc list-inside text-secondary">
+            {content.book.doubtsList.map((item: string) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div
+          id="meetings-iframe-container"
+          class="meetings-iframe-container min-w-[370px]"
+          data-src="https://meetings-eu1.hubspot.com/marcos-muino-garcia/book-a-demo?embed=true"
+        >
+          <script
+            is:inline
+            type="text/javascript"
+            src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"
+          ></script>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
