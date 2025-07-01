@@ -8,12 +8,9 @@ import { Image } from "astro:assets";
 import UseCasesImage from "@/assets/features/landings/usecases.webp";
 import Card from "@/components/Card.astro";
 const { frontmatter: content } = Object.values(
-  import.meta.glob<{ frontmatter: any }>(
-    "@/content/features/landings/index.mdx",
-    {
-      eager: true,
-    }
-  )
+  import.meta.glob<{ frontmatter: any }>("@/content/features/landings.mdx", {
+    eager: true,
+  })
 )[0];
 ---
 

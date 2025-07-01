@@ -5,7 +5,7 @@ import Footer from "@/components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import Accordion from "@/components/Accordion.astro";
 const { frontmatter: content } = Object.values(
-  import.meta.glob<{ frontmatter: any }>("@/content/faqs/index.mdx", {
+  import.meta.glob<{ frontmatter: any }>("@/content/faqs.mdx", {
     eager: true,
   })
 )[0];

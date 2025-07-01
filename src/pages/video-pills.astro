@@ -7,7 +7,7 @@ import { Icon } from "astro-icon/components";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import Card from "@/components/Card.astro";
 const { frontmatter: content } = Object.values(
-  import.meta.glob<{ frontmatter: any }>("@/content/video-pills/index.mdx", {
+  import.meta.glob<{ frontmatter: any }>("@/content/video-pills.mdx", {
     eager: true,
   })
 )[0];

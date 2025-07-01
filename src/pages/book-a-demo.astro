@@ -7,7 +7,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import YouTube from "@/components/YouTube.astro";
 
 const { frontmatter: content } = Object.values(
-  import.meta.glob<{ frontmatter: any }>("@/content/book-a-demo/index.mdx", {
+  import.meta.glob<{ frontmatter: any }>("@/content/book-a-demo.mdx", {
     eager: true,
   })
 )[0];
