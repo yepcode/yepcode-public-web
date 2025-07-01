@@ -1,44 +1,74 @@
 ---
+import YepCodeLogo from "../../public/logo.svg";
+import { Image } from "astro:assets";
+import soc2Image from "@assets/footer/soc2.webp";
+import gdprImage from "@assets/footer/gdpr.svg";
+import { Icon } from "astro-icon/components";
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>("@/content/footer.mdx", {
+    eager: true,
+  })
+)[0];
+
 const today = new Date();
 ---
 
-<footer>
-  &copy; {today.getFullYear()} YepCode
-  <div class="social-links">
-    <a href="https://github.com/yepcode" target="_blank">
-      <span class="sr-only">Go to YepCode's GitHub repo</span>
-      <svg
-        viewBox="0 0 16 16"
-        aria-hidden="true"
-        width="32"
-        height="32"
-        astro-icon="social/github"
-        ><path
-          fill="currentColor"
-          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-        ></path></svg
+<footer class="mt-16">
+  <div
+    class="p-4 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-8 border-b-1 border-white/10 pb-8"
+  >
+    <div class="flex flex-col gap-4 min-w-fit">
+      <Image src={YepCodeLogo} alt="YepCode logo" class="flex-shrink-0" />
+      <p class="text-secondary">Compliance</p>
+      <a class="flex gap-2" href="https://trust.yepcode.io/" target="_blank">
+        <Image src={soc2Image} alt="Soc2" class="size-20 flex-shrink-0" />
+        <Image src={gdprImage} alt="GDPR" class="size-20 flex-shrink-0" />
+      </a>
+      <a
+        href="https://www.producthunt.com/products/yepcode/reviews?utm_source=badge-product_rating&utm_medium=badge&utm_souce=badge-yepcode"
+        target="_blank"
+        ><img
+          src="https://api.producthunt.com/widgets/embed-image/v1/product_rating.svg?product_id=475302&theme=dark"
+          alt="YepCode - Enterprise-ready integration platform for developers | Product Hunt"
+          class="grayscale"
+        /></a
       >
-    </a>
+      <a
+        href="https://www.capterra.com/reviews/240484/YepCode?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge"
+        ><img
+          src="https://assets.capterra.com/badge/771c974bfc50c0c59ea9364eab161825.svg"
+          alt="YepCode - Enterprise-ready integration platform for developers | Capterra"
+          class="grayscale"
+        /></a
+      >
+    </div>
+
+    {
+      content.columns.map((column: any) => (
+        <div class="flex flex-col gap-4">
+          <h3>{column.title}</h3>
+          {column.links.map((link: any) => (
+            <a href={link.href}>{link.title}</a>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+  <div class="flex justify-between items-center p-4">
+    <p class="text-tertiary">&copy; YepCode {today.getFullYear()}</p>
+    <div class="flex gap-4">
+      <a href="https://www.linkedin.com/company/yepcode" target="_blank">
+        <Icon name="linkedin" class="size-6 hover:text-white" />
+      </a>
+      <a href="https://x.com/yepcode_io" target="_blank">
+        <Icon name="twitter" class="size-6 hover:text-white" />
+      </a>
+      <a href="https://www.youtube.com/@yepcode" target="_blank">
+        <Icon name="youtube" class="size-6 hover:text-white" />
+      </a>
+      <a href="https://github.com/yepcode" target="_blank">
+        <Icon name="github" class="size-6 hover:text-white" />
+      </a>
+    </div>
   </div>
 </footer>
-<style>
-  footer {
-    padding: 2em 1em 6em 1em;
-    background: linear-gradient(var(--gray-gradient)) no-repeat;
-    color: rgb(var(--gray));
-    text-align: center;
-  }
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1em;
-    margin-top: 1em;
-  }
-  .social-links a {
-    text-decoration: none;
-    color: rgb(var(--gray));
-  }
-  .social-links a:hover {
-    color: rgb(var(--gray-dark));
-  }
-</style>
