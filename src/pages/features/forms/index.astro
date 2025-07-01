@@ -3,14 +3,14 @@ import BaseHead from "@components/BaseHead.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import YouTube from "@components/YouTube.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../../consts";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import { Image } from "astro:assets";
+import UseCasesImage from "@/assets/features/forms/usecases.webp";
+import Card from "@/components/Card.astro";
 const { frontmatter: content } = Object.values(
-  import.meta.glob<{ frontmatter: any }>(
-    "../../../content/features/forms/index.mdx",
-    {
-      eager: true,
-    }
-  )
+  import.meta.glob<{ frontmatter: any }>("@/content/features/forms/index.mdx", {
+    eager: true,
+  })
 )[0];
 ---
 
@@ -22,7 +22,7 @@ const { frontmatter: content } = Object.values(
   <body>
     <Header />
     <main>
-      <section class="grid gap-8 grid-cols-1 md:grid-cols-2 mt-8">
+      <section class="grid gap-8 grid-cols-1 xl:grid-cols-2 mt-8">
         <div>
           <p class="font-bold text-[70px] leading-[1] text-white">
             {content.title}
@@ -45,7 +45,59 @@ const { frontmatter: content } = Object.values(
           <YouTube url={content.video.url} title={content.video.title} />
         </div>
       </section>
-      <Footer />
+
+      <section class="mt-32 grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <Image src={UseCasesImage} alt={content.useCases.description} />
+        <div class="flex flex-col items-start gap-4">
+          <p class="font-bold text-[70px] leading-[1] text-white">
+            {content.useCases.title}
+          </p>
+          <p class="text-secondary">
+            {content.useCases.description}
+          </p>
+          <ul class="ml-8 list-disc list-inside text-secondary">
+            {content.useCases.list.map((item: string) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <section class="mt-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+          {
+            content.cards?.map((card: any) => (
+              <Card
+                title={card.title}
+                description={card.description}
+                icon={card.icon}
+              />
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="mt-32">
+        <p
+          class="font-bold text-5xl text-white text-center"
+          set:html={content.sayYep.title}
+        />
+        <div class="mt-8 flex justify-center items-center gap-4">
+          {
+            content.sayYep.buttons.map((btn: any) => (
+              <a
+                href={btn.href}
+                class={
+                  btn.style === "primary"
+                    ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
+                    : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+                }
+              >
+                {btn.label}
+              </a>
+            ))
+          }
+        </div>
+      </section>
     </main>
+    <Footer />
   </body>
 </html>
