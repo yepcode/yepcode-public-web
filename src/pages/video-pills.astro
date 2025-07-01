@@ -5,7 +5,6 @@ import Footer from "@components/Footer.astro";
 import YouTube from "@components/YouTube.astro";
 import { Icon } from "astro-icon/components";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
-import Card from "@/components/Card.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("@/content/video-pills.mdx", {
     eager: true,
@@ -52,14 +51,14 @@ const { frontmatter: content } = Object.values(
         </div>
       </section>
 
-      <section class="mt-16">
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <section class="mt-32">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-20">
           {
             content.videos?.map((video: any) => (
               <div class="flex flex-col gap-4">
                 <YouTube url={video.url} title={video.title} />
                 <div class="flex flex-col items-start gap-2">
-                  <p class="text-primary">{video.title}</p>
+                  <h2 class="text-primary leading-[1.2]">{video.title}</h2>
                   <div class="flex items-center gap-2">
                     <Icon name="clock" class="size-4 text-tertiary" />
                     <p class="text-tertiary">{video.duration}</p>
