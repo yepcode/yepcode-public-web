@@ -1,0 +1,77 @@
+---
+import BaseHead from "@components/BaseHead.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import YouTube from "@components/YouTube.astro";
+import { Icon } from "astro-icon/components";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import Card from "@/components/Card.astro";
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>("@/content/video-pills/index.mdx", {
+    eager: true,
+  })
+)[0];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <div class="flex flex-col gap-2">
+          <p class="font-bold text-[70px] text-white">
+            {content.title}
+          </p>
+          <p class="text-primary text-lg">
+            {content.question}
+          </p>
+          <p class="text-secondary text-lg">
+            {content.description}
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="mt-20 grid grid-cols-1 xl:grid-cols-2 gap-12 border-2 border-[#ffffff1a] rounded-xl p-4 bg-darker-background"
+      >
+        <YouTube
+          url={content.ytDemo.video.url}
+          title={content.ytDemo.video.title}
+        />
+        <div class="flex flex-col items-start gap-4">
+          <h2>{content.ytDemo.title}</h2>
+          <div class="flex items-center gap-2">
+            <Icon name="clock" class="size-4 text-tertiary" />
+            <p class="text-tertiary">{content.ytDemo.video.duration}</p>
+          </div>
+          <p class="text-secondary">{content.ytDemo.description}</p>
+        </div>
+      </section>
+
+      <section class="mt-16">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          {
+            content.videos?.map((video: any) => (
+              <div class="flex flex-col gap-4">
+                <YouTube url={video.url} title={video.title} />
+                <div class="flex flex-col items-start gap-2">
+                  <p class="text-primary">{video.title}</p>
+                  <div class="flex items-center gap-2">
+                    <Icon name="clock" class="size-4 text-tertiary" />
+                    <p class="text-tertiary">{video.duration}</p>
+                  </div>
+                  <p class="text-secondary">{video.description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
