@@ -1,0 +1,33 @@
+---
+import { Icon } from "astro-icon/components";
+
+type Props = {
+  type: string;
+  price: string;
+  title: string;
+  description: string;
+};
+
+const { type, price, title, description } = Astro.props;
+---
+
+<div
+  class="flex flex-col h-full gap-4 bg-[#121220] p-8 rounded-3xl border-2 border-[#ffffff1a]"
+>
+  <span class="text-xs bg-[#b84ef4] p-2 rounded-lg w-fit">{type}</span>
+  <span class="text-secondary">Starts at</span>
+  <div>
+    <span class="text-primary text-[40px] leading-[1]">€{price}</span>
+    <span class="text-secondary"> / month</span>
+  </div>
+  <div class="flex flex-col gap-2 p-4 bg-[#333647] rounded-xl">
+    <p class="text-lg">{title}</p>
+    <p class="text-white/70 text-md">{description}</p>
+    <a
+      href="/contact"
+      class="text-white p-4 rounded-xl mt-4 text-center border-2 border-[#ffffff1a]"
+    >
+      Contact sales
+    </a>
+  </div>
+</div>
