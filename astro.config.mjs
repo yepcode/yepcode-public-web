@@ -12,6 +12,8 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "YepCode Docs",
+      description:
+        "Documentation site of YepCode, the all-in-one platform that connects your services and APIs in the most agile way.",
       disable404Route: true,
       expressiveCode: {
         themes: ["dracula", "solarized-light"],
