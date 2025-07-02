@@ -1,0 +1,42 @@
+name: branches-master
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    container:
+      image: node:20.12-alpine
+    steps:
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.YEPCODE_IO_GITHUB_SSH_KEY }}
+          known_hosts: ${{ secrets.YEPCODE_IO_KNOWN_HOSTS }}
+      - uses: actions/checkout@v4
+      - name: Cache node
+        uses: actions/cache@v4
+        with:
+          key: "${{ runner.os }}-node-${{ hashFiles('node_modules') }}"
+          path: node_modules
+      - name: Deploy documentation site files to server
+        run: |-
+          apk add --update --no-cache openssh git
+          npm install
+          chmod -R 0777 /__w/yepcode-public-web/yepcode-public-web
+          npm run editor-snippets
+          npm run editor-actions
+          rm -rf build
+          npm run build
+          ssh github@yepcode.io rm -rf /docker/yepcode-public-web/volumes/usr/share/nginx/tmp
+          ssh github@yepcode.io mkdir /docker/yepcode-public-web/volumes/usr/share/nginx/tmp
+          tar zc build | ssh github@yepcode.io "tar zx -C /docker/yepcode-public-web/volumes/usr/share/nginx/tmp"
+          ssh github@yepcode.io rm -rf /docker/yepcode-public-web/volumes/usr/share/nginx/html/
+          ssh github@yepcode.io mv /docker/yepcode-public-web/volumes/usr/share/nginx/tmp/build /docker/yepcode-public-web/volumes/usr/share/nginx/html
