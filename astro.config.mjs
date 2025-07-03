@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
+import { docsSidebar } from "./src/pages/docs-sidebar";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,81 +19,7 @@ export default defineConfig({
       expressiveCode: {
         themes: ["dracula", "solarized-light"],
       },
-      sidebar: [
-        "docs",
-        {
-          label: "Quickstart",
-          collapsed: false,
-          items: ["docs/quickstart/hello-world", "docs/quickstart/sandbox"],
-        },
-        {
-          label: "Processes",
-          items: [
-            { slug: "docs/processes", label: "Overview" },
-            "docs/processes/source-code",
-            "docs/processes/input-params",
-            "docs/processes/the-readme",
-            "docs/processes/dashboard",
-            "docs/processes/modules",
-            "docs/processes/team-variables",
-            "docs/processes/duplicate",
-            "docs/processes/import-export",
-            "docs/processes/process-versioning",
-            "docs/processes/shared",
-            "docs/processes/tags",
-          ],
-        },
-        {
-          label: "Executions",
-          items: [
-            { slug: "docs/executions", label: "Overview" },
-            "docs/executions/on-demand",
-            "docs/executions/scheduled",
-            "docs/executions/webhooks",
-            "docs/executions/handle-errors",
-          ],
-        },
-        {
-          label: "Settings",
-          items: [
-            { slug: "docs/settings", label: "Overview" },
-            "docs/settings/teams",
-            "docs/settings/api-credentials",
-          ],
-        },
-        "docs/dependencies",
-        "docs/audit-events",
-        {
-          label: "On-premise deployments",
-          items: [
-            { slug: "docs/on-premise", label: "Overview" },
-            "docs/on-premise/full-stack",
-            "docs/on-premise/executors",
-          ],
-        },
-        {
-          label: "Forms",
-          items: [
-            { slug: "docs/forms", label: "Overview" },
-            { slug: "docs/forms/getting-started", label: "Getting started" },
-            { slug: "docs/forms/installation", label: "Installation" },
-            { slug: "docs/forms/customization", label: "Customization" },
-            { slug: "docs/forms/multi-step", label: "Multi-step forms" },
-            { slug: "docs/forms/samples", label: "Samples" },
-          ],
-        },
-        { slug: "docs/landings", label: "Landings" },
-        "docs/ai-assistant",
-        "docs/datastore",
-        "docs/cli",
-        "docs/network-access",
-        "docs/yepcode-coding-rules",
-        "docs/plans-and-limits",
-        {
-          label: "API Reference",
-          link: "https://cloud.yepcode.io/api/rest/public/swagger-ui/index.html",
-        },
-      ],
+      sidebar: docsSidebar,
     }),
     mdx(),
     sitemap(),
