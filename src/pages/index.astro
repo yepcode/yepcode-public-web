@@ -29,10 +29,10 @@ const { frontmatter: content } = Object.values(
 ---
 
 <PageLayout>
-  <section class="grid gap-8 grid-cols-[2fr_1fr] mt-8">
+  <section class="grid gap-8 grid-cols-[2fr_1fr] mt-20">
     <div>
       <p
-        class="font-bold text-[91px] leading-[1] text-white"
+        class="font-bold text-[6.5vh] leading-[1] text-white"
         set:html={content.hero.title}
       />
       <div
@@ -65,7 +65,7 @@ const { frontmatter: content } = Object.values(
     <div class="flex flex-col gap-4 text-[18px] items-center justify-center">
       <span>{content.trust.label}</span>
       <ImageSlider
-        class="xl:max-w-6xl max-w-xl"
+        class="max-w-full"
         images={[
           { image: beonxLogo, alt: "Beonx Logo" },
           { image: unchainedMusicLogo, alt: "Unchained Music Logo" },
