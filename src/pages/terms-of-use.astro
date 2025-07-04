@@ -1,8 +1,5 @@
 ---
-import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import PageLayout from "@/layouts/PageLayout.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("@/content/terms-of-use.mdx", {
     eager: true,
@@ -10,51 +7,41 @@ const { frontmatter: content } = Object.values(
 )[0];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section class="">
-        <div class="flex flex-col items-start justify-center gap-4 flex-1">
-          <p class="font-bold text-[50px] leading-[1.2] text-white">
-            {content.title}
-          </p>
-          <p class="text-secondary">
-            Last updated: {content.lastUpdated}
-          </p>
-        </div>
-      </section>
-      {
-        content.content.map((item: any) => {
-          const key = Object.keys(item)[0];
-          const section = item[key];
-          return (
-            <section class="mt-8">
-              <div class="flex flex-col items-start justify-center gap-4 flex-1">
-                <h2 class="font-bold text-white">{section.title}</h2>
-                <div
-                  class="text-secondary"
-                  set:html={section.description.mdToHtml()}
-                />
-              </div>
-              {section.list && (
-                <div class="text-secondary">
-                  <ul class="list-inside list-disc ml-8">
-                    {section.list.map((item: string) => (
-                      <li>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </section>
-          );
-        })
-      }
-    </main>
-    <Footer />
-  </body>
-</html>
+<PageLayout>
+  <section class="">
+    <div class="flex flex-col items-start justify-center gap-4 flex-1">
+      <p class="font-bold text-[50px] leading-[1.2] text-white">
+        {content.title}
+      </p>
+      <p class="text-secondary">
+        Last updated: {content.lastUpdated}
+      </p>
+    </div>
+  </section>
+  {
+    content.content.map((item: any) => {
+      const key = Object.keys(item)[0];
+      const section = item[key];
+      return (
+        <section class="mt-8">
+          <div class="flex flex-col items-start justify-center gap-4 flex-1">
+            <h2 class="font-bold text-white">{section.title}</h2>
+            <div
+              class="text-secondary"
+              set:html={section.description.mdToHtml()}
+            />
+          </div>
+          {section.list && (
+            <div class="text-secondary">
+              <ul class="list-inside list-disc ml-8">
+                {section.list.map((item: string) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      );
+    })
+  }
+</PageLayout>

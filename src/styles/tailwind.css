@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: white;
+  --color-secondary: #c8c9d0;
+  --color-tertiary: #999;
+  --color-darkest-background: #000012;
+  --color-darker-background: #121220;
+
+  --animate-slide-left-infinite: slide-left 30s linear infinite;
+
+  @keyframes slide-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+}

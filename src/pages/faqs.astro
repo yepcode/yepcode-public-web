@@ -1,8 +1,5 @@
 ---
-import BaseHead from "@/components/BaseHead.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import PageLayout from "@/layouts/PageLayout.astro";
 import Accordion from "@/components/Accordion.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("@/content/faqs.mdx", {
@@ -11,34 +8,24 @@ const { frontmatter: content } = Object.values(
 )[0];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section class="flex flex-col gap-8">
-        <div class="flex flex-col items-center justify-center">
-          <h1 set:html={content.hero.title} />
-          <div
-            class="text-white/70"
-            set:html={content.hero.description.mdToHtml()}
+<PageLayout>
+  <section class="flex flex-col gap-8">
+    <div class="flex flex-col items-center justify-center">
+      <h1 set:html={content.hero.title} />
+      <div
+        class="text-white/70"
+        set:html={content.hero.description.mdToHtml()}
+      />
+    </div>
+    <div class="flex flex-col gap-2">
+      {
+        content.faqs.map((faq: any) => (
+          <Accordion
+            title={faq.title.mdToHtml()}
+            details={faq.description.mdToHtml()}
           />
-        </div>
-        <div class="flex flex-col gap-2">
-          {
-            content.faqs.map((faq: any) => (
-              <Accordion
-                title={faq.title.mdToHtml()}
-                details={faq.description.mdToHtml()}
-              />
-            ))
-          }
-        </div>
-      </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>

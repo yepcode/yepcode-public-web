@@ -1,8 +1,5 @@
 ---
-import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import PageLayout from "@/layouts/PageLayout.astro";
 import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
 import ycRunJsExampleCode from "../assets/home/code-examples/yepcode-run.js?raw";
 import ycRunPyExampleCode from "../assets/home/code-examples/yepcode-run.py?raw";
@@ -31,202 +28,188 @@ const { frontmatter: content } = Object.values(
 )[0];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section class="grid gap-8 grid-cols-[2fr_1fr] mt-8">
-        <div>
-          <p
-            class="font-bold text-[91px] leading-[1] text-white"
-            set:html={content.hero.title}
+<PageLayout>
+  <section class="grid gap-8 grid-cols-[2fr_1fr] mt-8">
+    <div>
+      <p
+        class="font-bold text-[91px] leading-[1] text-white"
+        set:html={content.hero.title}
+      />
+      <div
+        class="text-secondary mt-16 text-lg"
+        set:html={content.hero.description.mdToHtml()}
+      />
+      <div class="mt-8 flex gap-8">
+        {
+          content.hero.buttons.map((btn: any) => (
+            <a
+              href={btn.href}
+              class={
+                btn.style === "primary"
+                  ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
+                  : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+              }
+              target="_blank"
+            >
+              {btn.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+    <div class="flex justify-center items-center">
+      <Image src={yepcodeBlinkLogo} alt="YepCode Blink Logo" />
+    </div>
+  </section>
+  <section class="mt-28">
+    <div class="flex flex-col gap-4 text-[18px] items-center justify-center">
+      <span>{content.trust.label}</span>
+      <ImageSlider
+        class="xl:max-w-6xl max-w-xl"
+        images={[
+          { image: beonxLogo, alt: "Beonx Logo" },
+          { image: unchainedMusicLogo, alt: "Unchained Music Logo" },
+          { image: solidusLabsLogo, alt: "Solidus Labs Logo" },
+          { image: trackingPlanLogo, alt: "Tracking Plan Logo" },
+          { image: tinybirdLogo, alt: "Tinybird Logo" },
+          { image: nivimuLogo, alt: "Nivimu Logo" },
+          { image: docutenLogo, alt: "Docuten Logo" },
+          { image: trackTheRaceLogo, alt: "Track the Race Logo" },
+          { image: teimasLogo, alt: "Teimas Logo" },
+          { image: privaliaLogo, alt: "Privalia Logo" },
+        ]}
+      />
+    </div>
+  </section>
+  <section class="mt-32">
+    <p
+      class="font-bold text-5xl text-white"
+      set:html={content.integration.title}
+    />
+    <div
+      class="text-secondary mt-8 text-lg"
+      set:html={content.integration.description.mdToHtml()}
+    />
+    <div class="mt-16">
+      <Tabs syncKey="yc-run-code">
+        <TabItem label="JavaScript" icon="seti:javascript">
+          <Code code="npm install @yepcode/run" lang="sh" frame="none" />
+          <Code class="mt-2" code={ycRunJsExampleCode} lang="js" />
+        </TabItem>
+        <TabItem label="Python" icon="seti:python">
+          <Code code="pip install yepcode-run" lang="sh" frame="none" />
+          <Code class="mt-2" code={ycRunPyExampleCode} lang="py" />
+        </TabItem>
+        <TabItem label="Curl" icon="seti:shell">
+          <Code code={ycRunCurlExampleCode} lang="sh" frame="none" />
+        </TabItem>
+      </Tabs>
+    </div>
+
+    <div class="mt-6 flex justify-center items-center">
+      <a
+        href={content.integration.apiTokenButton.href}
+        class="bg-[#B84EF4] font-semibold p-4 rounded-xl"
+        target="_blank"
+      >
+        {content.integration.apiTokenButton.label}
+      </a>
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="flex items-center flex-col gap-4">
+        <Image src={mcpImage} alt="MCP Logo" />
+        <div
+          class="text-secondary text-md"
+          set:html={content.integration.mcp.description.mdToHtml()}
+        />
+      </div>
+      <div class="flex items-center flex-col gap-4">
+        <h2>{content.integration.rest.title}</h2>
+        <div
+          class="text-secondary text-md"
+          set:html={content.integration.rest.description.mdToHtml()}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-40">
+    <div class="flex justify-between items-center gap-4 flex-col lg:flex-row">
+      <p
+        class="font-bold text-5xl text-white"
+        set:html={content.automation.title}
+      />
+      <a
+        href={content.automation.button.href}
+        class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220] min-w-fit"
+        target="_blank"
+      >
+        {content.automation.button.label}
+      </a>
+    </div>
+    <YouTube
+      url={content.automation.video.url}
+      title={content.automation.video.title}
+      class="mt-4"
+    />
+  </section>
+
+  <section class="mt-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+      {
+        content.cards?.map((card: any) => (
+          <Card
+            title={card.title}
+            description={card.description}
+            icon={card.icon}
           />
-          <p
-            class="text-white/70 mt-16 text-lg"
-            set:html={content.hero.description.mdToHtml()}
-          />
-          <div class="mt-8 flex gap-8">
-            {
-              content.hero.buttons.map((btn: any) => (
-                <a
-                  href={btn.href}
-                  class={
-                    btn.style === "primary"
-                      ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
-                      : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
-                  }
-                  target="_blank"
-                >
-                  {btn.label}
-                </a>
-              ))
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-32">
+    <p
+      class="font-bold text-5xl text-white text-center"
+      set:html={content.sayYep.title}
+    />
+    <div class="mt-8 flex justify-center items-center gap-4">
+      {
+        content.sayYep.buttons.map((btn: any) => (
+          <a
+            href={btn.href}
+            class={
+              btn.style === "primary"
+                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
+                : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
             }
-          </div>
-        </div>
-        <div class="flex justify-center items-center">
-          <Image src={yepcodeBlinkLogo} alt="YepCode Blink Logo" />
-        </div>
-      </section>
-      <section class="mt-28">
-        <div
-          class="flex flex-col gap-4 text-[18px] items-center justify-center"
-        >
-          <span>{content.trust.label}</span>
-          <ImageSlider
-            class="xl:max-w-6xl max-w-xl"
-            images={[
-              { image: beonxLogo, alt: "Beonx Logo" },
-              { image: unchainedMusicLogo, alt: "Unchained Music Logo" },
-              { image: solidusLabsLogo, alt: "Solidus Labs Logo" },
-              { image: trackingPlanLogo, alt: "Tracking Plan Logo" },
-              { image: tinybirdLogo, alt: "Tinybird Logo" },
-              { image: nivimuLogo, alt: "Nivimu Logo" },
-              { image: docutenLogo, alt: "Docuten Logo" },
-              { image: trackTheRaceLogo, alt: "Track the Race Logo" },
-              { image: teimasLogo, alt: "Teimas Logo" },
-              { image: privaliaLogo, alt: "Privalia Logo" },
-            ]}
-          />
-        </div>
-      </section>
-      <section class="mt-32">
-        <p
-          class="font-bold text-5xl text-white"
-          set:html={content.integration.title}
-        />
-        <p
-          class="text-white/70 mt-8 text-lg"
-          set:html={content.integration.description.mdToHtml()}
-        />
-        <div class="mt-16">
-          <Tabs syncKey="yc-run-code">
-            <TabItem label="JavaScript" icon="seti:javascript">
-              <Code code="npm install @yepcode/run" lang="sh" frame="none" />
-              <Code class="mt-2" code={ycRunJsExampleCode} lang="js" />
-            </TabItem>
-            <TabItem label="Python" icon="seti:python">
-              <Code code="pip install yepcode-run" lang="sh" frame="none" />
-              <Code class="mt-2" code={ycRunPyExampleCode} lang="py" />
-            </TabItem>
-            <TabItem label="Curl" icon="seti:shell">
-              <Code code={ycRunCurlExampleCode} lang="sh" frame="none" />
-            </TabItem>
-          </Tabs>
-        </div>
-
-        <div class="mt-6 flex justify-center items-center">
-          <a
-            href={content.integration.apiTokenButton.href}
-            class="bg-[#B84EF4] font-semibold p-4 rounded-xl"
-            target="_blank"
           >
-            {content.integration.apiTokenButton.label}
+            {btn.label}
           </a>
-        </div>
+        ))
+      }
+    </div>
+  </section>
 
-        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="flex items-center flex-col gap-4">
-            <Image src={mcpImage} alt="MCP Logo" />
-            <p
-              class="text-white/70 text-md"
-              set:html={content.integration.mcp.description.mdToHtml()}
-            />
-          </div>
-          <div class="flex items-center flex-col gap-4">
-            <h2>{content.integration.rest.title}</h2>
-            <p
-              class="text-white/70 text-md"
-              set:html={content.integration.rest.description.mdToHtml()}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section class="mt-40">
-        <div
-          class="flex justify-between items-center gap-4 flex-col lg:flex-row"
-        >
-          <p
-            class="font-bold text-5xl text-white"
-            set:html={content.automation.title}
+  <section class="mt-32">
+    <p
+      class="font-bold text-5xl text-white text-center"
+      set:html={content.faqs.title}
+    />
+    <div class="mt-8 flex flex-col gap-2">
+      {
+        content.faqs.questions.map((faq: any) => (
+          <Accordion
+            title={faq.title.mdToHtml()}
+            details={faq.description.mdToHtml()}
           />
-          <a
-            href={content.automation.button.href}
-            class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220] min-w-fit"
-            target="_blank"
-          >
-            {content.automation.button.label}
-          </a>
-        </div>
-        <YouTube
-          url={content.automation.video.url}
-          title={content.automation.video.title}
-          class="mt-4"
-        />
-      </section>
-
-      <section class="mt-32">
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-          {
-            content.cards?.map((card: any) => (
-              <Card
-                title={card.title}
-                description={card.description}
-                icon={card.icon}
-              />
-            ))
-          }
-        </div>
-      </section>
-
-      <section class="mt-32">
-        <p
-          class="font-bold text-5xl text-white text-center"
-          set:html={content.sayYep.title}
-        />
-        <div class="mt-8 flex justify-center items-center gap-4">
-          {
-            content.sayYep.buttons.map((btn: any) => (
-              <a
-                href={btn.href}
-                class={
-                  btn.style === "primary"
-                    ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
-                    : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
-                }
-              >
-                {btn.label}
-              </a>
-            ))
-          }
-        </div>
-      </section>
-
-      <section class="mt-32">
-        <p
-          class="font-bold text-5xl text-white text-center"
-          set:html={content.faqs.title}
-        />
-        <div class="mt-8 flex flex-col gap-2">
-          {
-            content.faqs.questions.map((faq: any) => (
-              <Accordion
-                title={faq.title.mdToHtml()}
-                details={faq.description.mdToHtml()}
-              />
-            ))
-          }
-        </div>
-        <div
-          class="mt-4 flex justify-center items-center text-secondary hover:text-primary"
-          set:html={content.faqs.moreFaqs.mdToHtml()}
-        />
-      </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+        ))
+      }
+    </div>
+    <div
+      class="mt-4 flex justify-center items-center text-secondary hover:text-primary"
+      set:html={content.faqs.moreFaqs.mdToHtml()}
+    />
+  </section>
+</PageLayout>

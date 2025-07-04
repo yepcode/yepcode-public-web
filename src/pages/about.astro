@@ -1,9 +1,5 @@
 ---
-import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
-import { Image } from "astro:assets";
+import PageLayout from "@/layouts/PageLayout.astro";
 import Card from "@/components/Card.astro";
 
 const { frontmatter: content } = Object.values(
@@ -13,70 +9,59 @@ const { frontmatter: content } = Object.values(
 )[0];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section class="flex flex-col items-center justify-center">
-        <div>
-          <p class="font-bold text-[70px] leading-[1] text-white text-center">
-            {content.hero.title}
-          </p>
-          <p class="text-white/70 mt-8 text-lg text-center">
-            {content.hero.description}
-          </p>
-        </div>
-        <div class="mt-12 hidden xl:flex gap-8">
-          {
-            content.hero.images.map((image: any) => (
-              <img
-                src={image.src}
-                alt={image.alt}
-                class="w-full h-full rounded-xl"
-              />
-            ))
-          }
-        </div>
-      </section>
-
+<PageLayout>
+  <section class="flex flex-col items-center justify-center">
+    <div>
+      <p class="font-bold text-[70px] leading-[1] text-white text-center">
+        {content.hero.title}
+      </p>
+      <p class="text-white/70 mt-8 text-lg text-center">
+        {content.hero.description}
+      </p>
+    </div>
+    <div class="mt-12 hidden xl:flex gap-8">
       {
-        content.content.map((item: any, idx: number) => {
-          const key = Object.keys(item)[0];
-          const section = item[key];
-          // If idx is odd, reverse the order on xl screens
-          const rowClass = idx % 2 === 1 ? "xl:flex-row-reverse" : "";
-          return (
-            <section
-              class={`mt-32 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:flex ${rowClass}`}
-            >
-              <div class="flex flex-col items-start justify-center gap-4 flex-1">
-                <p class="font-bold text-[50px] leading-[1.2] text-white">
-                  {section.title}
-                </p>
-                <div class="text-secondary" set:html={section.description} />
-              </div>
-              <img
-                src={section.image.src}
-                alt={section.image.alt}
-                class="w-full rounded-xl flex-1"
-              />
-            </section>
-          );
-        })
+        content.hero.images.map((image: any) => (
+          <img
+            src={image.src}
+            alt={image.alt}
+            class="w-full h-full rounded-xl"
+          />
+        ))
       }
+    </div>
+  </section>
 
-      <section class="mt-32">
-        <Card
-          title={content.card.title}
-          description={content.card.description}
-          className="w-full"
-        />
-      </section>
-    </main>
-    <Footer />
-  </body>
-</html>
+  {
+    content.content.map((item: any, idx: number) => {
+      const key = Object.keys(item)[0];
+      const section = item[key];
+      const rowClass = idx % 2 === 1 ? "xl:flex-row-reverse" : "";
+      return (
+        <section
+          class={`mt-32 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:flex ${rowClass}`}
+        >
+          <div class="flex flex-col items-start justify-center gap-4 flex-1">
+            <p class="font-bold text-[50px] leading-[1.2] text-white">
+              {section.title}
+            </p>
+            <div class="text-secondary" set:html={section.description} />
+          </div>
+          <img
+            src={section.image.src}
+            alt={section.image.alt}
+            class="w-full rounded-xl flex-1"
+          />
+        </section>
+      );
+    })
+  }
+
+  <section class="mt-32">
+    <Card
+      title={content.card.title}
+      description={content.card.description}
+      className="w-full"
+    />
+  </section>
+</PageLayout>
