@@ -1,7 +1,6 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
 import Card from "@/components/Card.astro";
-
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("@/content/about.mdx", {
     eager: true,
@@ -10,7 +9,7 @@ const { frontmatter: content } = Object.values(
 ---
 
 <PageLayout>
-  <section class="flex flex-col items-center justify-center">
+  <section class="mt-16 flex flex-col items-center justify-center">
     <div>
       <p class="font-bold text-[70px] leading-[1] text-white text-center">
         {content.hero.title}
@@ -19,13 +18,13 @@ const { frontmatter: content } = Object.values(
         {content.hero.description}
       </p>
     </div>
-    <div class="mt-12 hidden xl:flex gap-8">
+    <div class="mt-12 hidden md:flex gap-8 h-64">
       {
         content.hero.images.map((image: any) => (
           <img
             src={image.src}
             alt={image.alt}
-            class="w-full h-full rounded-xl"
+            class="min-w-0 max-w-full w-full h-full object-cover rounded-xl"
           />
         ))
       }
@@ -39,7 +38,7 @@ const { frontmatter: content } = Object.values(
       const rowClass = idx % 2 === 1 ? "xl:flex-row-reverse" : "";
       return (
         <section
-          class={`mt-32 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:flex ${rowClass}`}
+          class={`mt-42 grid grid-cols-1 xl:grid-cols-2 gap-8 xl:flex ${rowClass}`}
         >
           <div class="flex flex-col items-start justify-center gap-4 flex-1">
             <p class="font-bold text-[50px] leading-[1.2] text-white">
@@ -50,7 +49,7 @@ const { frontmatter: content } = Object.values(
           <img
             src={section.image.src}
             alt={section.image.alt}
-            class="w-full rounded-xl flex-1"
+            class="min-w-0 max-w-full w-full h-full object-cover rounded-xl flex-1"
           />
         </section>
       );
