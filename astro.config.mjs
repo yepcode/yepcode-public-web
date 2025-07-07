@@ -15,6 +15,25 @@ export default defineConfig({
       title: "YepCode Docs",
       description:
         "Documentation site of YepCode, the all-in-one platform that connects your services and APIs in the most agile way.",
+      logo: {
+        src: "/src/assets/logo-light.svg",
+        alt: "YepCode Docs logo",
+        replacesTitle: true,
+      },
+      social: [
+        {
+          icon: "github",
+          label: "YepCode GitHub",
+          href: "https://github.com/yepcode",
+        },
+        {
+          icon: "discord",
+          label: "YepCode Discord",
+          href: "https://community.yepcode.io",
+        },
+      ],
+      favicon: "/favicon.ico",
+      customCss: ["./src/styles/docs.css"],
       disable404Route: true,
       expressiveCode: {
         themes: ["dracula", "solarized-light"],
