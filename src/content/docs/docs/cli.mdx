@@ -78,7 +78,7 @@ You can provide your credentials using the credentials prompt, or you can use th
 $ yepcode login --email your-email --password your-password
 ```
 
-:::info
+:::note
 We don't yet support the external identity providers in YepCode CLI (Google Auth, Github or Microsoft).
 
 If you have used it to create your account, you need ask for a password reset and setup one:
@@ -183,7 +183,7 @@ Inspect the generated folder, and you'll see some folders and files:
 - `.gitignore`: Auto generated gitignore file. It will be used if you create a git repo for this directory to ignore sensitive resources (variables .env).
 - `.yepcode`: YepCode workspace metadata directory.
 
-:::info
+:::note
 Variables won't be filled, so for local execution testing, you must fill the values.
 
 The best option is to create the following local files which won't be synced with remote:
@@ -227,7 +227,7 @@ There are two flags to manage dependencies:
 * `--check`: Check if dependencies are installed and installed versions are up to date.
 * `--reset`: Performs a full reinstall of configured dependencies.
 
-:::info
+:::note
 By default, dependencies are installed inside `~/.yepcode/dependencies`, but remember that you may configure this using the `YEPCODE_CONFIG_PATH` env variable.
 :::
 
@@ -250,7 +250,7 @@ variables are up to date.
 
 ```
 
-:::info
+:::note
 If you or your team have modified process both locally and in the cloud, the CLI prompts you on how to resolve conflicts:
 
 ```sh
@@ -271,7 +271,7 @@ uploading processes...
 [overwritten] -> conflictive-process-name (<process-slug>) overwritten in remote.
 ```
 
-:::info
+:::note
 If you or your team have modified processes both locally and in the cloud, CLI prompts you on how to resolve conflicts:
 
 ```sh
@@ -357,7 +357,7 @@ updating modules...
 modules up-to-date
 ```
 
-:::info
+:::note
 If you or your team have modified processes both locally and in the cloud, the CLI prompts you on how to resolve conflicts using both `pull` and `push` commands
 :::
 
@@ -384,7 +384,7 @@ def main():
     # your code
 ```
 
-:::info
+:::note
 If you try to debug a process without a main() function, you'll get a warning message:
 
 ```sh title="Javascript warning message"
@@ -427,7 +427,7 @@ $ yepcode setup-debug
 ✨ Created .vscode/settings.json
 ```
 
-:::info
+:::note
 If you rerun this command or already have the vscode configuration files `.vscode/launch.json` / `.vscode/settings.json`, you'll be asked to overwrite the existing files:
 
 ```sh
@@ -447,7 +447,7 @@ Now in your vscode `Run and Debug` tab you can select which process you want to 
 - The first two entries will debug your current file, you need to select Python/Node Debugger option depending on the language of your process.
 - Next entries will be your processes, you can select one of them to debug.
 
-:::info
+:::note
 If you create/delete a process `yepcode setup-debug`
 command should be reruned in order to update the vscode debug configuration files. Then the process will be added/removed from the debug selector options.
 :::

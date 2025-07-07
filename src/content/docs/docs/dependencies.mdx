@@ -10,7 +10,7 @@ Leverage existing solutions. The software development ecosystem offers a wealth 
 
 To incorporate these libraries into your YepCode processes, simply specify the package name and version in the dedicated editor accessible through your team settings. This streamlined approach allows you to effortlessly integrate and utilize external dependencies:
 
-:::info
+:::note
 Custom packages can be configured in any plan, but we have some [amount limits](/docs/plans-and-limits#package-dependencies).
 :::
 
@@ -37,7 +37,7 @@ Dependencies will be global for your team by default, but if you need to use pro
 
 <Screenshot src="dependencies-process-scope.png" />
 
-:::info
+:::note
 Dependencies created from YepCode Run SDKs will be always process scoped.
 :::
 
@@ -49,7 +49,7 @@ YepCode tries to guess the dependencies you use in your process and modules. You
 
 Just clicking the alert will open the dependencies editor where you can add the missing dependencies, and if you use the 'Add' button, we'll use the last available version of the dependency.
 
-:::info
+:::note
 Dependencies guessing is specially useful when you're using YepCode As A Service through our [Rest API](https://cloud.yepcode.io/api/rest/public/swagger-ui/index.html). Check for example the **Create process endpoint**, that allows to send the `"autoDetect": true` configuration inside the `settings` node. With that, you may create fully executable processes and all the needed dependencies will be installed automatically.
 :::
 

@@ -564,7 +564,7 @@ This allows defining variables that could differ in each form rendering. These v
 
 Inside the [additional options](#additional-options) config, a `variables` node can be provided and would be used to replace tokens in all the definition schema, including titles, descriptions, default values, enums, etc.
 
-:::info
+:::note
 Variables will also be pushed as payload during the form submit, so you can use them in your process source code with `yepcode.context.parameters.metadata.variables`
 :::
 
@@ -817,7 +817,7 @@ The replacements follow a [mustache](https://mustache.github.io/) syntax, and yo
 
 In your form renderization, set up a `locale` param inside the options object.
 
-:::info
+:::note
 Available locales for form errors are:
 
 `en`, `ar`, `ca`, `cs`, `de`, `es`, `fi`, `fr`, `hu`, `id`, `it`, `ja`, `ko`, `nb`, `nl`, `pl`, `pt-BR`, `ru`, `sk`, `sv`, `th`, `zh`, `zh-TW`
@@ -891,7 +891,7 @@ const MyComponent = () => {
 </TabItem>
   </Tabs>
 
-:::info
+:::note
 Configured locale will be also pushed as payload during the form submit, so you are able to use them in your process source code just with `yepcode.context.parameters.metadata.locale`
 :::
 
