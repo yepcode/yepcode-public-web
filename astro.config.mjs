@@ -15,6 +15,11 @@ export default defineConfig({
       title: "YepCode Docs",
       description:
         "Documentation site of YepCode, the all-in-one platform that connects your services and APIs in the most agile way.",
+      components: {
+        SiteTitle: "./src/components/docs/SiteTitle.astro",
+        ThemeSelect: "./src/components/docs/ThemeSelect.astro",
+        ThemeProvider: "./src/components/docs/ThemeProvider.astro",
+      },
       logo: {
         src: "/src/assets/logo-light.svg",
         alt: "YepCode Docs logo",
