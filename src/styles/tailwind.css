@@ -19,3 +19,11 @@
     }
   }
 }
+
+.button-primary {
+  @apply p-4 font-semibold rounded-xl bg-[#B84EF4] hover:bg-[#9a41cc];
+}
+
+.button-secondary {
+  @apply p-4 font-semibold rounded-xl border-2 border-[#ffffff1a] hover:bg-[#121220];
+}

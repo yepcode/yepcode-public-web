@@ -22,11 +22,7 @@ const { frontmatter: content } = Object.values(
       </p>
 
       <div class="mt-8 flex gap-8">
-        <a
-          href={content.button.href}
-          class="bg-[#B84EF4] font-semibold p-4 rounded-xl"
-          target="_blank"
-        >
+        <a href={content.button.href} class="button-primary" target="_blank">
           {content.button.label}
         </a>
       </div>
@@ -73,9 +69,7 @@ const { frontmatter: content } = Object.values(
           <a
             href={btn.href}
             class={
-              btn.style === "primary"
-                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
-                : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+              btn.style === "primary" ? "button-primary" : "button-secondary"
             }
           >
             {btn.label}

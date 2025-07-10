@@ -37,9 +37,7 @@ const { frontmatter: content } = Object.values(
             <a
               href={btn.href}
               class={
-                btn.style === "primary"
-                  ? "bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
-                  : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+                btn.style === "primary" ? "button-primary" : "button-secondary"
               }
               target="_blank"
             >
@@ -87,7 +85,7 @@ const { frontmatter: content } = Object.values(
     <div class="mt-6 flex justify-center items-center">
       <a
         href={content.integration.apiTokenButton.href}
-        class="bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
+        class="button-primary"
         target="_blank"
       >
         {content.integration.apiTokenButton.label}
@@ -189,9 +187,7 @@ const { frontmatter: content } = Object.values(
           <a
             href={btn.href}
             class={
-              btn.style === "primary"
-                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
-                : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+              btn.style === "primary" ? "button-primary" : "button-secondary"
             }
           >
             {btn.label}
@@ -247,9 +243,7 @@ const { frontmatter: content } = Object.values(
           <a
             href={btn.href}
             class={
-              btn.style === "primary"
-                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
-                : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+              btn.style === "primary" ? "button-primary" : "button-secondary"
             }
           >
             {btn.label}
