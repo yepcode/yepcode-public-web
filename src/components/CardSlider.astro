@@ -1,0 +1,144 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  cards: {
+    title: string;
+    description: string;
+    image: string;
+    href: string;
+    reviewLink: string;
+    name: string;
+    imgType: string;
+    linkedin: string;
+    twitter: string;
+    position: string;
+  }[];
+  class?: string;
+}
+
+const { cards, class: className } = Astro.props;
+
+const VISIBLE_COUNT = 3;
+
+const prepend = cards.slice(-VISIBLE_COUNT);
+const append = cards.slice(0, VISIBLE_COUNT);
+
+const loopedCards = [...prepend, ...cards, ...append];
+---
+
+<div id="slider" class:list={["flex items-center gap-4", className]}>
+  <button id="prev" aria-label="Previous" class="cursor-pointer">
+    <Icon name="arrow-right" class="rotate-180 size-12" />
+  </button>
+
+  <div class="relative w-full overflow-hidden">
+    <div id="track" class="flex transition-transform duration-500 ease-in-out">
+      {
+        loopedCards.map((card, i) => (
+          <div
+            class={`min-w-[calc(100%/3)] w-xs flex-shrink-0 px-4`}
+            data-index={i}
+          >
+            <div class="flex flex-col gap-4 bg-[#121220] p-8 rounded-3xl border-2 border-[#ffffff1a]">
+              <p>{card.description}</p>
+              <a
+                class="text-tertiary text-sm"
+                href={card.reviewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                See full review
+              </a>
+              <div class="mt-2 grid grid-cols-[1fr_2fr] border-t border-[#ffffff1a] pt-6">
+                <img
+                  src={`src/assets/home/clients/${card.name.toLowerCase().replaceAll(" ", "-")}.${card.imgType}`}
+                  alt={card.name}
+                  class="size-14 rounded-full"
+                />
+                <div class="flex flex-col gap-2">
+                  <p class=" text-md">{card.name}</p>
+                  <p class="text-tertiary text-sm">{card.position}</p>
+                  <div class="flex items-center gap-2 mt-1">
+                    {card.linkedin && (
+                      <a
+                        class="bg-dark-slate-blue p-1 rounded-lg"
+                        href={`https://www.linkedin.com/in/${card.linkedin}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icon name="linkedin" class="size-4 text-secondary" />
+                      </a>
+                    )}
+                    {card.twitter && (
+                      <a
+                        class="bg-dark-slate-blue p-1 rounded-lg"
+                        href={`https://twitter.com/${card.twitter}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icon name="twitter" class="size-4 text-secondary" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <button id="next" aria-label="Next" class="cursor-pointer">
+    <Icon name="arrow-right" class="size-12" />
+  </button>
+</div>
+
+<script type="module" is:inline define:vars={{ VISIBLE_COUNT }}>
+  const track = document.getElementById("track");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+
+  const total = track.children.length;
+  const realCount = total - 2 * VISIBLE_COUNT;
+
+  let index = VISIBLE_COUNT;
+
+  const update = () => {
+    const offset = (100 / VISIBLE_COUNT) * index;
+    track.style.transform = `translateX(-${offset}%)`;
+  };
+
+  const jump = (newIndex) => {
+    track.style.transition = "none";
+    index = newIndex;
+    update();
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        track.style.transition = "transform 0.5s ease-in-out";
+      });
+    });
+  };
+
+  prevBtn.addEventListener("click", () => {
+    index--;
+    update();
+  });
+
+  nextBtn.addEventListener("click", () => {
+    index++;
+    update();
+  });
+
+  track.addEventListener("transitionend", () => {
+    if (index >= total - VISIBLE_COUNT) {
+      jump(index - realCount);
+    } else if (index < VISIBLE_COUNT) {
+      jump(index + realCount);
+    }
+  });
+
+  jump(VISIBLE_COUNT);
+</script>
