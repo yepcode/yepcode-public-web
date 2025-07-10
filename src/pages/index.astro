@@ -6,21 +6,13 @@ import ycRunPyExampleCode from "../assets/home/code-examples/yepcode-run.py?raw"
 import ycRunCurlExampleCode from "../assets/home/code-examples/yepcode-run.sh?raw";
 import { Image } from "astro:assets";
 import yepcodeBlinkLogo from "../../public/blink-logo.svg";
-import beonxLogo from "../assets/home/clients/beonx.svg";
-import unchainedMusicLogo from "../assets/home/clients/unchained-music.svg";
-import solidusLabsLogo from "../assets/home/clients/solidus-labs.svg";
-import trackingPlanLogo from "../assets/home/clients/tracking-plan.svg";
-import nivimuLogo from "../assets/home/clients/nivimu.svg";
-import tinybirdLogo from "../assets/home/clients/tinybird.svg";
-import docutenLogo from "../assets/home/clients/docuten.svg";
-import trackTheRaceLogo from "../assets/home/clients/track-the-race.svg";
-import teimasLogo from "../assets/home/clients/teimas.svg";
-import privaliaLogo from "../assets/home/clients/privalia.svg";
 import ImageSlider from "@components/ImageSlider.astro";
 import mcpImage from "../assets/home/images/mcp.svg";
+import { Icon } from "astro-icon/components";
 import Card from "@components/Card.astro";
 import YouTube from "@components/YouTube.astro";
 import Accordion from "@/components/Accordion.astro";
+import CardSlider from "@/components/CardSlider.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("../content/index.mdx", {
     eager: true,
@@ -46,7 +38,7 @@ const { frontmatter: content } = Object.values(
               href={btn.href}
               class={
                 btn.style === "primary"
-                  ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
+                  ? "bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
                   : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
               }
               target="_blank"
@@ -64,21 +56,7 @@ const { frontmatter: content } = Object.values(
   <section class="mt-28">
     <div class="flex flex-col gap-4 text-[18px] items-center justify-center">
       <span>{content.trust.label}</span>
-      <ImageSlider
-        class="max-w-full"
-        images={[
-          { image: beonxLogo, alt: "Beonx Logo" },
-          { image: unchainedMusicLogo, alt: "Unchained Music Logo" },
-          { image: solidusLabsLogo, alt: "Solidus Labs Logo" },
-          { image: trackingPlanLogo, alt: "Tracking Plan Logo" },
-          { image: tinybirdLogo, alt: "Tinybird Logo" },
-          { image: nivimuLogo, alt: "Nivimu Logo" },
-          { image: docutenLogo, alt: "Docuten Logo" },
-          { image: trackTheRaceLogo, alt: "Track the Race Logo" },
-          { image: teimasLogo, alt: "Teimas Logo" },
-          { image: privaliaLogo, alt: "Privalia Logo" },
-        ]}
-      />
+      <ImageSlider class="max-w-full" images={content.trust.images} />
     </div>
   </section>
   <section class="mt-32">
@@ -109,7 +87,7 @@ const { frontmatter: content } = Object.values(
     <div class="mt-6 flex justify-center items-center">
       <a
         href={content.integration.apiTokenButton.href}
-        class="bg-[#B84EF4] font-semibold p-4 rounded-xl"
+        class="bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
         target="_blank"
       >
         {content.integration.apiTokenButton.label}
@@ -169,7 +147,96 @@ const { frontmatter: content } = Object.values(
     </div>
   </section>
 
+  <section id="yt-demo" class="mt-32">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div class="flex flex-col items-center xl:items-end justify-center gap-2">
+        <h2 class="text-primary leading-[1.2]">{content.ytDemo.title}</h2>
+        <div class="flex items-center gap-2">
+          <Icon name="clock" class="size-4 text-tertiary" />
+          <p class="text-tertiary">{content.ytDemo.video.duration}</p>
+        </div>
+      </div>
+      <div class="flex justify-center xl:block">
+        <YouTube
+          url={content.ytDemo.video.url}
+          title={content.ytDemo.video.title}
+          class="max-w-sm"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="clients" class="mt-32">
+    <p
+      class="font-bold text-5xl text-white text-center"
+      set:html={content.clients.title}
+    />
+    <CardSlider class="mt-12" cards={content.clients.reviews} />
+  </section>
+
   <section class="mt-32">
+    <p
+      class="font-bold text-5xl text-white text-center"
+      set:html={content.leverage.title}
+    />
+    <div
+      class="text-secondary mt-16 text-lg text-center max-w-4xl mx-auto"
+      set:html={content.leverage.description.mdToHtml()}
+    />
+    <div class="mt-8 flex justify-center items-center gap-4">
+      {
+        content.leverage.buttons.map((btn: any) => (
+          <a
+            href={btn.href}
+            class={
+              btn.style === "primary"
+                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
+                : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
+            }
+          >
+            {btn.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <ImageSlider
+      class="mt-16 max-w-full"
+      variant="secondary"
+      images={content.leverage.images}
+    />
+  </section>
+
+  <section class="mt-40">
+    <div class="flex justify-between items-center gap-4 flex-col lg:flex-row">
+      <p
+        class="font-bold text-5xl text-white"
+        set:html={content.usecases.title}
+      />
+      <a
+        href={content.usecases.button.href}
+        class="border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220] min-w-fit"
+        target="_blank"
+      >
+        {content.automation.button.label}
+      </a>
+    </div>
+    <div
+      class="mt-12 p-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12"
+    >
+      {
+        content.usecases.cards.map((card: any) => (
+          <a class="flex flex-col gap-2" href={card.href}>
+            <img src={card.image} alt={card.title} class="rounded-3xl" />
+            <h3>{card.title}</h3>
+            <p class="text-secondary">{card.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-40">
     <p
       class="font-bold text-5xl text-white text-center"
       set:html={content.sayYep.title}
@@ -181,7 +248,7 @@ const { frontmatter: content } = Object.values(
             href={btn.href}
             class={
               btn.style === "primary"
-                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl"
+                ? "bg-[#B84EF4] font-semibold p-4 rounded-xl hover:bg-[#9a41cc]"
                 : "border-2 border-[#ffffff1a] font-semibold p-4 rounded-xl hover:bg-[#121220]"
             }
           >
@@ -192,7 +259,7 @@ const { frontmatter: content } = Object.values(
     </div>
   </section>
 
-  <section class="mt-32">
+  <section class="mt-44">
     <p
       class="font-bold text-5xl text-white text-center"
       set:html={content.faqs.title}
