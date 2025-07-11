@@ -50,7 +50,9 @@ const today = new Date();
         <div class="flex flex-col gap-4">
           <h3>{column.title}</h3>
           {column.links.map((link: any) => (
-            <a href={link.href}>{link.title}</a>
+            <a class="link-secondary" href={link.href}>
+              {link.title}
+            </a>
           ))}
         </div>
       ))
@@ -59,16 +61,28 @@ const today = new Date();
   <div class="flex justify-between items-center p-4">
     <p class="text-tertiary">&copy; YepCode {today.getFullYear()}</p>
     <div class="flex gap-4">
-      <a href="https://www.linkedin.com/company/yepcode" target="_blank">
+      <a
+        class="link-secondary"
+        href="https://www.linkedin.com/company/yepcode"
+        target="_blank"
+      >
         <Icon name="linkedin" class="size-6 hover:text-white" />
       </a>
-      <a href="https://x.com/yepcode_io" target="_blank">
+      <a class="link-secondary" href="https://x.com/yepcode_io" target="_blank">
         <Icon name="twitter" class="size-6 hover:text-white" />
       </a>
-      <a href="https://www.youtube.com/@yepcode" target="_blank">
+      <a
+        class="link-secondary"
+        href="https://www.youtube.com/@yepcode"
+        target="_blank"
+      >
         <Icon name="youtube" class="size-6 hover:text-white" />
       </a>
-      <a href="https://github.com/yepcode" target="_blank">
+      <a
+        class="link-secondary"
+        href="https://github.com/yepcode"
+        target="_blank"
+      >
         <Icon name="github" class="size-6 hover:text-white" />
       </a>
     </div>
