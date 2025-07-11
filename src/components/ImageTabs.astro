@@ -1,104 +1,119 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface ImageTab {
   label: string;
-  img: string;
+  icon: string;
   description: string;
+  href: string;
 }
 
 interface Props {
   tabs: ImageTab[];
+  class?: string;
 }
 
-const { tabs } = Astro.props;
+const { tabs, class: className } = Astro.props;
 ---
 
-<div class="max-w-4xl mx-auto p-4" id="tabs">
-  <!-- Tab Buttons -->
-  <div class="flex flex-wrap gap-2 mb-4">
+<div class:list={["grid grid-cols-1 xl:grid-cols-[1fr_2fr] gap-8", className]}>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 xl:w-80 gap-4 max-h-1/3"
+    id="image-tabs-nav"
+    role="tablist"
+  >
     {
-      tabs.map((tab, i) => (
+      tabs.map((tab) => (
         <button
-          type="button"
-          class={`px-4 py-2 rounded border text-sm font-medium transition-colors ${
-            i === 0
-              ? "bg-blue-600 text-white border-blue-600"
-              : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
-          }`}
-          data-index={i}
+          class="flex cursor-pointer items-center gap-4 bg-[#121220]/50 p-4 rounded-xl border-2 border-[#ffffff1a] text-left transition-all group text-secondary hover:text-white duration-350 ease-in-out"
+          data-id={tab.label}
+          role="tab"
         >
-          {tab.label}
+          <Icon
+            name={tab.icon}
+            class="icon p-2 aspect-square size-10 rounded-xl bg-dark-slate-blue transition-colors"
+          />
+          <span>{tab.label}</span>
         </button>
       ))
     }
   </div>
 
-  <!-- Tab Contents -->
-  {
-    tabs.map((tab, i) => (
-      <div
-        class={`tab-content ${i === 0 ? "block" : "hidden"}`}
-        data-content={i}
-      >
-        <div class="relative">
-          <img
-            src={tab.img}
-            alt={tab.label}
-            class="tab-img w-full max-w-xl rounded shadow mb-4 opacity-100 transition-opacity duration-300"
-            loading="lazy"
-          />
-        </div>
-        <p class="text-gray-700">{tab.description}</p>
-      </div>
-    ))
-  }
+  <div
+    class="flex flex-col items-center justify-start text-center min-h-[500px] xl:min-h-[550px] opacity-100 transition-opacity duration-500"
+    id="content"
+  >
+    <div class="w-full aspect-video relative mb-6">
+      <img
+        src=""
+        alt=""
+        id="image-tab"
+        class="rounded-xl object-cover object-top w-full h-full absolute inset-0"
+      />
+    </div>
+
+    <p class="text-secondary max-w-xl" id="image-tab-description"></p>
+  </div>
 </div>
 
-<!-- Fade Animation Script -->
-<script type="module" is:inline>
-  const container = document.getElementById("tabs");
-  const buttons = container.querySelectorAll("button[data-index]");
-  const contents = container.querySelectorAll(".tab-content");
+<script is:inline define:vars={{ tabs }}>
+  const nav = document.getElementById("image-tabs-nav");
+  const buttons = Array.from(nav.querySelectorAll("button"));
+  const image = document.getElementById("image-tab");
+  const description = document.getElementById("image-tab-description");
 
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const index = btn.dataset.index;
+  function setActiveButton(button, tab) {
+    buttons.forEach((btn) => {
+      btn.classList.remove("bg-darker-background", "text-white");
+      btn.classList.add("text-secondary");
+      btn.setAttribute("aria-selected", "false");
 
-      // Update active tab button styles
-      buttons.forEach(
-        (b) =>
-          b.classList.replace("bg-blue-600", "bg-gray-100") ||
-          b.classList.replace("text-white", "text-gray-800") ||
-          b.classList.replace("border-blue-600", "border-gray-300")
-      );
-      btn.classList.replace("bg-gray-100", "bg-blue-600");
-      btn.classList.replace("text-gray-800", "text-white");
-      btn.classList.replace("border-gray-300", "border-blue-600");
+      const icon = btn.querySelector(".icon");
+      icon?.classList.remove("bg-[#B84EF4]");
+      icon?.classList.add("bg-dark-slate-blue");
+    });
 
-      // Find current and next content
-      const current = container.querySelector(".tab-content:not(.hidden)");
-      const next = container.querySelector(
-        `.tab-content[data-content="${index}"]`
-      );
+    button.classList.add("bg-darker-background", "text-white");
+    button.classList.remove("text-secondary");
+    button.setAttribute("aria-selected", "true");
 
-      const currentImg = current.querySelector("img");
-      const nextImg = next.querySelector("img");
+    const icon = button.querySelector(".icon");
+    icon?.classList.add("bg-[#B84EF4]");
+    icon?.classList.remove("bg-dark-slate-blue");
 
-      // Start fade out
-      currentImg.classList.add("opacity-0");
+    // Animate content fade-out and fade-in
+    requestAnimationFrame(() => {
+      content.classList.remove("opacity-100");
+      content.classList.add("opacity-0");
 
       setTimeout(() => {
-        // Hide current, show next
-        current.classList.add("hidden");
-        currentImg.classList.remove("opacity-0");
+        image.onload = () => {
+          requestAnimationFrame(() => {
+            content.classList.remove("opacity-0");
+            content.classList.add("opacity-100");
+          });
+        };
 
-        next.classList.remove("hidden");
-
-        // Ensure next image starts hidden then fades in
-        nextImg.classList.add("opacity-0");
-        setTimeout(() => {
-          nextImg.classList.remove("opacity-0");
-        }, 10);
-      }, 300); // match transition duration
+        image.src = tab.href;
+        image.alt = tab.label;
+        description.textContent = tab.description;
+      }, 250);
     });
+  }
+
+  nav.addEventListener("click", (e) => {
+    const button = e.target.closest("button");
+    if (!button) return;
+
+    if (button.getAttribute("aria-selected") === "true") return;
+
+    const id = button.dataset.id;
+    const tab = tabs.find((t) => t.label === id);
+    if (!tab) return;
+
+    setActiveButton(button, tab);
   });
+
+  // Activate the first tab by default
+  setActiveButton(buttons[0], tabs[0]);
 </script>

@@ -13,6 +13,7 @@ import Card from "@components/Card.astro";
 import YouTube from "@components/YouTube.astro";
 import Accordion from "@/components/Accordion.astro";
 import CardSlider from "@/components/CardSlider.astro";
+import ImageTabs from "@/components/ImageTabs.astro";
 const { frontmatter: content } = Object.values(
   import.meta.glob<{ frontmatter: any }>("../content/index.mdx", {
     eager: true,
@@ -145,6 +146,14 @@ const { frontmatter: content } = Object.values(
     </div>
   </section>
 
+  <section class="mt-40">
+    <p
+      class="font-bold text-5xl text-white"
+      set:html={content.howItWorks.title}
+    />
+    <ImageTabs tabs={content.howItWorks.tabs} class="mt-16" />
+  </section>
+
   <section id="yt-demo" class="mt-32">
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
       <div class="flex flex-col items-center xl:items-end justify-center gap-2">
@@ -164,7 +173,7 @@ const { frontmatter: content } = Object.values(
     </div>
   </section>
 
-  <section id="clients" class="mt-32">
+  <section id="clients" class="mt-40">
     <p
       class="font-bold text-5xl text-white text-center"
       set:html={content.clients.title}
