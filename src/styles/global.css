@@ -70,19 +70,14 @@ strong,
 b {
   font-weight: 700;
 }
-a {
-  text-decoration: none;
-  transition-property: all;
-  transition-duration: 350ms;
-  transition-timing-function: ease;
-  color: white;
-}
+
 .prose p {
   margin-bottom: 1em;
   color: var(--gray-light);
 }
 
 .prose ul {
+  color: var(--gray-light);
   list-style-type: disc;
   display: flex;
   flex-direction: column;
@@ -94,6 +89,7 @@ a {
 }
 
 .prose ol {
+  color: var(--gray-light);
   list-style-type: decimal;
   display: flex;
   flex-direction: column;
@@ -116,6 +112,9 @@ table {
 }
 .prose img {
   max-width: 100%;
+  max-height: 800px;
+  margin: auto;
+  width: auto;
   height: auto;
   border-radius: 8px;
 }
@@ -140,14 +139,6 @@ blockquote {
 hr {
   border: none;
   border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
-  body {
-    font-size: 18px;
-  }
-  main {
-    padding: 1em;
-  }
 }
 
 .sr-only {

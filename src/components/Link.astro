@@ -4,11 +4,11 @@ type Props = HTMLAttributes<"a">;
 
 const { href, ...props }: Props = Astro.props;
 
-const isExternal = !href?.toString().startsWith("/");
+const isExternal = !href?.toString()?.startsWith("/");
 const target = isExternal ? "_blank" : undefined;
 const rel = isExternal ? "noopener noreferrer" : undefined;
 ---
 
-<a href={href} target={target} rel={rel} {...props}>
-  <slot />
-</a>
+<a class="text-primary" href={href} target={target} rel={rel} {...props}
+  ><slot /></a
+>
