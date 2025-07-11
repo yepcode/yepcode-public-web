@@ -1,0 +1,45 @@
+---
+type Props = {
+  img: {
+    src: string;
+    alt: string;
+  };
+  title: string;
+  buttons: {
+    label: string;
+    href: string;
+  }[];
+};
+const { img, title, buttons } = Astro.props;
+---
+
+<div
+  class="bg-[linear-gradient(227deg,_#ff4582,_#ff6154)] px-8 py-4 flex items-center gap-4 justify-center flex-col md:flex-row"
+>
+  <div class="flex items-center gap-4">
+    {
+      img && (
+        <img
+          src={img.src}
+          alt={img.alt}
+          loading="lazy"
+          class="brightness-105 grayscale mix-blend-color-dodge size-10"
+        />
+      )
+    }
+    <div set:html={title} />
+  </div>
+  <div class="flex items-center gap-4">
+    {
+      buttons.map((button: any) => (
+        <a
+          href={button.href}
+          target="_blank"
+          class="border-2 border-white/50 rounded-xl py-1 px-2 bg-transparent font-semibold transition-colors hover:border-white/80"
+        >
+          {button.label}
+        </a>
+      ))
+    }
+  </div>
+</div>
