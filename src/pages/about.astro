@@ -44,7 +44,10 @@ const { frontmatter: content } = Object.values(
             <p class="font-bold text-[50px] leading-[1.2] text-white">
               {section.title}
             </p>
-            <div class="text-secondary" set:html={section.description} />
+            <div
+              class="text-secondary"
+              set:html={section.description.mdToHtml()}
+            />
           </div>
           <img
             src={section.image.src}

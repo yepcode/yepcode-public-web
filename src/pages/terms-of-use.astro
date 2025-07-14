@@ -8,7 +8,7 @@ const { frontmatter: content } = Object.values(
 ---
 
 <PageLayout>
-  <section class="">
+  <section>
     <div class="flex flex-col items-start justify-center gap-4 flex-1">
       <p class="font-bold text-[50px] leading-[1.2] text-white">
         {content.title}
@@ -27,17 +27,22 @@ const { frontmatter: content } = Object.values(
           <div class="flex flex-col items-start justify-center gap-4 flex-1">
             <h2 class="font-bold text-white">{section.title}</h2>
             <div
-              class="md-to-html text-secondary"
+              class="md-to-html text-secondary leading-7"
               set:html={section.description.mdToHtml()}
             />
           </div>
           {section.list && (
-            <div class="text-secondary">
-              <ul class="list-inside list-disc ml-8">
+            <div class="mt-4 text-secondary">
+              <ol class="list-decimal space-y-2 ml-12 leading-7">
                 {section.list.map((item: string) => (
                   <li>{item}</li>
                 ))}
-              </ul>
+              </ol>
+            </div>
+          )}
+          {section.conclusion && (
+            <div class="mt-4 text-secondary leading-7">
+              <p>{section.conclusion}</p>
             </div>
           )}
         </section>
