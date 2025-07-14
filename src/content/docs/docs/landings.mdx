@@ -3,7 +3,7 @@ title: YepCode Landings
 description: Manage unique landing pages for every campaign creating customizable HTML layouts with replaceable tokens.
 ---
 
-<script src="https://yepcode.io/sdk/forms.js"></script>
+<script defer="defer" src="https://yepcode.io/sdk/forms.js"></script>
 
 import Screenshot from "@components/Screenshot.astro";
 import YouTube from "@components/YouTube.astro";
@@ -50,30 +50,30 @@ Your HTML code can utilize replaceable tokens using the [Mustache syntax](https:
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Hello, {{name}}!</title>
-  <style>
-    body {
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello, {{name}}!</title>
+    <style>
+      body {
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-    h1 {
-      font-size: 5em;
-      color: #b84ef4;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1>Hello, {{name}}!</h1>
-</body>
+      h1 {
+        font-size: 5em;
+        color: #b84ef4;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello, {{name}}!</h1>
+  </body>
 </html>
 ```
 
@@ -107,15 +107,10 @@ The `slug` and `name` attributes are mandatory, and inside the `variables` node,
           "type": "string"
         }
       },
-      "required": [
-        "name"
-      ]
+      "required": ["name"]
     }
   },
-  "required": [
-    "slug",
-    "name"
-  ]
+  "required": ["slug", "name"]
 }
 ```
 
@@ -165,23 +160,14 @@ Here you have a more complex sample, including text areas and also a input type 
           "isTransient": true
         }
       },
-      "required": [
-        "title",
-        "description",
-        "heading_title",
-        "heading_text"
-      ]
+      "required": ["title", "description", "heading_title", "heading_text"]
     }
   },
-  "required": [
-    "slug",
-    "name"
-  ]
+  "required": ["slug", "name"]
 }
 ```
 
 ## Create your first landing
-
 
 Once you've defined your template layout and properties, you can begin creating landings.
 

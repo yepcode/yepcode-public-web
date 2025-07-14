@@ -3,7 +3,7 @@ title: ProcessInput Parameters
 description: Learn how to configure process input parameters to gather information from users.
 ---
 
-<script src="https://yepcode.io/sdk/forms.js"></script>
+<script defer="defer" src="https://yepcode.io/sdk/forms.js"></script>
 
 import { Tabs, TabItem, Code } from "@astrojs/starlight/components";
 import Screenshot from "@components/Screenshot.astro";
@@ -136,4 +136,8 @@ Here's a complete example of a Form and its schema:
   ></div>
 </div>
 
-<Code code={JSON.stringify(parametersSchemaEditorActions[0].code, null, 2)} lang="json" frame="none" />
+<Code
+  code={JSON.stringify(parametersSchemaEditorActions[0].code, null, 2)}
+  lang="json"
+  frame="none"
+/>
