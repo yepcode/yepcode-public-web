@@ -1,7 +1,7 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
 const { frontmatter: content } = Object.values(
-  import.meta.glob<{ frontmatter: any }>("@/content/privacy.mdx", {
+  import.meta.glob<{ frontmatter: any }>("@/content/cookies.mdx", {
     eager: true,
   })
 )[0];
@@ -20,16 +20,6 @@ const { frontmatter: content } = Object.values(
         class="md-to-html text-secondary leading-7"
         set:html={content.description.mdToHtml()}
       />
-    </div>
-  </section>
-  <section>
-    <div class="mt-8 flex flex-col gap-4">
-      <h2>
-        {content.tableOfContents.title}
-      </h2>
-      <ol class="list-decimal ml-12 leading-7 text-secondary">
-        {content.tableOfContents.list.map((item: string) => <li>{item}</li>)}
-      </ol>
     </div>
   </section>
   {
