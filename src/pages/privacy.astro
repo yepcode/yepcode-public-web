@@ -1,0 +1,66 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>("@/content/privacy.mdx", {
+    eager: true,
+  })
+)[0];
+---
+
+<PageLayout>
+  <section>
+    <div class="flex flex-col items-start justify-center gap-4 flex-1">
+      <h1 class="font-bold">
+        {content.title}
+      </h1>
+      <p class="text-secondary">
+        Last updated: {content.lastUpdated}
+      </p>
+      <div
+        class="md-to-html text-secondary leading-7"
+        set:html={content.description.mdToHtml()}
+      />
+    </div>
+  </section>
+  <section>
+    <div class="mt-8 flex flex-col gap-4">
+      <h2 class="font-bold">
+        {content.tableOfContents.title}
+      </h2>
+      <ol class="list-decimal ml-12 leading-7 text-secondary">
+        {content.tableOfContents.list.map((item: string) => <li>{item}</li>)}
+      </ol>
+    </div>
+  </section>
+  {
+    content.content.map((item: any) => {
+      const key = Object.keys(item)[0];
+      const section = item[key];
+      return (
+        <section class="mt-8">
+          <div class="flex flex-col items-start justify-center gap-4 flex-1">
+            <h2 class="font-bold text-white">{section.title}</h2>
+            <div
+              class="md-to-html text-secondary leading-7"
+              set:html={section.description.mdToHtml()}
+            />
+          </div>
+          {section.list && (
+            <div class="mt-4 text-secondary">
+              <ul class="list-disc space-y-2 ml-12 leading-7">
+                {section.list.map((item: any) => (
+                  <li class="md-to-html" set:html={item.mdToHtml()} />
+                ))}
+              </ul>
+            </div>
+          )}
+          {section.conclusion && (
+            <div class="mt-4 text-secondary leading-7">
+              <p>{section.conclusion}</p>
+            </div>
+          )}
+        </section>
+      );
+    })
+  }
+</PageLayout>
