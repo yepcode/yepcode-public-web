@@ -1,0 +1,71 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import Table from "@/components/Table.astro";
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>(
+    "@/content/yepcode-vs-serverless-functions.mdx",
+    {
+      eager: true,
+    }
+  )
+)[0];
+---
+
+<PageLayout>
+  <section class="grid gap-16 grid-cols-1 xl:grid-cols-2 mt-8">
+    <div>
+      <p class="font-bold text-[70px] leading-[1] text-white">
+        {content.hero.title}
+      </p>
+      <div
+        class="md-to-html text-secondary mt-12 text-lg"
+        set:html={content.hero.description.mdToHtml()}
+      />
+
+      <div class="mt-8 flex gap-8">
+        <a href={content.hero.button.href} class="button-secondary">
+          {content.hero.button.label}
+        </a>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center items-center gap-4">
+      <img
+        src={content.hero.image.url}
+        alt={content.hero.image.alt}
+        class="w-full h-full object-contain"
+      />
+      <div
+        class="text-secondary text-center"
+        set:html={content.hero.image.description.mdToHtml()}
+      />
+    </div>
+  </section>
+
+  <section class="mt-32 flex flex-col gap-8">
+    <h1 class="font-bold">
+      {content.table.title}
+    </h1>
+    <Table headers={content.table.headers} rows={content.table.rows} />
+  </section>
+
+  <section class="mt-40">
+    <p
+      class="font-bold text-5xl text-white text-center"
+      set:html={content.sayYep.title}
+    />
+    <div class="mt-8 flex justify-center items-center gap-4">
+      {
+        content.sayYep.buttons.map((btn: any) => (
+          <a
+            href={btn.href}
+            class={
+              btn.style === "primary" ? "button-primary" : "button-secondary"
+            }
+          >
+            {btn.label}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>
