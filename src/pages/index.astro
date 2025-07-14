@@ -97,14 +97,14 @@ const { frontmatter: content } = Object.values(
       <div class="flex items-center flex-col gap-4">
         <Image src={mcpImage} alt="MCP Logo" />
         <div
-          class="text-secondary text-md"
+          class="md-to-html text-secondary text-md"
           set:html={content.integration.mcp.description.mdToHtml()}
         />
       </div>
       <div class="flex items-center flex-col gap-4">
         <h2>{content.integration.rest.title}</h2>
         <div
-          class="text-secondary text-md"
+          class="md-to-html text-secondary text-md"
           set:html={content.integration.rest.description.mdToHtml()}
         />
       </div>

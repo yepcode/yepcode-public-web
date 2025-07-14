@@ -14,7 +14,7 @@ const { frontmatter: content } = Object.values(
   <section>
     <h1 class="text-5xl text-white">{content.hero.title}</h1>
     <div
-      class="text-secondary mt-4"
+      class="md-to-html text-secondary mt-4"
       set:html={content.hero.description.mdToHtml()}
     />
   </section>
