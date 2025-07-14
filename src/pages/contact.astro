@@ -1,0 +1,47 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import { Icon } from "astro-icon/components";
+import HubSpotForm from "@/components/HubSpotForm.astro";
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>("@/content/contact.mdx", {
+    eager: true,
+  })
+)[0];
+---
+
+<PageLayout>
+  <section class="mt-16 grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <div>
+      <h1 class="font-bold text-white">
+        {content.title}
+      </h1>
+      <p class="text-secondary">
+        {content.description}
+      </p>
+      <div class="mt-8">
+        <p class="font-bold text-secondary">
+          {content.contact.title}
+        </p>
+        <div class="mt-2 flex gap-2 items-center">
+          <Icon
+            name="mail"
+            class="p-2 aspect-square size-10 rounded-xl bg-[#22242f]"
+          />
+          <p class="text-primary">
+            {content.contact.email}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="p-8 rounded-3xl bg-darker-background border-2 border-[#ffffff1a]"
+    >
+      <HubSpotForm
+        formId="e1754f23-2e6a-450a-9a23-a0800f97e499"
+        portalId="25407786"
+        region="eu1"
+        version="V2_PRERELEASE"
+      />
+    </div>
+  </section>
+</PageLayout>
