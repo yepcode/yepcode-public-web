@@ -21,6 +21,8 @@ const { frontmatter: content } = Object.values(
 )[0];
 ---
 
+<script defer="defer" src="https://yepcode.io/sdk/forms.js"></script>
+
 <PageLayout>
   <section class="grid gap-8 grid-cols-[2fr_1fr] mt-20">
     <div>
@@ -46,6 +48,14 @@ const { frontmatter: content } = Object.values(
             </a>
           ))
         }
+        <button
+          class="button-secondary w-inline-block cursor-pointer"
+          data-yepcode-form-modal
+          data-yepcode-form-team="yepcode"
+          data-yepcode-form-process="88cae7b9-746d-403c-88ce-67a090c82f78"
+        >
+          Turn-key solution
+        </button>
       </div>
     </div>
     <div class="flex justify-center items-center">
