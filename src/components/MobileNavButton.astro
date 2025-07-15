@@ -1,0 +1,137 @@
+---
+import { Icon } from "astro-icon/components";
+import DropdownNav from "./DropdownNav.astro";
+import HeaderLink from "./HeaderLink.astro";
+---
+
+<div class="lg:hidden">
+  <button
+    type="button"
+    class="button-secondary inline-flex items-center justify-center mr-4 cursor-pointer"
+    id="mobile-menu-toggle"
+    aria-label="Toggle menu"
+  >
+    <Icon name="menu" />
+  </button>
+
+  <div
+    id="mobile-menu-dropdown"
+    class="absolute inset-x-0 mt-2 z-10 hidden p-4"
+  >
+    <div
+      class="rounded-xl border-2 border-[#ffffff1a] bg-darkest-background py-4 px-4 flex flex-col gap-2 w-full"
+    >
+      <DropdownNav
+        isMobile
+        title="Product"
+        links={[
+          { href: "/docs", label: "Docs", icon: "docs" },
+          {
+            href: "https://yepcode.io/run",
+            label: "YepCode Run",
+            icon: "lightning-bolt",
+            new: true,
+          },
+          {
+            href: "https://github.com/yepcode/mcp-server-js/",
+            label: "MCP Server",
+            icon: "server",
+            new: true,
+          },
+          {
+            href: "https://yepcode.io/recipes",
+            label: "Recipes",
+            icon: "folder",
+          },
+          {
+            href: "/features/forms",
+            label: "Forms",
+            icon: "form",
+          },
+          {
+            href: "/features/landings",
+            label: "Landings",
+            icon: "landing",
+          },
+          {
+            href: "/features/storeflow",
+            label: "Storeflow",
+            icon: "upload",
+          },
+        ]}
+      />
+      <HeaderLink href="/pricing">Pricing</HeaderLink>
+      <DropdownNav
+        isMobile
+        title="Resources"
+        links={[
+          { href: "/blog", label: "Blog", icon: "blog" },
+          {
+            href: "/video-pills",
+            label: "Video pills",
+            icon: "play",
+          },
+        ]}
+      />
+      <DropdownNav
+        isMobile
+        title="Support"
+        links={[
+          {
+            href: "https://feedback.yepcode.io/",
+            label: "Feedback",
+            icon: "messages",
+          },
+          {
+            href: "/contact",
+            label: "Contact us",
+            icon: "paper-airplane",
+          },
+          {
+            href: "/book-a-demo",
+            label: "Book a demo",
+            icon: "computer",
+          },
+          {
+            href: "/faqs",
+            label: "FAQs",
+            icon: "question-mark",
+          },
+          {
+            href: "https://community.yepcode.io/",
+            label: "Community",
+            icon: "discord",
+          },
+          {
+            href: "https://stats.uptimerobot.com/jM9Z9UYZ73",
+            label: "Status",
+            icon: "chart",
+          },
+        ]}
+      />
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("mobile-menu-toggle");
+    const dropdown = document.getElementById("mobile-menu-dropdown");
+
+    const closeDropdown = () => dropdown?.classList.add("hidden");
+    const toggleDropdown = () => dropdown?.classList.toggle("hidden");
+
+    toggleBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDropdown();
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!dropdown?.contains(e.target as Node)) closeDropdown();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeDropdown();
+    });
+  });
+</script>

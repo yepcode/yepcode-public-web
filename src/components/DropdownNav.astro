@@ -11,16 +11,17 @@ interface LinkItem {
 interface Props {
   links: LinkItem[];
   title: string;
+  isMobile?: boolean;
 }
 
-const { links = [], title } = Astro.props;
-const dropdownId = `dropdown-${title.toLowerCase()}`;
+const { links = [], title, isMobile = false } = Astro.props;
+const dropdownId = `dropdown-${title.toLowerCase()}-${isMobile ? "mobile" : "desktop"}`;
 ---
 
 <div class="relative">
   <button
     id={`${dropdownId}-toggle`}
-    class="flex items-center justify-between rounded-xl transition-all duration-350 ease cursor-pointer gap-2 px-5 py-3 hover:bg-[#121220] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#11c0eb]"
+    class="flex items-center justify-between rounded-xl transition-all duration-350 ease cursor-pointer gap-2 px-5 py-3 hover:bg-[#121220] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#11c0eb] w-full"
     aria-haspopup="true"
     aria-expanded="false"
   >
@@ -30,7 +31,10 @@ const dropdownId = `dropdown-${title.toLowerCase()}`;
 
   <div
     id={`${dropdownId}-menu`}
-    class="absolute bg-[#000012] p-4 left-0 mt-2 border-2 border-[#ffffff1a] rounded-xl hidden z-50"
+    class:list={[
+      "absolute bg-[#000012] p-4 left-0 mt-2 border-2 border-[#ffffff1a] rounded-xl hidden z-50",
+      isMobile && "w-full",
+    ]}
     role="menu"
   >
     {
