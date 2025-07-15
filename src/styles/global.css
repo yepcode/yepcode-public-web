@@ -162,3 +162,13 @@ hr {
 .md-to-html a {
   color: white;
 }
+
+starlight-tabs a[role="tab"][aria-selected="false"] {
+  color: #c8c9d0;
+  font-weight: bold;
+}
+
+starlight-tabs a[role="tab"][aria-selected="true"] {
+  color: white;
+  font-weight: bold;
+}

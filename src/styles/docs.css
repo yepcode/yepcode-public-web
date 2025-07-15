@@ -44,8 +44,13 @@ li > svg {
   background-color: #ffffff0d;
 }
 
-a[role="tab"][aria-selected="true"] {
+starlight-tabs a[role="tab"][aria-selected="false"] {
+  color: #c8c9d0;
+  font-weight: bold;
+}
+
+starlight-tabs a[role="tab"][aria-selected="true"] {
   color: white;
   border-color: #52b2d3;
-  font-weight: 600;
+  font-weight: bold;
 }
