@@ -1,0 +1,28 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import YouTube from "@components/YouTube.astro";
+import { Image } from "astro:assets";
+import Card from "@/components/Card.astro";
+const { frontmatter: content } = Object.values(
+  import.meta.glob<{ frontmatter: any }>("@/content/usecases.mdx", {
+    eager: true,
+  })
+)[0];
+---
+
+<PageLayout>
+  <section class="mt-8 flex flex-col gap-12 min-h-[calc(100vh-25rem)]">
+    <h1 class="text-white text-4xl font-bold">{content.title}</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12">
+      {
+        content.cards.map((card: any) => (
+          <a class="flex flex-col gap-2" href={card.href}>
+            <img src={card.image} alt={card.title} class="rounded-3xl" />
+            <h3>{card.title}</h3>
+            <p class="text-secondary">{card.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>
